@@ -48,13 +48,13 @@ public static class GameData
     public const int minimumStars = 3;
 
     //Star Speed
-    public const float minStarSpeed = 1;
-    public const float maxStarSpeed = 2.5f;
+    public const float minStarSpeed = 0.5f;
+    public const float maxStarSpeed = 1.5f;
 
     //Star timing
     public const float minTimeToSpawn = 0.25f;
-    public const float maxTimeToSpawn = .5f;
+    public const float maxTimeToSpawn = 0.5f;
     public const float starSpawnXMin = -4;
     public const float starSpawnXMax = 4;
-    public const float starSpawnY = 5;
+    public const float starSpawnY = 6;
 }
