@@ -8,6 +8,7 @@ public class ConstellationManager : MonoBehaviour
 	public static ConstellationManager Instance;
 	public GameObject LinkPrefab;
 	public Transform StarLinkParent;
+	public bool CreateMiniConstellations = false;
 	protected float Speed = 2;
 
 	protected float InvincibilityCountdown = 0f;
@@ -20,12 +21,19 @@ public class ConstellationManager : MonoBehaviour
 	protected GameData.Star LastStar;
 	protected List<GameData.Link> Links;
 
+	protected Transform ConstellationDisplayParent;
+	protected List<GameObject> Constellatioons;
+
 	void Awake()
 	{
 		Instance = this;
+		Constellations = new List<GameData.Constellation>();
 		Stars = new Dictionary<Guid, GameData.Star>();
 		Links = new List<GameData.Link>();
 		LastStar = null;
+		ConstellationDisplayParent = new GameObject("ConstellationDisplayParent").transform;
+		ConstellationDisplayParent.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+		ConstellationDisplayParent.transform.position = new Vector3(-1, -3, 0);
 	}
 
 	void Start ()
@@ -97,6 +105,7 @@ public class ConstellationManager : MonoBehaviour
 				//Create Link Object
 				var linkObject = Instantiate(LinkPrefab);
 				var line = linkObject.GetComponent<LineRenderer>();
+				line.useWorldSpace = false;
 				
 				if (StarLinkParent != null)
 				{
@@ -120,16 +129,19 @@ public class ConstellationManager : MonoBehaviour
 
 	public void CompleteConstellation()
 	{
-		var constellationParent = new GameObject("Constellation");
-
 		Debug.Log("Complete Constellation");
 		if (Stars.Count >= GameData.minimumStars)
 		{
 			LastStar = null;
+
+			//Create Constellation
 			var constellation = new GameData.Constellation();
+			var constellationParent = new GameObject("Constellation");
+			constellation.ConstellationParent = constellationParent;
 			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
 			constellation.Links = new List<GameData.Link>(Links);
 
+			//Update Stars to be Comet Pushers and reparent to Constellation Object
 			var keys = new List<Guid>(constellation.Stars.Keys);
 			for (int i = 0; i < constellation.Stars.Count; i++)
 			{
@@ -139,10 +151,17 @@ public class ConstellationManager : MonoBehaviour
 				star.Controller.gameObject.transform.SetParent(constellationParent.transform);
 			}
 
+			//Reparent links to constellaion Objects
 			for (int i = 0; i < constellation.Links.Count; i++)
 			{
 				var link = constellation.Links[i];
 				link.LineComponent.gameObject.transform.SetParent(constellationParent.transform);
+			}
+
+			//Duplicate into Mini Constellation
+			if (CreateMiniConstellations)
+			{
+				CreateDisplayConstellation(constellationParent);
 			}
 
 			Stars.Clear();
@@ -174,9 +193,14 @@ public class ConstellationManager : MonoBehaviour
 		for (int i = 0; i < removedLinks.Count; i++)
 		{
 			var link = removedLinks[i];
+			constellation.Stars[link.StarIds[0]].LinkedStars.Remove(constellation.Stars[link.StarIds[1]].StarId);
+			constellation.Stars[link.StarIds[1]].LinkedStars.Remove(constellation.Stars[link.StarIds[0]].StarId);
 			Destroy(link.LineComponent.gameObject);
 			constellation.Links.Remove(link);
 		}
+
+		//Remove star from constellation
+		constellation.Stars.Remove(star.StarId);
 	}
 
 	protected void BreakLink(GameData.Link link)
@@ -233,35 +257,11 @@ public class ConstellationManager : MonoBehaviour
 		Debug.Log("Constellation Fly Away");
 
 		var yDisplace = 0f;
-		while (yDisplace < 100f)
+		while (yDisplace < 100f && constellation.ConstellationParent != null)
 		{
-			//Update Stars
-			var stars = new List<GameData.Star>(constellation.Stars.Values);
-			for (int i = 0; i < stars.Count; i++)
-			{
-				var star = stars[i];
-				if (star.Controller != null)
-				{
-					var starGo = star.Controller.gameObject;
-					var pos = starGo.transform.position;
-					pos.y += Time.deltaTime * Speed;
-					starGo.transform.position = pos;
-				}
-				else
-				{
-					Debug.Log("Star controller is null!");
-				}
-			}
-
-			//Update Linnks
-			for (int i = 0; i < constellation.Links.Count; i++)
-			{
-				var link = constellation.Links[i];
-				link.StartPos.y += Time.deltaTime * Speed;
-				link.EndPos.y += Time.deltaTime * Speed;
-				link.LineComponent.SetPosition(0, link.StartPos);
-				link.LineComponent.SetPosition(1, link.EndPos);
-			}
+			var pos = constellation.ConstellationParent.transform.position;
+			pos.y += Time.deltaTime * Speed;
+			constellation.ConstellationParent.transform.position = pos;
 
 			yDisplace += Time.deltaTime * Speed;
 			yield return null;
@@ -289,14 +289,40 @@ public class ConstellationManager : MonoBehaviour
 			Destroy(link.LineComponent.gameObject);
 		}
 	}
-	
+
+	protected void CreateDisplayConstellation(GameObject original)
+	{
+		//Duplicate Constellation
+		var duplicateConstellation = Instantiate(original);
+		for (int i = 0; i < duplicateConstellation.transform.childCount; i++)
+		{
+			var child = duplicateConstellation.transform.GetChild(i);
+			var poolComp = child.GetComponentInChildren<PooledObject>();
+			Destroy(poolComp);
+
+			var starComp = child.GetComponentInChildren<StarController>();
+			Destroy(starComp);
+
+			var lineComp = child.GetComponentInChildren<LineRenderer>();
+			if (lineComp != null)
+				lineComp.SetWidth(0.02f, 0.02f);
+		}
+		duplicateConstellation.transform.SetParent(ConstellationDisplayParent);
+		duplicateConstellation.transform.localScale = Vector3.one;
+		duplicateConstellation.transform.localPosition = new Vector3(0, 4 * ConstellationDisplayParent.childCount, 0);
+	}
+
 	protected void StarToCometCollision(GameData.Constellation constellation, GameData.Star star)
 	{
 		star.Controller.gameObject.SetActive(false);
 		BreakStarLink(constellation, star.StarId);
+		if (constellation.Stars.Count <= 0)
+		{
+			Destroy(constellation.ConstellationParent);
+		}
 
-        float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+		float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
 
-        GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
+		GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
 	}
 }

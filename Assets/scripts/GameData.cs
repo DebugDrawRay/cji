@@ -37,6 +37,7 @@ public static class GameData
 
 	public class Constellation
 	{
+		public GameObject ConstellationParent;
 		public Dictionary<Guid, Star> Stars;
 		public List<Link> Links;
 	}
