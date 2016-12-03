@@ -11,24 +11,39 @@ public static class GameData
 	{
 		public Guid StarId;
 		public StarType Type;
-		public Vector2 Position;
+		public Vector3 Position;
+		public List<Guid> LinkedStars;
+		public StarController Controller;
 
-		public Star(Vector2 position)
+		public Star(Vector3 position, StarController controller = null)
 		{
 			StarId = Guid.NewGuid();
 			Position = position;
+			LinkedStars = new List<Guid>();
+			Controller = controller;
+		}
+	}
+
+	public class Link
+	{
+		public List<Guid> StarIds;
+		public LineRenderer LineComponent;
+		public Vector3 StartPos;
+		public Vector3 EndPos;
+
+		public Link()
+		{
+			StarIds = new List<Guid>(); 
 		}
 	}
 
 	public class Constellation
 	{
-		public List<Star> Stars;
-		public List<int[]> StarLinks;
-
+		public Dictionary<Guid, Star> Stars;
+		
 		public Constellation()
 		{
-			Stars = new List<Star>();
-			StarLinks = new List<int[]>();
+			Stars = new Dictionary<Guid, Star>();
 		}
 	}
 }
