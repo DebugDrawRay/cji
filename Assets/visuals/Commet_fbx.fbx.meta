@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 8471fe2bda0752144bf1fbfe42613f6a
-timeCreated: 1480763045
+guid: 286504ca19c3544e19bc4af07adc863c
+timeCreated: 1480762615
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -11,7 +11,7 @@ ModelImporter:
     3300000: //RootNode
     4300000: Commet
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
