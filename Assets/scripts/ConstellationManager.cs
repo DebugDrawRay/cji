@@ -43,17 +43,17 @@ public class ConstellationManager : MonoBehaviour
 		for (int i = 0; i < Links.Count; i++)
 		{
 			var link = Links[i];
-			RaycastHit hit;
+			//RaycastHit hit;
 
-			if (Physics.Linecast(link.StartPos, link.EndPos, out hit))
-			{
-				if (hit.transform.gameObject.name != "TestStar")
-				{
-					//Debug.Log(hit.transform.gameObject.name);
-					//BreakLink(link);
-					//destroyedLinks.Add(link);
-				}
-			}
+			//if (Physics.Linecast(link.StartPos, link.EndPos, out hit))
+			//{
+			//	if (hit.transform.gameObject.name != "TestStar")
+			//	{
+			//		Debug.Log(hit.transform.gameObject.name);
+			//		BreakLink(link);
+			//		destroyedLinks.Add(link);
+			//	}
+			//}
 		}
 
 		for (int i = 0; i < destroyedLinks.Count; i++)
@@ -163,13 +163,12 @@ public class ConstellationManager : MonoBehaviour
 		Debug.Log("Constellation Fly Away");
 
 		var yDisplace = 0f;
-		while (yDisplace < 5f)
+		while (yDisplace < 10f)
 		{
 			//Update Stars
 			var stars = new List<GameData.Star>(constellation.Stars.Values);
 			for (int i = 0; i < stars.Count; i++)
 			{
-				Debug.Log("Star!");
 				var star = stars[i];
 				if (star.Controller != null)
 				{
@@ -177,10 +176,6 @@ public class ConstellationManager : MonoBehaviour
 					var pos = starGo.transform.position;
 					pos.y += Time.deltaTime * Speed;
 					starGo.transform.position = pos;
-				}
-				else
-				{
-					Debug.Log("Star controller is null!");
 				}
 			}
 
@@ -202,20 +197,16 @@ public class ConstellationManager : MonoBehaviour
 
 	protected void DestroyConstellation(GameData.Constellation constellation)
 	{
-		Debug.Log("DESTROY");
+		Debug.Log("DESTROY CONSTELLATION");
+
 		//Destroy Stars
 		var stars = new List<GameData.Star>(constellation.Stars.Values);
 		for (int i = 0; i < stars.Count; i++)
 		{
-			Debug.Log("Star!");
 			var star = stars[i];
 			if (star.Controller != null)
 			{
 				Destroy(star.Controller.gameObject);
-			}
-			else
-			{
-				Debug.Log("Star controller is null!");
 			}
 		}
 
