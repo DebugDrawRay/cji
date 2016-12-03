@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using DG.Tweening;
 public class GameController : MonoBehaviour
 {
     public enum State
@@ -25,6 +25,11 @@ public class GameController : MonoBehaviour
     private Rigidbody cometRigid;
 
     private float currentDistance;
+    private float currentTarget;
+
+    //Current tween
+    private Tween currentTween;
+    private bool hit;
 
     [Header("Debug")]
     public bool spawnComet;
@@ -51,7 +56,7 @@ public class GameController : MonoBehaviour
 
     void SetupLevel()
     {
-        currentDistance = GameData.levelLength;
+        currentDistance = GameData.levelSize;
     }
 
     void RunStates()
@@ -67,7 +72,6 @@ public class GameController : MonoBehaviour
                 currentState = State.InGame;
                 break;
             case State.InGame:
-                UpdateDistance();
                 UpdateComet();
                 break;
             case State.Pause:
@@ -77,15 +81,24 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void UpdateDistance()
-    {
-        currentDistance = Mathf.Lerp(currentDistance, 0, GameData.levelSpeed);
-    }
     void UpdateComet()
     {
-        if(cometRigid && currentDistance <= 5)
+        if(!hit)
         {
-            cometRigid.transform.position = new Vector2(0, currentDistance);
+            currentDistance = Mathf.MoveTowards(currentDistance, 0, .01f);
         }
+        cometRigid.transform.position = new Vector2(0, currentDistance);
+    }
+
+    [ContextMenu("Do it bitch")]
+    void AddDistanceToComet()
+    {
+        hit = true;
+        if(currentTween != null)
+        {
+            currentTween.Kill();
+        }
+        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + 5, 1f);
+        currentTween.OnComplete(() => hit = false);
     }
 }
