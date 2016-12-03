@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public static class GameData
 {
@@ -11,13 +12,15 @@ public static class GameData
 		public Vector2 Position;
 	}
 
-	public class StarkLink
-	{
-
-	}
-
 	public class Constellation
 	{
+		public List<Star> Stars;
+		public List<int[]> StarLinks;
 
+		public Constellation()
+		{
+			Stars = new List<Star>();
+			StarLinks = new List<int[]>();
+		}
 	}
 }
