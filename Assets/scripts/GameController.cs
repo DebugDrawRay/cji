@@ -24,8 +24,10 @@ public class GameController : MonoBehaviour
     public Transform cometSpawn;
     private Rigidbody cometRigid;
 
-    private float currentTime;
     private float currentDistance;
+
+    [Header("Debug")]
+    public bool spawnComet;
 
     void Awake()
     {
@@ -40,13 +42,15 @@ public class GameController : MonoBehaviour
     void SpawnObjects()
     {
         Instantiate(player, playerSpawn.position, playerSpawn.rotation);
-        GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
-        cometRigid = newComet.GetComponent<Rigidbody>();
+        if (spawnComet)
+        {
+            GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
+            cometRigid = newComet.GetComponent<Rigidbody>();
+        }
     }
 
     void SetupLevel()
     {
-        currentTime = GameData.levelSpeedScale;
         currentDistance = GameData.levelLength;
     }
 
@@ -75,21 +79,11 @@ public class GameController : MonoBehaviour
 
     void UpdateDistance()
     {
-        if(currentTime > 0)
-        {
-            currentTime -= Time.deltaTime;
-        }
-        else
-        {
-            currentDistance -= GameData.levelSpeed;
-            currentTime = GameData.levelSpeedScale;
-
-            Debug.Log(currentDistance);
-        }
+        currentDistance = Mathf.Lerp(currentDistance, 0, GameData.levelSpeed);
     }
     void UpdateComet()
     {
-        if(currentDistance <= 5)
+        if(cometRigid && currentDistance <= 5)
         {
             cometRigid.transform.position = new Vector2(0, currentDistance);
         }
