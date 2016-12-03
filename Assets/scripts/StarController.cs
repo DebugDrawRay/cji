@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
-public class StarController : MonoBehaviour {
-
+public class StarController : MonoBehaviour
+{
     //public enum starType;
 
     public GameData.StarType theStarType;
@@ -11,6 +12,8 @@ public class StarController : MonoBehaviour {
 
     public float destroyStarWhenBelowThisYValue;
 
+	public UnityEvent starTriggered;
+
     [HideInInspector]
     public GameData.Star starData;
 
@@ -18,6 +21,7 @@ public class StarController : MonoBehaviour {
     {
         starData = new GameData.Star(this);
     }
+
 	// Use this for initialization
 	void Start () 
     {
@@ -36,14 +40,23 @@ public class StarController : MonoBehaviour {
         {
             StopMovement();
             transform.position = new Vector3(0, 0, 0);
-            gameObject.SetActive(false);
+            GetComponent<PooledObject>().ReturnToPool();
         }
+	}
+
+	public void UpdateLayerToSendStar()
+	{
+		gameObject.layer = LayerMask.NameToLayer("SentStars");
+	}
+
+	public void DeactivateCollider()
+	{
+		GetComponent<Collider>().enabled = false;
 	}
 
     public void StopMovement()
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Collider>().enabled = false;
     }
 
     public void StartMovement()
@@ -51,4 +64,9 @@ public class StarController : MonoBehaviour {
         GetComponent<Collider>().enabled = true;
         GetComponent<Rigidbody>().velocity = new Vector3(0, -1, 0) * starSpeed;
     }
+
+	void OnTriggerEnter(Collider coll)
+	{
+		starTriggered.Invoke();
+	}
 }

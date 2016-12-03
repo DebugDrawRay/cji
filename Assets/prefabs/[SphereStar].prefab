@@ -39,7 +39,7 @@ GameObject:
   - 33: {fileID: 33000012277780274}
   - 23: {fileID: 23000011424859744}
   - 114: {fileID: 114000013638513790}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sphere_Star_fbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - 114: {fileID: 114000010288518312}
   - 114: {fileID: 114000013396897156}
   - 135: {fileID: 135000010561016116}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: '[SphereStar]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,6 +201,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theStarType: 1
   destroyStarWhenBelowThisYValue: -5
+  starTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114000013396897156
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using DG.Tweening;
 public class GameController : MonoBehaviour
 {
     public enum State
@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     }
     public State currentState;
 
-    public int score;
+    public int currentScore;
 
     [Header("Player")]
     public GameObject player;
@@ -25,13 +25,42 @@ public class GameController : MonoBehaviour
     private Rigidbody cometRigid;
 
     private float currentDistance;
+    private float currentTarget;
+
+    //Current tween
+    private Tween currentTween;
+    private bool hit;
 
     [Header("Debug")]
     public bool spawnComet;
 
+    public delegate void CollisionEvent(float strength, float speed);
+    public static event CollisionEvent CometCollisionEvent;
+
+    public static void TriggerCometCollision(float strength, float speed)
+    {
+        if(CometCollisionEvent != null)
+        {
+            CometCollisionEvent(strength, speed);
+        }
+    }
+
+    public delegate void ScoreEvent(int score);
+    public static event ScoreEvent AddScoreEvent;
+
+    public static void TriggerAddScore(int score)
+    {
+        if(AddScoreEvent != null)
+        {
+            AddScoreEvent(score);
+        }
+
+    }
+
     void Awake()
     {
-
+        CometCollisionEvent += AddDistanceToComet;
+        AddScoreEvent += AddScore;
     }
 
     void Update()
@@ -51,7 +80,7 @@ public class GameController : MonoBehaviour
 
     void SetupLevel()
     {
-        currentDistance = GameData.levelLength;
+        currentDistance = GameData.cometStartY;
     }
 
     void RunStates()
@@ -67,8 +96,9 @@ public class GameController : MonoBehaviour
                 currentState = State.InGame;
                 break;
             case State.InGame:
-                UpdateDistance();
                 UpdateComet();
+                UiController.TriggerScoreEvent(currentScore);
+                UiController.TriggerDistanceEvent(currentDistance);
                 break;
             case State.Pause:
                 break;
@@ -77,15 +107,29 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void UpdateDistance()
-    {
-        currentDistance = Mathf.Lerp(currentDistance, 0, GameData.levelSpeed);
-    }
     void UpdateComet()
     {
-        if(cometRigid && currentDistance <= 5)
+        if(!hit)
         {
-            cometRigid.transform.position = new Vector2(0, currentDistance);
+            currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcceleration);
         }
+        cometRigid.transform.position = new Vector2(0, currentDistance);
+    }
+
+    [ContextMenu("Do it sweet child")]
+    void AddDistanceToComet(float strength, float speed)
+    {
+        hit = true;
+        if(currentTween != null)
+        {
+            currentTween.Kill();
+        }
+        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed);
+        currentTween.OnComplete(() => hit = false);
+    }
+
+    void AddScore(int score)
+    {
+        currentScore += score;
     }
 }

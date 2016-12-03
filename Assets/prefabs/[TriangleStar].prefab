@@ -22,7 +22,7 @@ GameObject:
   - 33: {fileID: 33000013901140132}
   - 23: {fileID: 23000012158375270}
   - 114: {fileID: 114000012093109034}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tri_Star_fbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - 114: {fileID: 114000013443216666}
   - 114: {fileID: 114000010069760272}
   - 135: {fileID: 135000012278163830}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: '[TriangleStar]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,6 +227,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theStarType: 2
   destroyStarWhenBelowThisYValue: -5
+  starTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!135 &135000012278163830
 SphereCollider:
   m_ObjectHideFlags: 1

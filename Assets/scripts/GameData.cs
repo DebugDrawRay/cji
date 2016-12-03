@@ -42,19 +42,31 @@ public static class GameData
 	}
 
     //Constants 
-    public const float levelLength = 15;
-    public const float levelSpeedScale = 0.5f;
-    public const float levelSpeed = 1;
+    public const float cometStartY = 7;
+    public const float cometDest = -5f;
     public const int minimumStars = 3;
 
     //Star Speed
-    public const float minStarSpeed = 0.5f;
-    public const float maxStarSpeed = 1.5f;
+    public const float minStarSpeed = 1;
+    public const float maxStarSpeed = 3;
 
     //Star timing
     public const float minTimeToSpawn = 0.25f;
-    public const float maxTimeToSpawn = 0.5f;
+    public const float maxTimeToSpawn = .5f;
     public const float starSpawnXMin = -4;
     public const float starSpawnXMax = 4;
-    public const float starSpawnY = 6;
+    public const float starSpawnY = 5;
+
+    //Comet parameters
+    public const float cometAcceleration = .01f;
+
+    //Star power
+    public const float strengthMultiplier = .25f;
+    public const float cometCollisionSpeed = .25f;
+
+    //Scoring
+    public const int scorePerStar = 10;
+    public const float scoreConnectionMulti = .1f;
+    public const float constSizeMulti = .25f;
+
 }
