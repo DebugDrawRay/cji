@@ -120,19 +120,11 @@ public class ConstellationManager : MonoBehaviour
 		LastStar = star;
 	}
 
-	public void CompleteConstellation()
+	public bool CompleteConstellation()
 	{
 		Debug.Log("Complete Constellation");
 		if (Stars.Count >= GameData.minimumStars)
 		{
-            if (player == null)
-            {
-                player = GameObject.Find("Player(Clone)");
-
-            }
-
-            player.GetComponent<PlayerController>().ReturnToNormalMat();
-
 			LastStar = null;
 			var constellation = new GameData.Constellation();
 			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
@@ -150,7 +142,12 @@ public class ConstellationManager : MonoBehaviour
 			Links.Clear();
 
 			StartCoroutine(ConstellationFlyAway(constellation));
+            return true;
 		}
+        else
+        {
+            return false;
+        }
 	}
 
 	protected void BreakStarLink(GameData.Constellation constellation, Guid starId)
