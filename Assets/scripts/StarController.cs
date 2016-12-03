@@ -9,10 +9,15 @@ public class StarController : MonoBehaviour {
 
     public float starSpeed;
 
+    public float destroyStarWhenBelowThisYValue;
+
+    public GameObject InactiveStars;
+
 	// Use this for initialization
 	void Start () 
     {
         //GetComponent<Rigidbody>().velocity = new Vector3(0, starSpeed, 0);   
+        //parent = GameObject.Find("InactiveStars").transform;
 
         StartMovement();
 	}
@@ -20,7 +25,14 @@ public class StarController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-	    
+        if (transform.position.y < destroyStarWhenBelowThisYValue)
+        {
+            StopMovement();
+            transform.position = new Vector3(0, 0, 0);
+            transform.SetParent(InactiveStars.transform);
+
+            gameObject.SetActive(false);
+        }
 	}
 
     public void StopMovement()
