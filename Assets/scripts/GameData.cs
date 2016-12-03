@@ -13,12 +13,14 @@ public static class GameData
 		public StarType Type;
 		public Vector3 Position;
 		public List<Guid> LinkedStars;
+		public StarController Controller;
 
-		public Star(Vector3 position)
+		public Star(Vector3 position, StarController controller = null)
 		{
 			StarId = Guid.NewGuid();
 			Position = position;
 			LinkedStars = new List<Guid>();
+			Controller = controller;
 		}
 	}
 
@@ -26,6 +28,8 @@ public static class GameData
 	{
 		public List<Guid> StarIds;
 		public LineRenderer LineComponent;
+		public Vector3 StartPos;
+		public Vector3 EndPos;
 
 		public Link()
 		{

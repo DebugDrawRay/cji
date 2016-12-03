@@ -17,6 +17,7 @@ public class ConstellationManager : MonoBehaviour
 	{
 		Instance = this;
 		Stars = new Dictionary<Guid, GameData.Star>();
+		Links = new List<GameData.Link>();
 		LastStar = null;
 	}
 
@@ -33,12 +34,28 @@ public class ConstellationManager : MonoBehaviour
 		AddStar(testStar2);
 		AddStar(testStar3);
 		AddStar(testStar4);
-		AddStar(testStar1);
 	}
 	
 	void Update ()
 	{
-	
+		var destroyedLinks = new List<GameData.Link>();
+		for (int i = 0; i < Links.Count; i++)
+		{
+			var link = Links[i];
+			RaycastHit hit;
+
+			if (Physics.Linecast(link.StartPos, link.EndPos, out hit))
+			{
+				Debug.Log(hit.transform.gameObject.name);
+				BreakLink(link);
+				destroyedLinks.Add(link);
+			}
+		}
+
+		for (int i = 0; i < destroyedLinks.Count; i++)
+		{
+			Links.Remove(destroyedLinks[i]);
+		}
 	}
 
 	public void AddStar(GameData.Star star)
@@ -67,9 +84,7 @@ public class ConstellationManager : MonoBehaviour
 				//Create Link Object
 				var linkObject = Instantiate(LinkPrefab);
 				var line = linkObject.GetComponent<LineRenderer>();
-
 				
-
 				if (StarLinkParent != null)
 				{
 					linkObject.transform.SetParent(StarLinkParent);
@@ -77,30 +92,15 @@ public class ConstellationManager : MonoBehaviour
 				}
 
 				link.LineComponent = line;
-				line.SetPosition(0, LastStar.Position);
-				line.SetPosition(1, star.Position);
+				link.StartPos = LastStar.Position;
+				link.EndPos = star.Position;
+				line.SetPosition(0, link.StartPos);
+				line.SetPosition(1, link.EndPos);
+				Links.Add(link);
 			}
 		}
 		LastStar = star;
 	}
-
-	//private void AddColliderToLine(LineRenderer Line)
-	//{
-	//	var col = new GameObject("Collider").AddComponent<BoxCollider>();
-	//	col.transform.parent = Line.; 
-	//	float lineLength = Vector3.Distance(, endPos); // length of line
-	//	col.size = new Vector3(lineLength, 0.1f, 1f); // size of collider is set where X is length of line, Y is width of line, Z will be set as per requirement
-	//	Vector3 midPoint = (startPos + endPos) / 2;
-	//	col.transform.position = midPoint; // setting position of collider object
-	//												  // Following lines calculate the angle between startPos and endPos
-	//	float angle = (Mathf.Abs(startPos.y - endPos.y) / Mathf.Abs(startPos.x - endPos.x));
-	//	if ((startPos.y < endPos.y && startPos.x > endPos.x) || (endPos.y < startPos.y && endPos.x > startPos.x))
-	//	{
-	//		angle *= -1;
-	//	}
-	//	angle = Mathf.Rad2Deg * Mathf.Atan(angle);
-	//	col.transform.Rotate(0, 0, angle);
-	//}
 
 	public void CompleteConstellation()
 	{
@@ -112,9 +112,27 @@ public class ConstellationManager : MonoBehaviour
 
 	}
 
-	public void BreakLine()
+	protected void BreakLink(GameData.Link link)
 	{
+		//Unlink Stars
+		Stars[link.StarIds[0]].LinkedStars.Remove(link.StarIds[1]);
+		Stars[link.StarIds[1]].LinkedStars.Remove(link.StarIds[0]);
 
+		//Delete Link
+		Destroy(link.LineComponent.gameObject);
+
+		CheckStrandedStar(Stars[link.StarIds[0]]);
+		CheckStrandedStar(Stars[link.StarIds[1]]);
+	}
+
+	protected void CheckStrandedStar(GameData.Star star)
+	{
+		if (star.LinkedStars.Count <= 0)
+		{
+			Debug.Log("Releasing Star");
+			star.Controller.StartMovement();
+			Stars.Remove(star.StarId);
+		}
 	}
 
 	protected void LinkStars()
