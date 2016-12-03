@@ -24,7 +24,6 @@ public class GameController : MonoBehaviour
     public Transform cometSpawn;
     private Rigidbody cometRigid;
 
-    private float currentTime;
     private float currentDistance;
 
     void Awake()
@@ -46,7 +45,6 @@ public class GameController : MonoBehaviour
 
     void SetupLevel()
     {
-        currentTime = GameData.levelSpeedScale;
         currentDistance = GameData.levelLength;
     }
 
@@ -75,17 +73,7 @@ public class GameController : MonoBehaviour
 
     void UpdateDistance()
     {
-        if(currentTime > 0)
-        {
-            currentTime -= Time.deltaTime;
-        }
-        else
-        {
-            currentDistance -= GameData.levelSpeed;
-            currentTime = GameData.levelSpeedScale;
-
-            Debug.Log(currentDistance);
-        }
+        currentDistance = Mathf.Lerp(currentDistance, 0, GameData.levelSpeed);
     }
     void UpdateComet()
     {

@@ -11,8 +11,6 @@ public class StarController : MonoBehaviour {
 
     public float destroyStarWhenBelowThisYValue;
 
-    public GameObject InactiveStars;
-
 	// Use this for initialization
 	void Start () 
     {
@@ -29,8 +27,6 @@ public class StarController : MonoBehaviour {
         {
             StopMovement();
             transform.position = new Vector3(0, 0, 0);
-            transform.SetParent(InactiveStars.transform);
-
             gameObject.SetActive(false);
         }
 	}

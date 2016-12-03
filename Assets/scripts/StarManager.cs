@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StarManager : MonoBehaviour {
-
-    public GameObject ActiveStars;
-    public GameObject InactiveStars;
+public class StarManager : MonoBehaviour
+{
+    private GameObject ActiveStars;
+    private GameObject InactiveStars;
 
     public GameObject StarToSpawn;
 
@@ -17,13 +17,15 @@ public class StarManager : MonoBehaviour {
 
     public float spawnY;
 
+    void Awake()
+    {
+        ActiveStars = new GameObject("ActiveStars");
+        InactiveStars = new GameObject("InactiveStars");
+    }
+
 	// Use this for initialization
 	void Start () 
     {
-        
-
-
-
         GetNewSpawnTime();
 	}
 	
@@ -41,7 +43,6 @@ public class StarManager : MonoBehaviour {
             Vector3 aSpawnPos = GetSpawnPos();
 
             DetermineIfSpawnNewObjOrUsePooledObj(aSpawnPos, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-
 
             //reset timer
             GetNewSpawnTime();
@@ -84,7 +85,6 @@ public class StarManager : MonoBehaviour {
         a.transform.localScale = theScale;
         a.transform.parent = ActiveStars.transform;
         a.GetComponent<PooledObject>().MyParent = InactiveStars;
-        a.GetComponent<StarController>().InactiveStars = InactiveStars;
     }
 
     //moves an inactive pooled object to the appropriate place and then makes it set active
