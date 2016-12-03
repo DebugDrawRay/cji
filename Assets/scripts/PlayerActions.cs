@@ -38,6 +38,8 @@ public class PlayerActions : PlayerActionSet
         actions.Left.AddDefaultBinding(InputControlType.LeftStickLeft);
         actions.Right.AddDefaultBinding(InputControlType.LeftStickRight);
 
+        actions.PrimaryAction.AddDefaultBinding(InputControlType.Action1);
+        actions.PrimaryAction.AddDefaultBinding(Key.Space);
         return actions;
     }
 }
