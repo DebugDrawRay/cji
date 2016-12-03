@@ -120,6 +120,8 @@ public class ConstellationManager : MonoBehaviour
 
 	public void CompleteConstellation()
 	{
+		var constellationParent = new GameObject("Constellation");
+
 		Debug.Log("Complete Constellation");
 		if (Stars.Count >= GameData.minimumStars)
 		{
@@ -128,12 +130,19 @@ public class ConstellationManager : MonoBehaviour
 			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
 			constellation.Links = new List<GameData.Link>(Links);
 
-			var keys = new List<Guid>(Stars.Keys);
-			for (int i = 0; i < Stars.Count; i++)
+			var keys = new List<Guid>(constellation.Stars.Keys);
+			for (int i = 0; i < constellation.Stars.Count; i++)
 			{
-				var star = Stars[keys[i]];
+				var star = constellation.Stars[keys[i]];
 				star.Controller.UpdateLayerToSendStar();
 				star.Controller.starTriggered.AddListener(() => StarToCometCollision(constellation, star));
+				star.Controller.gameObject.transform.SetParent(constellationParent.transform);
+			}
+
+			for (int i = 0; i < constellation.Links.Count; i++)
+			{
+				var link = constellation.Links[i];
+				link.LineComponent.gameObject.transform.SetParent(constellationParent.transform);
 			}
 
 			Stars.Clear();
