@@ -23,11 +23,15 @@ public class PlayerController : MonoBehaviour
     public Material GreenMat;
     public Material YellowMat;
 
+    public GameObject theCamera;
+
     void Start()
     {
         actions = PlayerActions.BindAll();
         rigid = GetComponent<Rigidbody>();
         constManager = ConstellationManager.Instance;
+
+        theCamera = GameObject.Find("Main Camera");
     }
 
     void Update()
@@ -38,6 +42,11 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Movement();
+    }
+
+    public void ReturnToNormalMat()
+    {
+        PlayerModel.GetComponent<Renderer>().material = NormalMat;
     }
 
     void CompleteConstellationListener()
@@ -63,11 +72,8 @@ public class PlayerController : MonoBehaviour
         {
             if(lastStar != null && lastStar.theStarType != isStar.theStarType)
             {
-                //destroy the star you hit to break the constellation
-                //isStar.GetComponent<StarController>().StopMovement();
-                //isStar.GetComponent<StarController>().DeactivateCollider();
-                //isStar.GetComponent<StarController>().Shrinkle();
-
+                theCamera.GetComponent<CameraController>().DoScreenShake(0.5f);
+                PlayerModel.GetComponent<MeshRenderer>().material = NormalMat;
                 constManager.BreakConstellation();
                 lastStar = null;
             }

@@ -58,7 +58,9 @@ public static class GameData
     public const float starSpawnY = 5;
 
     //Comet parameters
-    public const float cometAcceleration = .01f;
+    //Commented out by Logan
+    //public const float cometAcceleration = .01f;
+    public const float cometAcceleration = .005f;
 
     //Star power
     public const float strengthMultiplier = .25f;

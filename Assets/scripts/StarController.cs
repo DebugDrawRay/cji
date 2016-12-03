@@ -20,6 +20,10 @@ public class StarController : MonoBehaviour
     public float shrinkSpeed;
     public bool doShrink;
 
+    public GameObject starBoing;
+    public float delayBeforeSecondBoingTimerBase;
+    public float delayBeforeSecondBoingTimer;
+
     //public float starSize;
 
     void Awake()

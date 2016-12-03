@@ -222,6 +222,9 @@ MonoBehaviour:
       PublicKeyToken=null
   shrinkSpeed: 1
   doShrink: 0
+  starBoing: {fileID: 0}
+  delayBeforeSecondBoingTimerBase: 0.1
+  delayBeforeSecondBoingTimer: 0.1
 --- !u!114 &114000013394058744
 MonoBehaviour:
   m_ObjectHideFlags: 1

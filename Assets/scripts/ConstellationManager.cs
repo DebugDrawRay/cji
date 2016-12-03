@@ -20,6 +20,8 @@ public class ConstellationManager : MonoBehaviour
 	protected GameData.Star LastStar;
 	protected List<GameData.Link> Links;
 
+    GameObject player;
+
 	void Awake()
 	{
 		Instance = this;
@@ -123,6 +125,14 @@ public class ConstellationManager : MonoBehaviour
 		Debug.Log("Complete Constellation");
 		if (Stars.Count >= GameData.minimumStars)
 		{
+            if (player == null)
+            {
+                player = GameObject.Find("Player(Clone)");
+
+            }
+
+            player.GetComponent<PlayerController>().ReturnToNormalMat();
+
 			LastStar = null;
 			var constellation = new GameData.Constellation();
 			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
