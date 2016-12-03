@@ -97,8 +97,7 @@ public class GameController : MonoBehaviour
                 break;
             case State.InGame:
                 UpdateComet();
-                UiController.TriggerScoreEvent(currentScore);
-                UiController.TriggerDistanceEvent(currentDistance);
+                UpdateUi();
                 break;
             case State.Pause:
                 break;
@@ -114,6 +113,12 @@ public class GameController : MonoBehaviour
             currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcceleration);
         }
         cometRigid.transform.position = new Vector2(0, currentDistance);
+    }
+
+    void UpdateUi()
+    {
+        UiController.TriggerScoreEvent(currentScore);
+        UiController.TriggerDistanceEvent(currentDistance);
     }
 
     [ContextMenu("Do it sweet child")]

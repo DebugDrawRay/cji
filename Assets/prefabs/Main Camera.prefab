@@ -23,6 +23,7 @@ GameObject:
   - 92: {fileID: 92000013121258694}
   - 124: {fileID: 124000013297975356}
   - 81: {fileID: 81000012208662032}
+  - 114: {fileID: 114000011915319138}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -172,7 +173,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.020544987, g: 0.0475928, b: 0.14705884, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.25
@@ -259,6 +260,26 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011116542606}
   m_Enabled: 1
+--- !u!114 &114000011915319138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011116542606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db61e4070bdefac439f9daa2a919f5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCamera: {fileID: 1000011116542606}
+  shakingTimer: 0
+  jitterTimerMin: 0.001
+  jitterTimerMax: 0.01
+  jitterTimer: 0
+  jitterMoveMin: -0.5
+  jitterMoveMax: 0.5
+  homePos: {x: 0, y: 0, z: 0}
+  awayFromHomePos: 0
 --- !u!124 &124000013297975356
 Behaviour:
   m_ObjectHideFlags: 1

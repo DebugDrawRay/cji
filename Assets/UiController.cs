@@ -27,11 +27,14 @@ public class UiController : MonoBehaviour
 
     public Text scoreDisplay;
     public Text distanceDisplay;
+    public DistanceMeter distaceMeter;
+
 
     void Awake()
     {
         ScoreEvent += DisplayScore;
         DistanceEvent += DisplayDistance;
+        DistanceEvent += distaceMeter.ChangeDistance;
     }
 
     void DisplayScore(int score)
@@ -41,6 +44,7 @@ public class UiController : MonoBehaviour
 
     void DisplayDistance(float distance)
     {
-        distanceDisplay.text = (distance * 1000).ToString();
+        float total = distance + Mathf.Abs(GameData.cometDest);
+        distanceDisplay.text = (total * GameData.distanceScalar).ToString();
     }
 }
