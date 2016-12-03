@@ -34,9 +34,20 @@ public class GameController : MonoBehaviour
     [Header("Debug")]
     public bool spawnComet;
 
+    public delegate void CollisionEvent(float strength, float speed);
+    public static event CollisionEvent CometCollisionEvent;
+
+    public static void TriggerCometCollision(float strength, float speed)
+    {
+        if(CometCollisionEvent != null)
+        {
+            CometCollisionEvent(strength, speed);
+        }
+    }
+
     void Awake()
     {
-
+        CometCollisionEvent += AddDistanceToComet;
     }
 
     void Update()
@@ -56,7 +67,7 @@ public class GameController : MonoBehaviour
 
     void SetupLevel()
     {
-        currentDistance = GameData.levelSize;
+        currentDistance = GameData.cometStartY;
     }
 
     void RunStates()
@@ -85,20 +96,20 @@ public class GameController : MonoBehaviour
     {
         if(!hit)
         {
-            currentDistance = Mathf.MoveTowards(currentDistance, 0, .01f);
+            currentDistance = Mathf.MoveTowards(currentDistance, 0, GameData.cometAcceleration);
         }
         cometRigid.transform.position = new Vector2(0, currentDistance);
     }
 
-    [ContextMenu("Do it bitch")]
-    void AddDistanceToComet()
+    [ContextMenu("Do it sweet child")]
+    void AddDistanceToComet(float strength, float speed)
     {
         hit = true;
         if(currentTween != null)
         {
             currentTween.Kill();
         }
-        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + 5, 1f);
+        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed);
         currentTween.OnComplete(() => hit = false);
     }
 }

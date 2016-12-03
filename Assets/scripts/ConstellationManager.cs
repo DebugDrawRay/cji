@@ -33,30 +33,30 @@ public class ConstellationManager : MonoBehaviour
 		Constellations = new List<GameData.Constellation>();
 	}
 	
-	void Update ()
-	{
-		var destroyedLinks = new List<GameData.Link>();
-		for (int i = 0; i < Links.Count - 1; i++)
-		{
-			var link = Links[i];
-			CheckLink(link);
-		}
+	//void Update ()
+	//{
+	//	var destroyedLinks = new List<GameData.Link>();
+	//	for (int i = 0; i < Links.Count - 1; i++)
+	//	{
+	//		var link = Links[i];
+	//		CheckLink(link);
+	//	}
 		
-		//Invincibility for last line
-		if (InvincibilityCountdown >= 0)
-		{
-			InvincibilityCountdown -= Time.deltaTime;
-		}
-		else if (Links.Count > 0)
-		{
-			CheckLink(Links[Links.Count - 1]);
-		}
+	//	//Invincibility for last line
+	//	if (InvincibilityCountdown >= 0)
+	//	{
+	//		InvincibilityCountdown -= Time.deltaTime;
+	//	}
+	//	else if (Links.Count > 0)
+	//	{
+	//		CheckLink(Links[Links.Count - 1]);
+	//	}
 
-		for (int i = 0; i < destroyedLinks.Count; i++)
-		{
-			Links.Remove(destroyedLinks[i]);
-		}
-	}
+	//	for (int i = 0; i < destroyedLinks.Count; i++)
+	//	{
+	//		Links.Remove(destroyedLinks[i]);
+	//	}
+	//}
 
 	protected void CheckLink(GameData.Link link)
 	{
@@ -285,5 +285,9 @@ public class ConstellationManager : MonoBehaviour
 	{
 		star.Controller.gameObject.SetActive(false);
 		BreakStarLink(constellation, star.StarId);
+
+        float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+
+        GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
 	}
 }
