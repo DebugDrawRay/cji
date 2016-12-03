@@ -31,13 +31,6 @@ public class ConstellationManager : MonoBehaviour
 	void Start ()
 	{
 		Constellations = new List<GameData.Constellation>();
-
-		//for (int i = 0; i < TestStars.Length; i++)
-		//{
-		//	var controller = TestStars[i].GetComponent<StarController>();
-		//	var testStar = new GameData.Star(TestStars[i].transform.position, controller);
-		//	AddStar(testStar);
-		//}
 	}
 	
 	void Update ()
@@ -131,22 +124,65 @@ public class ConstellationManager : MonoBehaviour
 		if (Stars.Count >= GameData.minimumStars)
 		{
 			LastStar = null;
+			var constellation = new GameData.Constellation();
+			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
+			constellation.Links = new List<GameData.Link>(Links);
 
 			var keys = new List<Guid>(Stars.Keys);
 			for (int i = 0; i < Stars.Count; i++)
 			{
-				Stars[keys[i]].Controller.DeactivateCollider();
+				var star = Stars[keys[i]];
+				star.Controller.UpdateLayerToSendStar();
+				star.Controller.starTriggered.AddListener(() => StarToCometCollision(constellation, star));
 			}
-
-			var constellation = new GameData.Constellation();
-			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
-			constellation.Links = new List<GameData.Link>(Links);
 
 			Stars.Clear();
 			Links.Clear();
 
 			StartCoroutine(ConstellationFlyAway(constellation));
 		}
+	}
+
+	protected void BreakStarLink(GameData.Constellation constellation, Guid starId)
+	{
+		var star = constellation.Stars[starId];
+
+		//Remove star from linked stars
+		for (int i = 0; i < star.LinkedStars.Count; i++)
+		{
+			constellation.Stars[star.LinkedStars[i]].LinkedStars.Remove(star.StarId);
+		}
+
+		//Get all involved links
+		var removedLinks = new List<GameData.Link>();
+		for (int i = 0; i < constellation.Links.Count; i++)
+		{
+			if (constellation.Links[i].StarIds.Contains(star.StarId))
+				removedLinks.Add(constellation.Links[i]);
+		}
+
+		//Destroy Link
+		for (int i = 0; i < removedLinks.Count; i++)
+		{
+			var link = removedLinks[i];
+			Destroy(link.LineComponent.gameObject);
+			constellation.Links.Remove(link);
+		}
+	}
+
+	protected void BreakLink(GameData.Link link)
+	{
+		Debug.Log("Breaking Link");
+
+		//Unlink Stars
+		Stars[link.StarIds[0]].LinkedStars.Remove(link.StarIds[1]);
+		Stars[link.StarIds[1]].LinkedStars.Remove(link.StarIds[0]);
+
+		//Delete Link
+		Destroy(link.LineComponent.gameObject);
+
+		CheckStrandedStar(Stars[link.StarIds[0]]);
+		CheckStrandedStar(Stars[link.StarIds[1]]);
 	}
 
 	public void BreakConstellation()
@@ -174,21 +210,6 @@ public class ConstellationManager : MonoBehaviour
 		Links = new List<GameData.Link>();
 	}
 
-	protected void BreakLink(GameData.Link link)
-	{
-		Debug.Log("Breaking Link");
-
-		//Unlink Stars
-		Stars[link.StarIds[0]].LinkedStars.Remove(link.StarIds[1]);
-		Stars[link.StarIds[1]].LinkedStars.Remove(link.StarIds[0]);
-
-		//Delete Link
-		Destroy(link.LineComponent.gameObject);
-
-		CheckStrandedStar(Stars[link.StarIds[0]]);
-		CheckStrandedStar(Stars[link.StarIds[1]]);
-	}
-
 	protected void CheckStrandedStar(GameData.Star star)
 	{
 		if (star.LinkedStars.Count <= 0)
@@ -203,7 +224,7 @@ public class ConstellationManager : MonoBehaviour
 		Debug.Log("Constellation Fly Away");
 
 		var yDisplace = 0f;
-		while (yDisplace < 10f)
+		while (yDisplace < 100f)
 		{
 			//Update Stars
 			var stars = new List<GameData.Star>(constellation.Stars.Values);
@@ -258,5 +279,11 @@ public class ConstellationManager : MonoBehaviour
 			var link = constellation.Links[i];
 			Destroy(link.LineComponent.gameObject);
 		}
+	}
+	
+	protected void StarToCometCollision(GameData.Constellation constellation, GameData.Star star)
+	{
+		star.Controller.gameObject.SetActive(false);
+		BreakStarLink(constellation, star.StarId);
 	}
 }
