@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,8 +9,15 @@ public static class GameData
 
 	public class Star
 	{
+		public Guid StarId;
 		public StarType Type;
 		public Vector2 Position;
+
+		public Star(Vector2 position)
+		{
+			StarId = Guid.NewGuid();
+			Position = position;
+		}
 	}
 
 	public class Constellation
