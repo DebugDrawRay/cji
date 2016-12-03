@@ -7,6 +7,8 @@ public class StarController : MonoBehaviour {
 
     public GameData.StarType theStarType;
 
+    public float starSpeedMin;
+    public float starSpeedMax;
     public float starSpeed;
 
     public float destroyStarWhenBelowThisYValue;
@@ -16,6 +18,8 @@ public class StarController : MonoBehaviour {
     {
         //GetComponent<Rigidbody>().velocity = new Vector3(0, starSpeed, 0);   
         //parent = GameObject.Find("InactiveStars").transform;
+
+        starSpeed = Random.Range(starSpeedMin, starSpeedMax);
 
         StartMovement();
 	}
