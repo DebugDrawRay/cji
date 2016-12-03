@@ -56,6 +56,6 @@ MonoBehaviour:
   SpawnTimerMin: 1
   SpawnTimerMax: 2
   SpawnTimer: 0
-  spawnXMin: -4.5
-  spawnXMax: 4.5
+  spawnXMin: -4
+  spawnXMax: 4
   spawnY: 5

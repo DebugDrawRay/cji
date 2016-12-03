@@ -8,14 +8,7 @@ public class StarManager : MonoBehaviour
 
     public GameObject StarToSpawn;
 
-    public float SpawnTimerMin;
-    public float SpawnTimerMax;
-    public float SpawnTimer;
-
-    public float spawnXMin;
-    public float spawnXMax;
-
-    public float spawnY;
+    private float SpawnTimer;
 
     void Awake()
     {
@@ -51,12 +44,12 @@ public class StarManager : MonoBehaviour
 
     void GetNewSpawnTime()
     {
-        SpawnTimer = Random.Range(SpawnTimerMin, SpawnTimerMax);
+        SpawnTimer = Random.Range(GameData.minTimeToSpawn, GameData.maxTimeToSpawn);
     }
 
     Vector3 GetSpawnPos()
     {
-        Vector3 theSpawnPos = new Vector3(Random.Range(spawnXMin, spawnXMax), spawnY, 0);
+        Vector3 theSpawnPos = new Vector3(Random.Range(GameData.starSpawnXMin, GameData.starSpawnXMax), GameData.starSpawnY, 0);
         return theSpawnPos;
     }
 

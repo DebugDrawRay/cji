@@ -62,8 +62,8 @@ public class PlayerController : MonoBehaviour
             {
                 lastStar = isStar;
                 isStar.StopMovement();
-                GameData.Star constStar = new GameData.Star(isStar.transform.position, isStar);
-                constManager.AddStar(constStar);
+                isStar.starData.Position = isStar.transform.position;
+                constManager.AddStar(isStar.starData);
             }
         }
     }
