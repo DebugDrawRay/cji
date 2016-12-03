@@ -220,6 +220,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  shrinkSpeed: 1
+  doShrink: 0
 --- !u!114 &114000013394058744
 MonoBehaviour:
   m_ObjectHideFlags: 1

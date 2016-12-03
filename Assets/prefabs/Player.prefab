@@ -144,7 +144,7 @@ MeshRenderer:
   m_GameObject: {fileID: 1000011557397364}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -201,6 +201,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   acceleration: 0.5
+  PlayerModel: {fileID: 1000011557397364}
+  NormalMat: {fileID: 2100000, guid: 531a64aa7bebf4307b795c78e8168422, type: 2}
+  PinkMat: {fileID: 2100000, guid: 7dd45160be97999408b745b841a0f6c7, type: 2}
+  BlueMat: {fileID: 2100000, guid: ce164f2ad1bcd424686f2eaa1faba572, type: 2}
+  GreenMat: {fileID: 2100000, guid: 229e5008f7638324aafe657b42b178c6, type: 2}
+  YellowMat: {fileID: 2100000, guid: f6a4afb4b7d438b4a81184e8f5789942, type: 2}
 --- !u!114 &114000011639299780
 MonoBehaviour:
   m_ObjectHideFlags: 1

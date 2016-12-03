@@ -189,14 +189,19 @@ public class ConstellationManager : MonoBehaviour
 	{
 		Debug.Log("Resetting Constellation");
 
+
+
 		LastStar = null;
 
 		//Release Stars
 		var keys = new List<Guid>(Stars.Keys);
 		for (int i = 0; i < Stars.Count; i++)
 		{
+
+
 			Stars[keys[i]].Controller.StartMovement();
 			Stars[keys[i]].Controller.DeactivateCollider();
+            //Stars[keys[i]].Controller.Shrinkle();
 		}
 
 		//Destroy Links

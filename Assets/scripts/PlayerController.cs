@@ -15,6 +15,14 @@ public class PlayerController : MonoBehaviour
     //Star tracking
     private StarController lastStar;
 
+    public GameObject PlayerModel;
+
+    public Material NormalMat;
+    public Material PinkMat;
+    public Material BlueMat;
+    public Material GreenMat;
+    public Material YellowMat;
+
     void Start()
     {
         actions = PlayerActions.BindAll();
@@ -55,6 +63,11 @@ public class PlayerController : MonoBehaviour
         {
             if(lastStar != null && lastStar.theStarType != isStar.theStarType)
             {
+                //destroy the star you hit to break the constellation
+                //isStar.GetComponent<StarController>().StopMovement();
+                //isStar.GetComponent<StarController>().DeactivateCollider();
+                //isStar.GetComponent<StarController>().Shrinkle();
+
                 constManager.BreakConstellation();
                 lastStar = null;
             }
@@ -63,6 +76,23 @@ public class PlayerController : MonoBehaviour
                 lastStar = isStar;
                 isStar.StopMovement();
                 isStar.starData.Position = isStar.transform.position;
+                if (isStar.theStarType == GameData.StarType.Circle)//blue
+                {
+                    PlayerModel.GetComponent<Renderer>().material = BlueMat;
+                }
+                else if (isStar.theStarType == GameData.StarType.Square)//Pink
+                {
+                    PlayerModel.GetComponent<Renderer>().material = PinkMat;
+                }
+                else if (isStar.theStarType == GameData.StarType.Star)//Yellow
+                {
+                    PlayerModel.GetComponent<Renderer>().material = YellowMat;
+                }
+                else if (isStar.theStarType == GameData.StarType.Triangle)//Green
+                {
+                    PlayerModel.GetComponent<Renderer>().material = GreenMat;
+                }
+
                 constManager.AddStar(isStar.starData);
             }
         }
