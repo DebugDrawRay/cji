@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         actions = PlayerActions.BindAll();
         rigid = GetComponent<Rigidbody>();
+        constManager = ConstellationManager.Instance;
     }
 
     void Update()

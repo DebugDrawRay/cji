@@ -36,6 +36,7 @@ GameObject:
   - 4: {fileID: 4000014116261094}
   - 114: {fileID: 114000011840028696}
   - 114: {fileID: 114000010083928252}
+  - 114: {fileID: 114000010466747330}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -117,6 +118,20 @@ MonoBehaviour:
   comet: {fileID: 1000010731242480, guid: eb3739344bb528140ba6c428fa88dbfd, type: 2}
   cometSpawn: {fileID: 4000012464883300}
   spawnComet: 0
+--- !u!114 &114000010466747330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011565247668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bfb739d3a84f7f44885bcf052a5b1ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinkPrefab: {fileID: 191624, guid: c74daa68dcd86564e9f0953017e146d5, type: 2}
+  StarLinkParent: {fileID: 0}
+  TestStars: []
 --- !u!114 &114000011840028696
 MonoBehaviour:
   m_ObjectHideFlags: 1
