@@ -14,10 +14,9 @@ public static class GameData
 		public List<Guid> LinkedStars;
 		public StarController Controller;
 
-		public Star(Vector3 position, StarController controller = null)
+		public Star(StarController controller = null)
 		{
 			StarId = Guid.NewGuid();
-			Position = position;
 			LinkedStars = new List<Guid>();
 			Controller = controller;
 		}
@@ -46,5 +45,16 @@ public static class GameData
     public const float levelLength = 15;
     public const float levelSpeedScale = 0.5f;
     public const float levelSpeed = 1;
-	 public const int minimumStars = 3; 
+    public const int minimumStars = 3;
+
+    //Star Speed
+    public const float minStarSpeed = 3;
+    public const float maxStarSpeed = 5;
+
+    //Star timing
+    public const float minTimeToSpawn = 0.25f;
+    public const float maxTimeToSpawn = .5f;
+    public const float starSpawnXMin = -4;
+    public const float starSpawnXMax = 4;
+    public const float starSpawnY = 5;
 }

@@ -29,12 +29,12 @@ public class ConstellationManager : MonoBehaviour
 	{
 		Constellations = new List<GameData.Constellation>();
 
-		for (int i = 0; i < TestStars.Length; i++)
-		{
-			var controller = TestStars[i].GetComponent<StarController>();
-			var testStar = new GameData.Star(TestStars[i].transform.position, controller);
-			AddStar(testStar);
-		}
+		//for (int i = 0; i < TestStars.Length; i++)
+		//{
+		//	var controller = TestStars[i].GetComponent<StarController>();
+		//	var testStar = new GameData.Star(TestStars[i].transform.position, controller);
+		//	AddStar(testStar);
+		//}
 	}
 	
 	void Update ()
