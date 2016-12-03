@@ -44,5 +44,7 @@ public static class GameData
 
     //Constants 
     public const float levelLength = 15;
-    public const float levelSpeed = .01f;
+    public const float levelSpeedScale = 0.5f;
+    public const float levelSpeed = 1;
+	 public const int minimumStars = 3; 
 }
