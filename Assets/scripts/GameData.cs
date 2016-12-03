@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public static class GameData
@@ -40,10 +39,6 @@ public static class GameData
 	public class Constellation
 	{
 		public Dictionary<Guid, Star> Stars;
-		
-		public Constellation()
-		{
-			Stars = new Dictionary<Guid, Star>();
-		}
+		public List<Link> Links;
 	}
 }
