@@ -72,7 +72,7 @@ public class StarManager : MonoBehaviour
     //spawns a new object when there's not any inactive pooled objects to use
     void SpawnNewPooledObj(Vector3 thePos, Vector3 theRotation, Vector3 theScale)
     {
-        print("spawn new object");
+        //print("spawn new object");
         GameObject a = Instantiate(StarToSpawn, thePos, Quaternion.Euler(theRotation.x, theRotation.y, theRotation.z)) as GameObject;
         a.name = "Star";
         a.transform.localScale = theScale;

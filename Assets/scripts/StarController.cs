@@ -40,10 +40,14 @@ public class StarController : MonoBehaviour {
         }
 	}
 
+	public void DeactivateCollider()
+	{
+		GetComponent<Collider>().enabled = false;
+	}
+
     public void StopMovement()
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Collider>().enabled = false;
     }
 
     public void StartMovement()
