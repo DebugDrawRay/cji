@@ -56,4 +56,4 @@ MonoBehaviour:
   - {fileID: 1000013448462480, guid: c66a85e14111e9c42b1df12bc1d10d83, type: 2}
   - {fileID: 1000013985736620, guid: f8ccebe940acaa94d980aff2bb0c558f, type: 2}
   - {fileID: 1000013249568514, guid: 1bdfa4018317c474fa8f809b498e6439, type: 2}
-  starSize: 0.75
+  starSize: 0.65
