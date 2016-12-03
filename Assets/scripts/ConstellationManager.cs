@@ -108,15 +108,19 @@ public class ConstellationManager : MonoBehaviour
 
 	public void CompleteConstellation()
 	{
-		LastStar = null;
-		var constellation = new GameData.Constellation();
-		constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
-		constellation.Links = new List<GameData.Link>(Links);
+		if (Stars.Count >= GameData.minimumStars)
+		{
+			LastStar = null;
 
-		Stars.Clear();
-		Links.Clear();
+			var constellation = new GameData.Constellation();
+			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
+			constellation.Links = new List<GameData.Link>(Links);
 
-		StartCoroutine(ConstellationFlyAway(constellation));
+			Stars.Clear();
+			Links.Clear();
+
+			StartCoroutine(ConstellationFlyAway(constellation));
+		}
 	}
 
 	public void BreakConstellation()
