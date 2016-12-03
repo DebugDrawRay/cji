@@ -64,4 +64,9 @@ public static class GameData
     public const float strengthMultiplier = .25f;
     public const float cometCollisionSpeed = .25f;
 
+    //Scoring
+    public const int scorePerStar = 10;
+    public const float scoreConnectionMulti = .1f;
+    public const float constSizeMulti = .25f;
+
 }

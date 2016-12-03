@@ -289,5 +289,11 @@ public class ConstellationManager : MonoBehaviour
         float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
 
         GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
+
+        int score = GameData.scorePerStar;
+        float totalConnections = 1 + (GameData.scoreConnectionMulti * star.LinkedStars.Count);
+        float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
+
+        GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
 	}
 }

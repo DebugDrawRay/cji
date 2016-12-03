@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     }
     public State currentState;
 
-    public int score;
+    public int currentScore;
 
     [Header("Player")]
     public GameObject player;
@@ -45,9 +45,22 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public delegate void ScoreEvent(int score);
+    public static event ScoreEvent AddScoreEvent;
+
+    public static void TriggerAddScore(int score)
+    {
+        if(AddScoreEvent != null)
+        {
+            AddScoreEvent(score);
+        }
+
+    }
+
     void Awake()
     {
         CometCollisionEvent += AddDistanceToComet;
+        AddScoreEvent += AddScore;
     }
 
     void Update()
@@ -84,6 +97,8 @@ public class GameController : MonoBehaviour
                 break;
             case State.InGame:
                 UpdateComet();
+                UiController.TriggerScoreEvent(currentScore);
+                UiController.TriggerDistanceEvent(currentDistance);
                 break;
             case State.Pause:
                 break;
@@ -96,7 +111,7 @@ public class GameController : MonoBehaviour
     {
         if(!hit)
         {
-            currentDistance = Mathf.MoveTowards(currentDistance, 0, GameData.cometAcceleration);
+            currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcceleration);
         }
         cometRigid.transform.position = new Vector2(0, currentDistance);
     }
@@ -111,5 +126,10 @@ public class GameController : MonoBehaviour
         }
         currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed);
         currentTween.OnComplete(() => hit = false);
+    }
+
+    void AddScore(int score)
+    {
+        currentScore += score;
     }
 }

@@ -53,10 +53,10 @@ public class PlayerController : MonoBehaviour
 
         if(isStar)
         {
-            if(isStar == lastStar)
+            if(lastStar != null && lastStar.theStarType != isStar.theStarType)
             {
-                //lastStar = null;
-                //constManager.BreakConstellation();
+                constManager.BreakConstellation();
+                lastStar = null;
             }
             else
             {

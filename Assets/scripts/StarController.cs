@@ -4,7 +4,6 @@ using System.Collections;
 
 public class StarController : MonoBehaviour
 {
-
     //public enum starType;
 
     public GameData.StarType theStarType;
@@ -41,7 +40,7 @@ public class StarController : MonoBehaviour
         {
             StopMovement();
             transform.position = new Vector3(0, 0, 0);
-            gameObject.SetActive(false);
+            GetComponent<PooledObject>().ReturnToPool();
         }
 	}
 
