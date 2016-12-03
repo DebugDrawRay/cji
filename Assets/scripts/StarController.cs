@@ -4,7 +4,6 @@ using System.Collections;
 
 public class StarController : MonoBehaviour
 {
-
     //public enum starType;
 
     public GameData.StarType theStarType;
@@ -17,6 +16,15 @@ public class StarController : MonoBehaviour
 
     [HideInInspector]
     public GameData.Star starData;
+
+    public float shrinkSpeed;
+    public bool doShrink;
+
+    public GameObject starBoing;
+    public float delayBeforeSecondBoingTimerBase;
+    public float delayBeforeSecondBoingTimer;
+
+    //public float starSize;
 
     void Awake()
     {
@@ -31,6 +39,8 @@ public class StarController : MonoBehaviour
 
         starSpeed = Random.Range(GameData.minStarSpeed, GameData.maxStarSpeed);
 
+        //transform.localScale = new Vector3(starSize, starSize, starSize);
+
         StartMovement();
 	}
 	
@@ -41,7 +51,19 @@ public class StarController : MonoBehaviour
         {
             StopMovement();
             transform.position = new Vector3(0, 0, 0);
-            gameObject.SetActive(false);
+            GetComponent<PooledObject>().ReturnToPool();
+        }
+
+        if (doShrink == true)
+        {
+            if (transform.localScale.x > 0.1f)
+            {
+                transform.localScale = new Vector3(transform.localScale.x - (shrinkSpeed * Time.deltaTime), transform.localScale.y - (shrinkSpeed * Time.deltaTime), transform.localScale.z - (shrinkSpeed * Time.deltaTime));
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 	}
 
@@ -70,4 +92,18 @@ public class StarController : MonoBehaviour
 	{
 		starTriggered.Invoke();
 	}
+
+    //this function shrinkles the failed constellation stars
+    public void Shrinkle()
+    {
+        
+        doShrink = true;
+
+    }
+
+    //this function twinkles the failed constellation stars
+    public void Twinkle()
+    {
+        
+    }
 }

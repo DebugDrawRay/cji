@@ -1,26 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PooledObject : MonoBehaviour {
-
+public class PooledObject : MonoBehaviour
+{
     public GameObject MyParent;
 
-
-
-	// Use this for initialization
-	void Start () 
+    public void ReturnToPool()
     {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-	    
-	}
-
-    void OnDisable()
-    {
-        //transform.SetParent(MyParent.transform);
+        transform.SetParent(MyParent.transform);
     }
 }
