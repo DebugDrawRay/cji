@@ -43,6 +43,7 @@ public static class GameData
 
     //Constants 
     public const float cometStartY = 7;
+    public const float cometDest = -5f;
     public const int minimumStars = 3;
 
     //Star Speed
@@ -62,4 +63,5 @@ public static class GameData
     //Star power
     public const float strengthMultiplier = .25f;
     public const float cometCollisionSpeed = .25f;
+
 }
