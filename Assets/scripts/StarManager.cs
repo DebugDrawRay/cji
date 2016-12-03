@@ -6,7 +6,7 @@ public class StarManager : MonoBehaviour
     private GameObject ActiveStars;
     private GameObject InactiveStars;
 
-    public GameObject StarToSpawn;
+    public GameObject[] StarsToSpawn;
 
     private float SpawnTimer;
 
@@ -73,7 +73,7 @@ public class StarManager : MonoBehaviour
     void SpawnNewPooledObj(Vector3 thePos, Vector3 theRotation, Vector3 theScale)
     {
         //print("spawn new object");
-        GameObject a = Instantiate(StarToSpawn, thePos, Quaternion.Euler(theRotation.x, theRotation.y, theRotation.z)) as GameObject;
+        GameObject a = Instantiate(StarsToSpawn[Random.Range(0, StarsToSpawn.Length)], thePos, Quaternion.Euler(theRotation.x, theRotation.y, theRotation.z)) as GameObject;
         a.name = "Star";
         a.transform.localScale = theScale;
         a.transform.parent = ActiveStars.transform;

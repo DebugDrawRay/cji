@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000014292324498}
   - 198: {fileID: 198000011236707744}
   - 199: {fileID: 199000010745125366}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - 33: {fileID: 33000010482999644}
   - 23: {fileID: 23000013455074272}
   - 114: {fileID: 114000012415983176}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Star_Star_fbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - 114: {fileID: 114000013252694216}
   - 114: {fileID: 114000012852890012}
   - 135: {fileID: 135000011397876788}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: '[StarStar]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - 4: {fileID: 4000010985441598}
   - 198: {fileID: 198000012859636616}
   - 199: {fileID: 199000011835118764}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,6 +227,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theStarType: 0
   destroyStarWhenBelowThisYValue: -5
+  starTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!135 &135000011397876788
 SphereCollider:
   m_ObjectHideFlags: 1

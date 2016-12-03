@@ -22,7 +22,7 @@ GameObject:
   - 33: {fileID: 33000012647736746}
   - 23: {fileID: 23000013454071858}
   - 114: {fileID: 114000011404372434}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Square_Star_fbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - 114: {fileID: 114000011745044144}
   - 114: {fileID: 114000013394058744}
   - 135: {fileID: 135000011399145764}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: '[SquareStar]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,6 +153,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theStarType: 3
   destroyStarWhenBelowThisYValue: -5
+  starTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114000013394058744
 MonoBehaviour:
   m_ObjectHideFlags: 1

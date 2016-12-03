@@ -22,7 +22,7 @@ GameObject:
   - 54: {fileID: 54000012106285476}
   - 135: {fileID: 135000011983677540}
   - 114: {fileID: 114000010304944004}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013042421022}
   - 212: {fileID: 212000011488230310}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
