@@ -26,6 +26,9 @@ public class GameController : MonoBehaviour
 
     private float currentDistance;
 
+    [Header("Debug")]
+    public bool spawnComet;
+
     void Awake()
     {
 
@@ -39,8 +42,11 @@ public class GameController : MonoBehaviour
     void SpawnObjects()
     {
         Instantiate(player, playerSpawn.position, playerSpawn.rotation);
-        GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
-        cometRigid = newComet.GetComponent<Rigidbody>();
+        if (spawnComet)
+        {
+            GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
+            cometRigid = newComet.GetComponent<Rigidbody>();
+        }
     }
 
     void SetupLevel()
@@ -77,7 +83,7 @@ public class GameController : MonoBehaviour
     }
     void UpdateComet()
     {
-        if(currentDistance <= 5)
+        if(cometRigid && currentDistance <= 5)
         {
             cometRigid.transform.position = new Vector2(0, currentDistance);
         }

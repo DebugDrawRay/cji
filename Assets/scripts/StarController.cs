@@ -37,12 +37,11 @@ public class StarController : MonoBehaviour {
 
     public void StopMovement()
     {
-        GetComponent<Rigidbody>().velocity *= 0;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     public void StartMovement()
     {
-        GetComponent<Rigidbody>().velocity = new Vector3(0, -1, 0);
-        GetComponent<Rigidbody>().velocity *= starSpeed;
+        GetComponent<Rigidbody>().velocity = new Vector3(0, -1, 0) * starSpeed;
     }
 }

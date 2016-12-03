@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public static class GameData
@@ -40,14 +39,12 @@ public static class GameData
 	public class Constellation
 	{
 		public Dictionary<Guid, Star> Stars;
-		
-		public Constellation()
-		{
-			Stars = new Dictionary<Guid, Star>();
-		}
+		public List<Link> Links;
 	}
 
     //Constants 
     public const float levelLength = 15;
-    public const float levelSpeed = .01f;
+    public const float levelSpeedScale = 0.5f;
+    public const float levelSpeed = 1;
+	 public const int minimumStars = 3; 
 }
