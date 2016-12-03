@@ -35,8 +35,6 @@ public class ConstellationManager : MonoBehaviour
 			var testStar = new GameData.Star(TestStars[i].transform.position, controller);
 			AddStar(testStar);
 		}
-
-		StartCoroutine(DelayedFlyAway());
 	}
 	
 	void Update ()
@@ -51,9 +49,9 @@ public class ConstellationManager : MonoBehaviour
 			{
 				if (hit.transform.gameObject.name != "TestStar")
 				{
-					Debug.Log(hit.transform.gameObject.name);
-					BreakLink(link);
-					destroyedLinks.Add(link);
+					//Debug.Log(hit.transform.gameObject.name);
+					//BreakLink(link);
+					//destroyedLinks.Add(link);
 				}
 			}
 		}
@@ -154,12 +152,6 @@ public class ConstellationManager : MonoBehaviour
 	protected void LinkStars()
 	{
 
-	}
-
-	protected IEnumerator DelayedFlyAway()
-	{
-		yield return new WaitForSeconds(5);
-		CompleteConstellation();
 	}
 
 	protected IEnumerator ConstellationFlyAway(GameData.Constellation constellation)
