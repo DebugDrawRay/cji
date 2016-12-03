@@ -17,6 +17,8 @@ public class StarManager : MonoBehaviour
 
     public float spawnY;
 
+    public float starSize;
+
     void Awake()
     {
         ActiveStars = new GameObject("ActiveStars");
@@ -42,7 +44,7 @@ public class StarManager : MonoBehaviour
             //Instantiate(StarToSpawn, transform.position, Quaternion.identity);
             Vector3 aSpawnPos = GetSpawnPos();
 
-            DetermineIfSpawnNewObjOrUsePooledObj(aSpawnPos, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+            DetermineIfSpawnNewObjOrUsePooledObj(aSpawnPos, new Vector3(0, 0, 0), new Vector3(starSize, starSize, starSize));
 
             //reset timer
             GetNewSpawnTime();
@@ -79,7 +81,6 @@ public class StarManager : MonoBehaviour
     //spawns a new object when there's not any inactive pooled objects to use
     void SpawnNewPooledObj(Vector3 thePos, Vector3 theRotation, Vector3 theScale)
     {
-        print("spawn new object");
         GameObject a = Instantiate(StarToSpawn, thePos, Quaternion.Euler(theRotation.x, theRotation.y, theRotation.z)) as GameObject;
         a.name = "Star";
         a.transform.localScale = theScale;
@@ -90,7 +91,6 @@ public class StarManager : MonoBehaviour
     //moves an inactive pooled object to the appropriate place and then makes it set active
     void MovePooledObj(Vector3 thePos, Vector3 theRotation, Vector3 theScale)
     {
-        print("move pooled object");
 
         GameObject thePooledObj = InactiveStars.transform.GetChild(0).gameObject;
 
