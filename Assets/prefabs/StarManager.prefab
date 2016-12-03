@@ -51,11 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfbb2857d1e7e0041a5fbb4a724a50f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StarToSpawn: {fileID: 1000011246717716, guid: 4e14bc4c850c0354fa890ca3d7499822,
-    type: 2}
-  SpawnTimerMin: 1
-  SpawnTimerMax: 2
-  SpawnTimer: 0
-  spawnXMin: -4
-  spawnXMax: 4
-  spawnY: 5
+  StarsToSpawn:
+  - {fileID: 1000013361512614, guid: e84f55e44076051459578d604b5fdeac, type: 2}
+  starSize: 1
