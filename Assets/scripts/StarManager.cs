@@ -10,6 +10,8 @@ public class StarManager : MonoBehaviour
 
     private float SpawnTimer;
 
+    public float starScale;
+
     void Awake()
     {
         ActiveStars = new GameObject("ActiveStars");
@@ -58,7 +60,8 @@ public class StarManager : MonoBehaviour
     {
         //print("spawn new object");
         GameObject a = Instantiate(StarsToSpawn[Random.Range(0, StarsToSpawn.Length)], pos, rot, InactiveStars.transform) as GameObject;
-        a.transform.localScale = scale;
+        //a.transform.localScale = scale;
+        a.transform.localScale = new Vector3(starScale, starScale, starScale);
         a.name = "Star";
         a.GetComponent<PooledObject>().MyParent = InactiveStars;
     }
@@ -69,7 +72,8 @@ public class StarManager : MonoBehaviour
         GameObject thePooledObj = InactiveStars.transform.GetChild(0).gameObject;
         thePooledObj.transform.position = pos;
         thePooledObj.transform.rotation = rot;
-        thePooledObj.transform.localScale = scale;
+        //thePooledObj.transform.localScale = scale;
+        thePooledObj.transform.localScale = new Vector3(starScale, starScale, starScale);
         thePooledObj.transform.SetParent(ActiveStars.transform);
         thePooledObj.GetComponent<StarController>().StartMovement();
     }

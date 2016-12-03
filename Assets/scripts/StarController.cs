@@ -17,6 +17,8 @@ public class StarController : MonoBehaviour
     [HideInInspector]
     public GameData.Star starData;
 
+    //public float starSize;
+
     void Awake()
     {
         starData = new GameData.Star(this);
@@ -29,6 +31,8 @@ public class StarController : MonoBehaviour
         //parent = GameObject.Find("InactiveStars").transform;
 
         starSpeed = Random.Range(GameData.minStarSpeed, GameData.maxStarSpeed);
+
+        //transform.localScale = new Vector3(starSize, starSize, starSize);
 
         StartMovement();
 	}
