@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         actions = PlayerActions.BindAll();
         rigid = GetComponent<Rigidbody>();
+        constManager = ConstellationManager.Instance;
     }
 
     void Update()
@@ -54,15 +55,15 @@ public class PlayerController : MonoBehaviour
         {
             if(isStar == lastStar)
             {
-                lastStar = null;
-                constManager.BreakConstellation();
+                //lastStar = null;
+                //constManager.BreakConstellation();
             }
             else
             {
                 lastStar = isStar;
                 isStar.StopMovement();
-                GameData.Star constStar = new GameData.Star(isStar.transform.position);
-                constManager.AddStar(constStar);
+                isStar.starData.Position = isStar.transform.position;
+                constManager.AddStar(isStar.starData);
             }
         }
     }
