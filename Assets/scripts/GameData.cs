@@ -42,4 +42,9 @@ public static class GameData
 			Stars = new Dictionary<Guid, Star>();
 		}
 	}
+
+    //Constants 
+    public const float levelLength = 15;
+    public const float levelSpeedScale = 0.5f;
+    public const float levelSpeed = 1;
 }
