@@ -29,9 +29,9 @@ public class ConstellationManager : MonoBehaviour
 	protected Guid? LastStarId;
 	protected List<GameData.Link> Links;
 
-    GameObject player;
+	GameObject player;
 
-    public GameObject starHitCometParticle;
+	public GameObject starHitCometParticle;
 
 	void Awake()
 	{
@@ -43,7 +43,7 @@ public class ConstellationManager : MonoBehaviour
 		ConstellationNameSetup();
 	}
 
-	void Start ()
+	void Start()
 	{
 		Constellations = new List<GameData.Constellation>();
 	}
@@ -96,7 +96,7 @@ public class ConstellationManager : MonoBehaviour
 				var linkObject = Instantiate(LinkPrefab);
 				var line = linkObject.GetComponent<LineRenderer>();
 				line.useWorldSpace = false;
-				
+
 				if (StarLinkParent != null)
 				{
 					linkObject.transform.SetParent(StarLinkParent);
@@ -112,17 +112,8 @@ public class ConstellationManager : MonoBehaviour
 				Links.Add(link);
 				InvincibilityCountdown = InvincibiltyCountdownMax;
 			}
-			else
-			{
-				Debug.Log("Link already exists");
-			}
 		}
-		else
-		{
-			Debug.Log("Last star is null");
-		}
-
-		Debug.Log("Setting Last Star");
+		
 		LastStarId = star.StarId;
 	}
 
@@ -145,7 +136,7 @@ public class ConstellationManager : MonoBehaviour
 			SpriteRenderer bgSpriteRenderer = constellationBackgorund.AddComponent<SpriteRenderer>();
 			bgSpriteRenderer.sprite = GetRandomConstellationImage();
 			bgSpriteRenderer.color = ConstellationBackgroundColor;
-			
+
 
 			string constellationName = GenerateConstellationName(Stars.Keys.Count);
 			constellation.ConstellationName = constellationName;
@@ -167,21 +158,23 @@ public class ConstellationManager : MonoBehaviour
 			}
 
 			//Send data to Visualization and score
-            //Score
-            int score = GameData.scorePerStar;
-            float totalConnections = 1 + (GameData.scoreConnectionMulti * constellation.Links.Count);
-            float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
-            GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
-            UiController.TriggerScoreData(constellation.Stars.Count, constellation.Links.Count, score, constellationName);
+			//Score
+			int score = GameData.scorePerStar;
+			float totalConnections = 1 + (GameData.scoreConnectionMulti * constellation.Links.Count);
+			float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
+			GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
+			UiController.TriggerScoreData(constellation.Stars.Count, constellation.Links.Count, score, constellationName);
 
 			Stars.Clear();
 			Links.Clear();
 
-            constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InBack);
-            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationComplete);
-            AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[(int)SoundBank.SoundEffects.ConstellationComplete], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);
-            //StartCoroutine(ConstellationFlyAway(constellation));
-            return true;
+			Tweener tween = constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InOutBack);
+			tween.OnComplete(() => DestroyConstellation(constellation));
+
+			AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationComplete);
+			AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[(int)SoundBank.SoundEffects.ConstellationComplete], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);
+			//StartCoroutine(ConstellationFlyAway(constellation));
+			return true;
 		}
 		else
 		{
@@ -253,7 +246,7 @@ public class ConstellationManager : MonoBehaviour
 		{
 			Stars[keys[i]].Controller.StartMovement(1.4f);
 			Stars[keys[i]].Controller.FadeOutStar();
-         //Stars[keys[i]].Controller.Shrinkle();
+			//Stars[keys[i]].Controller.Shrinkle();
 		}
 
 		//Destroy Links
@@ -265,11 +258,11 @@ public class ConstellationManager : MonoBehaviour
 
 		Stars = new Dictionary<Guid, GameData.Star>();
 		Links = new List<GameData.Link>();
-        AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
+		AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
 
-    }
+	}
 
-    protected void CheckStrandedStar(GameData.Star star)
+	protected void CheckStrandedStar(GameData.Star star)
 	{
 		if (star.LinkedStars.Count <= 0)
 		{
@@ -320,11 +313,11 @@ public class ConstellationManager : MonoBehaviour
 		{
 			GameData.Star star = constellation.Stars[starId];
 
-            //Pushback
-            Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
+			//Explosion
+			Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
 
 			//Pushback
-			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+			float strength = GameData.baseStrength + (GameData.strengthMultiplier * star.LinkedStars.Count);
 			GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
 
 			BreakStarLink(constellation, starId);
@@ -332,10 +325,10 @@ public class ConstellationManager : MonoBehaviour
 			{
 				Destroy(constellation.ConstellationParent);
 			}
-            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationHit);
+			AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationHit);
 
-        }
-    }
+		}
+	}
 
 	protected Vector2 GetAverageStarPosition(GameData.Star[] stars)
 	{
@@ -364,7 +357,7 @@ public class ConstellationManager : MonoBehaviour
 		ConstellationNouns = ConstellationNounsText.text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 		ConstellationAdjectives = ConstellationAdjectivesText.text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 	}
-	
+
 	protected string GenerateConstellationName(int starCount)
 	{
 		int wordCount = Mathf.Max(1, Mathf.FloorToInt(starCount / 2));
@@ -383,8 +376,6 @@ public class ConstellationManager : MonoBehaviour
 	}
 
 	#endregion
-
-
 
 	#region Workshop
 
