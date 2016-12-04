@@ -40,6 +40,8 @@ public class GameController : MonoBehaviour
     private int currentAccelerationLevel;
     private bool inDanger;
 
+	protected float levelTimer;
+
     [Header("Star Properties")]
     public StarManager starMan;
 
@@ -121,6 +123,7 @@ public class GameController : MonoBehaviour
         currentDistance = GameData.cometStartY;
         timeToSpeedIncrease = GameData.accelerationIncreaseRate;
         currentAccelerationLevel = 0;
+		  levelTimer = GameData.levelTime;
     }
 
     void RunStates()
@@ -140,6 +143,7 @@ public class GameController : MonoBehaviour
                 break;
             case State.InGame:
                 UpdateComet();
+				    UpdateLevel();
                 UpdateUi();
                 break;
             case State.Pause:
@@ -178,6 +182,24 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+	void UpdateLevel()
+	{
+		if (currentAccelerationLevel < GameData.cometAcelerationLevels.Length - 1)
+		{
+			if (levelTimer <= 0)
+			{
+				levelTimer = GameData.levelTime;
+				currentAccelerationLevel++;
+				starMan.spawnLevel++;
+				Debug.Log("NEW LEVEL: " + currentAccelerationLevel);
+			}
+			else
+			{
+				levelTimer -= Time.deltaTime;
+			}
+		}
+	}
 
     void UpdateUi()
     {
