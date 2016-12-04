@@ -245,8 +245,8 @@ public class ConstellationManager : MonoBehaviour
 		var keys = new List<Guid>(Stars.Keys);
 		for (int i = 0; i < Stars.Count; i++)
 		{
-			Stars[keys[i]].Controller.StartMovement();
-			Stars[keys[i]].Controller.DeactivateCollider();
+			Stars[keys[i]].Controller.StartMovement(1.4f);
+			Stars[keys[i]].Controller.FadeOutStar();
          //Stars[keys[i]].Controller.Shrinkle();
 		}
 
