@@ -99,13 +99,9 @@ public class UiController : MonoBehaviour
         ScoreDataEvent += AddToScoreFeed;
         KillScreenEvent += DisplayKillScreen;
         VelocityEvent += DisplayVelocity;
-<<<<<<< HEAD
         ConstellationEvent += distanceMeter.DisplayConstellation;
-    }
-=======
-		  ConstellationFadeEvent += FadeInConstellation;
+        ConstellationFadeEvent += FadeInConstellation;
 	 }
->>>>>>> origin/AmandaTheGoodOne
 
     void OnDestroy()
     {
@@ -115,12 +111,9 @@ public class UiController : MonoBehaviour
         ScoreDataEvent -= AddToScoreFeed;
         KillScreenEvent -= DisplayKillScreen;
         VelocityEvent -= DisplayVelocity;
-<<<<<<< HEAD
         ConstellationEvent -= distanceMeter.DisplayConstellation;
+        ConstellationFadeEvent -= FadeInConstellation;
 
-=======
-		  ConstellationFadeEvent -= FadeInConstellation;
->>>>>>> origin/AmandaTheGoodOne
     }
 
     void DisplayScore(int score)

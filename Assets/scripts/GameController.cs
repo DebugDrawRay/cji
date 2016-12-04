@@ -90,10 +90,6 @@ public class GameController : MonoBehaviour
         starMan = GetComponent<StarManager>();
     }
 
-    void Start()
-    {
-    }
-
     void AssignEvents()
     {
         CometCollisionEvent += AddDistanceToComet;
@@ -119,7 +115,7 @@ public class GameController : MonoBehaviour
         {
             GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
             cometRigid = newComet.GetComponent<Rigidbody>();
-				cometRotate = newComet.GetComponentInChildren<Rotate>();
+            cometRotate = newComet.GetComponentInChildren<Rotate>();
         }
     }
 
@@ -128,7 +124,7 @@ public class GameController : MonoBehaviour
         currentDistance = GameData.cometStartY;
         timeToSpeedIncrease = GameData.accelerationIncreaseRate;
         currentAccelerationLevel = 0;
-		  levelTimer = GameData.levelTime;
+        levelTimer = GameData.levelTime;
     }
 
     void RunStates()
@@ -141,6 +137,7 @@ public class GameController : MonoBehaviour
                 currentState = State.Start;
                 break;
             case State.Start:
+                UpdateUi();
                 InvokeRepeating("UpdateMeters", 0, .15f);
                 AudioController.Instance.StartMusic();
                 StartCoroutine(StartSequence());
