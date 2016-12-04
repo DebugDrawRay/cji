@@ -177,7 +177,6 @@ public class GameController : MonoBehaviour
         UiController.TriggerDistanceEvent(currentDistance);
     }
 
-    [ContextMenu("Do it sweet child")]
     void AddDistanceToComet(float strength, float speed)
     {
         hit = true;

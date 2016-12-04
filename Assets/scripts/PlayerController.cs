@@ -98,10 +98,11 @@ public class PlayerController : MonoBehaviour
 			{
 				Camera.main.GetComponent<CameraController>().DoScreenShake();
 				constManager.BreakConstellation();
+                isStar.FadeOutStar();
 				ChangeColor(GameData.StarType.None);
 				lastStar = null;
-			}
-			else
+            }
+            else
 			{
 				lastStar = isStar;
 				isStar.StopMovement();
@@ -114,17 +115,19 @@ public class PlayerController : MonoBehaviour
 				isStar.starData.Position = isStar.transform.position;
 				ChangeColor(isStar.theStarType);
 				constManager.AddStar(isStar.starData);
-			}
-		}
+                AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.StarGood));
+            }
+        }
 
 		if (hit.gameObject.tag == cometTag)
 		{
 			//KILL THE WORLD 
 			GameController.TriggerEndGame();
+            AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationBroken));
 			gameObject.SetActive(false);
-		}
+        }
 
-	}
+    }
 
 	public void ChangeColor(GameData.StarType type)
 	{

@@ -12,8 +12,14 @@ public class SoundBank : MonoBehaviour
 
     public enum SoundEffects
     {
-
+        StarGood,
+        StarBad,
+        ConstellationHit,
+        ConstellationSent,
+        ConstellationComplete,
+        ConstellationBroken
     }
+    public AudioClip[] SoundEffectClips;
 
     public static SoundBank Instance;
 
@@ -26,5 +32,10 @@ public class SoundBank : MonoBehaviour
     {
         int index = (int)musicClip;
         return MusicTracks[index];
+    }
+    public AudioClip Request(SoundEffects soundEffect)
+    {
+        int index = (int)soundEffect;
+        return SoundEffectClips[index];
     }
 }

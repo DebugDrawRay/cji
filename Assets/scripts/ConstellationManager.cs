@@ -176,8 +176,10 @@ public class ConstellationManager : MonoBehaviour
 			Links.Clear();
 
             constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY, GameData.sendSpeed).SetEase(Ease.InBack);
-			//StartCoroutine(ConstellationFlyAway(constellation));
-			return true;
+            AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationComplete));
+            AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[AudioController.Instance.effectBus.Length - 1], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);
+            //StartCoroutine(ConstellationFlyAway(constellation));
+            return true;
 		}
 		else
 		{
@@ -261,9 +263,11 @@ public class ConstellationManager : MonoBehaviour
 
 		Stars = new Dictionary<Guid, GameData.Star>();
 		Links = new List<GameData.Link>();
-	}
+        AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationBroken));
 
-	protected void CheckStrandedStar(GameData.Star star)
+    }
+
+    protected void CheckStrandedStar(GameData.Star star)
 	{
 		if (star.LinkedStars.Count <= 0)
 		{
@@ -323,8 +327,10 @@ public class ConstellationManager : MonoBehaviour
 			{
 				Destroy(constellation.ConstellationParent);
 			}
-		}
-	}
+            AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationHit));
+
+        }
+    }
 
 	protected Vector2 GetAverageStarPosition(GameData.Star[] stars)
 	{
