@@ -9,12 +9,14 @@ public class ConstellationManager : MonoBehaviour
 	public static ConstellationManager Instance;
 
 	[Header("Constellation Things")]
+	public Transform ConstellationDisplayParent;
 	public TextAsset ConstellationNounsText;
 	public TextAsset ConstellationAdjectivesText;
 	protected string[] ConstellationNouns;
 	protected string[] ConstellationAdjectives;
 	public Sprite[] ConstellationBackgrounds;
 	protected Color ConstellationBackgroundColor = new Color(1, 1, 1, 0.3f);
+	protected Color ConstellationDisplayBackgroundColor = new Color(1, 1, 1, 0.8f);
 
 	[Header("Scene Stuff")]
 	public GameObject LinkPrefab;
@@ -142,6 +144,7 @@ public class ConstellationManager : MonoBehaviour
 			constellation.ConstellationName = constellationName;
 			Debug.Log("Constellation Name:" + constellationName);
 
+
 			var keys = new List<Guid>(constellation.Stars.Keys);
 			for (int i = 0; i < keys.Count; i++)
 			{
@@ -168,8 +171,15 @@ public class ConstellationManager : MonoBehaviour
 			Stars.Clear();
 			Links.Clear();
 
+<<<<<<< HEAD
             UiController.TriggerConstellationEvent(constellationParent);
             Tweener tween = constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InOutBack);
+=======
+			//Create Mini
+			CreateDisplayConstellation(constellation);
+
+			Tweener tween = constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InOutBack);
+>>>>>>> origin/AmandaTheGoodOne
 			tween.OnComplete(() => DestroyConstellation(constellation));
 
 
@@ -381,27 +391,52 @@ public class ConstellationManager : MonoBehaviour
 
 	#region Workshop
 
-	//protected void CreateDisplayConstellation(GameObject original)
-	//{
-	//	//Duplicate Constellation
-	//	var duplicateConstellation = Instantiate(original);
-	//	for (int i = 0; i < duplicateConstellation.transform.childCount; i++)
-	//	{
-	//		var child = duplicateConstellation.transform.GetChild(i);
-	//		var poolComp = child.GetComponentInChildren<PooledObject>();
-	//		Destroy(poolComp);
+	protected void CreateDisplayConstellation(GameData.Constellation original)
+	{
+		//Remove previous constellations
+		for (int i = 0; i < ConstellationDisplayParent.childCount; i++)
+		{
+			Destroy(ConstellationDisplayParent.GetChild(0).gameObject);
+		}
 
-	//		var starComp = child.GetComponentInChildren<StarController>();
-	//		Destroy(starComp);
+		//Duplicate Constellation
+		GameObject duplicateConstellation = Instantiate(original.ConstellationParent);
+		for (int i = 0; i < duplicateConstellation.transform.childCount; i++)
+		{
+			var child = duplicateConstellation.transform.GetChild(i);
+			var poolComp = child.GetComponentInChildren<PooledObject>();
+			Destroy(poolComp);
 
-	//		var lineComp = child.GetComponentInChildren<LineRenderer>();
-	//		if (lineComp != null)
-	//			lineComp.SetWidth(0.02f, 0.02f);
-	//	}
-	//	duplicateConstellation.transform.SetParent(ConstellationDisplayParent);
-	//	duplicateConstellation.transform.localScale = Vector3.one;
-	//	duplicateConstellation.transform.localPosition = new Vector3(0, 4 * ConstellationDisplayParent.childCount, 0);
-	//}
+			child.tag = "DisplayStar";
+
+			var starComp = child.GetComponentInChildren<StarController>();
+			Destroy(starComp);
+
+			var lineComp = child.GetComponentInChildren<LineRenderer>();
+			if (lineComp != null)
+				lineComp.SetWidth(0.03f, 0.03f);
+		}
+
+		//Up opacity on background
+		SpriteRenderer background = duplicateConstellation.transform.FindChild("Background").GetComponent<SpriteRenderer>();
+		background.color = ConstellationDisplayBackgroundColor;
+
+		Vector3 center = GetAverageStarPosition(new List<GameData.Star>(original.Stars.Values).ToArray());
+
+		duplicateConstellation.transform.SetParent(ConstellationDisplayParent);
+		duplicateConstellation.transform.localScale = Vector3.one;
+		duplicateConstellation.transform.localPosition = Vector3.zero - center;
+
+		UiController.TriggerConstellationFadeEvent(true);
+		StartCoroutine(DisplayConstellationSuicide(duplicateConstellation));
+	}
+
+	protected IEnumerator DisplayConstellationSuicide(GameObject constellation)
+	{
+		yield return new WaitForSeconds(4);
+		if (constellation != null)
+			Destroy(constellation);
+	}
 
 	#endregion
 }
