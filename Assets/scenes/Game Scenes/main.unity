@@ -302,6 +302,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000010813693184, guid: 5c685d516722a0648b465920dc785652,
+        type: 2}
+      propertyPath: ConstellationBackgrounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014116261094, guid: 5c685d516722a0648b465920dc785652, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -334,6 +339,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010813693184, guid: 5c685d516722a0648b465920dc785652,
+        type: 2}
+      propertyPath: ConstellationBackgrounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9e96014b1dcd4684da499f4e57d275a7,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c685d516722a0648b465920dc785652, type: 2}
   m_IsPrefabParent: 0

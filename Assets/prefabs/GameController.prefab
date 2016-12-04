@@ -136,6 +136,7 @@ MonoBehaviour:
   ConstellationBackgrounds:
   - {fileID: 21300000, guid: 0e9178c49bb0a764aa0137c693eb46b5, type: 3}
   - {fileID: 21300000, guid: fa19e10bacecbd849a5b914828a6948e, type: 3}
+  - {fileID: 21300000, guid: 9e96014b1dcd4684da499f4e57d275a7, type: 3}
   LinkPrefab: {fileID: 191624, guid: c74daa68dcd86564e9f0953017e146d5, type: 2}
   StarLinkParent: {fileID: 0}
 --- !u!114 &114000011840028696
