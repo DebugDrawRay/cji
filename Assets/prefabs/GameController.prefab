@@ -142,6 +142,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fa19e10bacecbd849a5b914828a6948e, type: 3}
   - {fileID: 21300000, guid: 9e96014b1dcd4684da499f4e57d275a7, type: 3}
   - {fileID: 21300000, guid: dc53037665653c14db3c3a1f594d4234, type: 3}
+  - {fileID: 21300000, guid: 6a92563d1c52d6848b81adffe60a11b0, type: 3}
+  - {fileID: 21300000, guid: bc332ba2a661aad44a50b187767f11f0, type: 3}
+  - {fileID: 21300000, guid: 554be82e4e291d545aa9910dcb08863d, type: 3}
   LinkPrefab: {fileID: 191624, guid: c74daa68dcd86564e9f0953017e146d5, type: 2}
   StarLinkParent: {fileID: 0}
 --- !u!114 &114000011350973540
