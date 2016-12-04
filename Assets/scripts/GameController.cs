@@ -241,17 +241,29 @@ public class GameController : MonoBehaviour
 
     void EndGame()
     {
-        currentState = State.End;
+		currentState = State.Transition;
+		StartCoroutine(EndSequence());
+        //currentState = State.End;
     }
 
     IEnumerator StartSequence()
     {
         cometRigid.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel);
         yield return new WaitUntil(() => cometRigid.transform.position.y >= GameData.cometStartY);
-        currentPlayer.transform.DOMoveY(GameData.playerStartY, GameData.playerStartAccel);
+        currentPlayer.transform.DOMoveY(GameData.playerStartY, GameData.cometStartAccel);
         yield return new WaitUntil(() => currentPlayer.transform.position.y >= GameData.playerStartY);
         currentPlayer.GetComponent<PlayerController>().canMove = true;
         starMan.enabled = true;
         currentState = State.InGame;
     }
+
+	IEnumerator EndSequence()
+	{
+		cometRigid.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel * 1.2f);
+		currentPlayer.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel * 1.2f).SetEase(Ease.InOutBack);
+		yield return new WaitUntil(() => cometRigid.transform.position.y >= GameData.cometStartY);
+		currentPlayer.GetComponent<PlayerController>().canMove = false;
+		starMan.enabled = false;
+		currentState = State.End;
+	}
 }
