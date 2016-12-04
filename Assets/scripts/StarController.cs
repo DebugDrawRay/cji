@@ -118,4 +118,10 @@ public class StarController : MonoBehaviour
     {
         
     }
+
+    public void DoBoing()
+    {
+        starBoing.gameObject.SetActive(true);
+        delayBeforeSecondBoingTimer = delayBeforeSecondBoingTimerBase;
+    }
 }

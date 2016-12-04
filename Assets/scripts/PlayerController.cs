@@ -87,11 +87,13 @@ public class PlayerController : MonoBehaviour
             {
                 lastStar = isStar;
                 isStar.StopMovement();
-                //isStar.starBoing.GetComponent<StarBoingController>().StartGrowing();
-                isStar.starBoing.gameObject.SetActive(true);//active the star boing
+                //isStar.starBoing.gameObject.SetActive(true);//activate the star boing
 
-                StarController isStarStarCont = isStar.GetComponent<StarController>();
-                isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
+                //StarController isStarStarCont = isStar.GetComponent<StarController>();
+                //isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
+                isStar.DoBoing();
+
+                FindAllStarsOfSameTypeAndBoingThem(isStar);
 
                 isStar.starData.Position = isStar.transform.position;
                 ChangeColor(isStar.theStarType);
@@ -127,6 +129,35 @@ public class PlayerController : MonoBehaviour
             case GameData.StarType.None:
                 render.material = NormalMat;
                 break;
+        }
+    }
+
+    void FindAllStarsOfSameTypeAndBoingThem(StarController _isStar)
+    {
+        GameObject[] allStars = GameObject.FindGameObjectsWithTag("Star");
+
+        for (int i = 0; i < allStars.Length; i++)
+        {
+            if (_isStar.theStarType == allStars[i].GetComponent<StarController>().theStarType)//if the star that is passed is the same as the star that you come across in the array
+            {
+                //ping the star in the allStars array
+                if(allStars[i].activeSelf == true)//make sure it's active
+                {
+                    allStars[i].GetComponent<StarController>().DoBoing();//boing it
+                }
+            }
+            /*else if (_isStar.theStarType == GameData.StarType.Square)
+            {
+
+            }
+            else if (_isStar.theStarType == GameData.StarType.Triangle)
+            {
+
+            }
+            else if (_isStar.theStarType == GameData.StarType.Star)
+            {
+
+            }*/
         }
     }
 }

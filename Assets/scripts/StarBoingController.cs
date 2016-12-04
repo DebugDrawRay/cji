@@ -38,8 +38,14 @@ public class StarBoingController : MonoBehaviour {
 
     void OnEnable()
     {
+        timeBeforeInvis = timeBeforeInvisBase;
         transform.localScale = startScale;
         startedGrowing = true;
+    }
+
+    void OnDisable()
+    {
+        //startedGrowing = false;
     }
 
     public void StopGrowing()
