@@ -56,10 +56,23 @@ public class UiController : MonoBehaviour
         }
     }
 
-    public Text scoreDisplay;
+	public static Message<bool> ConstellationFadeEvent;
+	public static void TriggerConstellationFadeEvent(bool stuff)
+	{
+		if (ConstellationFadeEvent != null)
+		{
+			ConstellationFadeEvent(stuff);
+		}
+	}
+
+	public Text scoreDisplay;
     public Text distanceDisplay;
     public DistanceMeter distaceMeter;
     public Text velocityDisplay;
+
+	 public RawImage ConstellationDisplay;
+	 protected IEnumerator ConstellationFadeIn;
+	 protected IEnumerator ConstellationFadeOut;
 
     public GameObject killScreen;
     private Tween currentTween;
@@ -77,8 +90,8 @@ public class UiController : MonoBehaviour
         ScoreDataEvent += AddToScoreFeed;
         KillScreenEvent += DisplayKillScreen;
         VelocityEvent += DisplayVelocity;
-
-    }
+		  ConstellationFadeEvent += FadeInConstellation;
+	 }
 
     void OnDestroy()
     {
@@ -88,6 +101,7 @@ public class UiController : MonoBehaviour
         ScoreDataEvent -= AddToScoreFeed;
         KillScreenEvent -= DisplayKillScreen;
         VelocityEvent -= DisplayVelocity;
+		  ConstellationFadeEvent -= FadeInConstellation;
     }
 
     void DisplayScore(int score)
@@ -120,4 +134,51 @@ public class UiController : MonoBehaviour
     {
         killScreen.SetActive(true);
     }
+
+	void FadeInConstellation(bool stuff)
+	{
+		if (ConstellationFadeIn != null)
+			StopCoroutine(ConstellationFadeIn);
+
+		ConstellationFadeIn = FadeInConstellationWork();
+		StartCoroutine(ConstellationFadeIn);
+	}
+
+	IEnumerator FadeInConstellationWork()
+	{
+		ConstellationFadeOut = FadeOutConstellationWork();
+		StopCoroutine(ConstellationFadeOut);
+		Debug.Log("Starting fade in");
+
+		float t = 0;
+		Color color = ConstellationDisplay.color;
+
+		while (color.a < 1)
+		{
+			color.a = Mathf.Lerp(0, 1, t);
+			ConstellationDisplay.color = color;
+			t += (Time.deltaTime * 2);
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(2);
+
+		StartCoroutine(ConstellationFadeOut);
+	}
+
+	IEnumerator FadeOutConstellationWork()
+	{
+		float t = 0;
+		Color color = Color.white;
+
+		while (color.a > 0)
+		{
+			color.a = Mathf.Lerp(1, 0, t);
+			ConstellationDisplay.color = color;
+			t += Time.deltaTime;
+			yield return null;
+		}
+
+		yield return null;
+	}
 }
