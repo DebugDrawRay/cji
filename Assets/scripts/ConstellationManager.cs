@@ -25,7 +25,7 @@ public class ConstellationManager : MonoBehaviour
 
 	protected List<GameData.Constellation> Constellations;
 	protected Dictionary<Guid, GameData.Star> Stars;
-	protected GameData.Star LastStar;
+	protected Guid? LastStarId;
 	protected List<GameData.Link> Links;
 
     GameObject player;
@@ -35,7 +35,7 @@ public class ConstellationManager : MonoBehaviour
 		Instance = this;
 		Stars = new Dictionary<Guid, GameData.Star>();
 		Links = new List<GameData.Link>();
-		LastStar = null;
+		LastStarId = null;
 
 		ConstellationNameSetup();
 	}
@@ -67,18 +67,26 @@ public class ConstellationManager : MonoBehaviour
 		}
 
 		//There is a last star
-		if (LastStar != null)
+		if (LastStarId != null)
 		{
+			GameData.Star lastStar = Stars[(Guid)LastStarId];
+
 			//Is not currently linked to star
-			if (!LastStar.LinkedStars.Contains(star.StarId))
+			if (!lastStar.LinkedStars.Contains(star.StarId) || !star.LinkedStars.Contains(lastStar.StarId))
 			{
+				//Error Checking - make sure links are being properly linked to both stars
+				if (lastStar.LinkedStars.Contains(star.StarId) != star.LinkedStars.Contains(lastStar.StarId))
+					Debug.Log("Previous Linkes weren't properly created");
+
 				//Link Stars to Eachother
-				LastStar.LinkedStars.Add(star.StarId);
-				star.LinkedStars.Add(star.StarId);
+				if (!lastStar.LinkedStars.Contains(star.StarId))
+					lastStar.LinkedStars.Add(star.StarId);
+				if (!star.LinkedStars.Contains(lastStar.StarId))
+					star.LinkedStars.Add(lastStar.StarId);
 
 				//Create Link
 				var link = new GameData.Link();
-				link.StarIds.Add(LastStar.StarId);
+				link.StarIds.Add(lastStar.StarId);
 				link.StarIds.Add(star.StarId);
 
 				//Create Link Object
@@ -93,7 +101,7 @@ public class ConstellationManager : MonoBehaviour
 				}
 
 				link.LineComponent = line;
-				link.StartPos = LastStar.Position;
+				link.StartPos = lastStar.Position;
 				link.EndPos = star.Position;
 				line.SetPosition(0, link.StartPos);
 				line.SetPosition(1, link.EndPos);
@@ -101,9 +109,18 @@ public class ConstellationManager : MonoBehaviour
 				Links.Add(link);
 				InvincibilityCountdown = InvincibiltyCountdownMax;
 			}
+			else
+			{
+				Debug.Log("Link already exists");
+			}
+		}
+		else
+		{
+			Debug.Log("Last star is null");
 		}
 
-		LastStar = star;
+		Debug.Log("Setting Last Star");
+		LastStarId = star.StarId;
 	}
 
 	public bool CompleteConstellation()
@@ -111,7 +128,7 @@ public class ConstellationManager : MonoBehaviour
 		Debug.Log("Complete Constellation");
 		if (Stars.Count >= GameData.minimumStars)
 		{
-			LastStar = null;
+			LastStarId = null;
 			var constellation = new GameData.Constellation();
 			constellation.Stars = new Dictionary<Guid, GameData.Star>(Stars);
 			constellation.Links = new List<GameData.Link>(Links);
@@ -194,6 +211,9 @@ public class ConstellationManager : MonoBehaviour
 			constellation.Links.Remove(link);
 		}
 
+		//Return to original layer
+		star.Controller.UpdateLayerToStar();
+
 		//Remove star from constellation
 		constellation.Stars.Remove(starId);
 		PooledObject pool = star.Controller.gameObject.GetComponent<PooledObject>();
@@ -215,7 +235,7 @@ public class ConstellationManager : MonoBehaviour
 
 	public void BreakConstellation()
 	{
-		LastStar = null;
+		LastStarId = null;
 
 		//Release Stars
 		var keys = new List<Guid>(Stars.Keys);

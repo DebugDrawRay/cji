@@ -72,6 +72,11 @@ public class StarController : MonoBehaviour
 		gameObject.layer = LayerMask.NameToLayer("SentStars");
 	}
 
+	public void UpdateLayerToStar()
+	{
+		gameObject.layer = LayerMask.NameToLayer("Stars");
+	}
+
 	public void DeactivateCollider()
 	{
 		GetComponent<Collider>().enabled = false;
