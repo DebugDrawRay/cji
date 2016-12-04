@@ -137,6 +137,10 @@ public class ConstellationManager : MonoBehaviour
 				constellation.Links[i].LineComponent.gameObject.transform.SetParent(constellationParent.transform);
 			}
 
+			//Send data to Visualization and score
+			int score = constellation.Stars.Count * constellation.Links.Count;
+			UiController.TriggerScoreData(constellation.Stars.Count, constellation.Links.Count, score, constellationName);
+
 			Stars.Clear();
 			Links.Clear();
 
@@ -204,6 +208,7 @@ public class ConstellationManager : MonoBehaviour
 
 	public void BreakConstellation()
 	{
+		Debug.Log("Resetting Constellation");
 		LastStar = null;
 
 		//Release Stars

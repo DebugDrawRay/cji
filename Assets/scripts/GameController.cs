@@ -34,6 +34,8 @@ public class GameController : MonoBehaviour
     [Header("Debug")]
     public bool spawnComet;
 
+
+    //Events
     public delegate void CollisionEvent(float strength, float speed);
     public static event CollisionEvent CometCollisionEvent;
 
@@ -55,6 +57,17 @@ public class GameController : MonoBehaviour
             AddScoreEvent(score);
         }
 
+    }
+
+    public delegate void Trigger();
+    public static event Trigger EndGameTrigger;
+
+    public static void TriggerEndGame()
+    {
+        if(EndGameTrigger != null)
+        {
+            EndGameTrigger();
+        }
     }
 
     void Awake()
@@ -102,6 +115,7 @@ public class GameController : MonoBehaviour
             case State.Pause:
                 break;
             case State.End:
+                Debug.Log("HAHAHAHAH LOSER AHHHHHHHHHHHHAHAHAHAH");
                 break;
         }
     }
@@ -136,5 +150,10 @@ public class GameController : MonoBehaviour
     void AddScore(int score)
     {
         currentScore += score;
+    }
+
+    void EndGame()
+    {
+        currentState = State.End;
     }
 }

@@ -14,6 +14,6 @@ public class CameraController : MonoBehaviour
 
     public void DoScreenShake()
     {
-        GetComponent<Camera>().DOShakePosition(duration, strength, vibrato, randomness);
+        transform.DOShakePosition(duration, strength, vibrato, randomness).OnComplete(() => transform.position = new Vector3(0,0, -10));
     }
 }
