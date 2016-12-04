@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour
 	protected Rotate cometRotate;
 	public bool frozen = false;
 
+	protected float cometBoostTimer = 0f;
+
     private float currentDistance;
     private float currentTarget;
 
@@ -61,6 +63,16 @@ public class GameController : MonoBehaviour
         }
     }
 
+	public delegate void BoostEvent();
+	public static event BoostEvent CometBoostEvent;
+	public static void TriggerCometBoost()
+	{
+		if (CometBoostEvent != null)
+		{
+			CometBoostEvent();
+		}
+	}
+
     public delegate void ScoreEvent(int score);
     public static event ScoreEvent AddScoreEvent;
 
@@ -93,6 +105,7 @@ public class GameController : MonoBehaviour
     void AssignEvents()
     {
         CometCollisionEvent += AddDistanceToComet;
+		  CometBoostEvent += BoostComet;
         AddScoreEvent += AddScore;
         EndGameTrigger += EndGame;
     }
@@ -100,6 +113,7 @@ public class GameController : MonoBehaviour
     void OnDestroy()
     {
         CometCollisionEvent -= AddDistanceToComet;
+		  CometBoostEvent -= BoostComet;
         AddScoreEvent -= AddScore;
         EndGameTrigger -= EndGame;
     }
@@ -163,7 +177,8 @@ public class GameController : MonoBehaviour
     {
 		if (!hit)
 		{
-			currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcelerationLevels[currentAccelerationLevel]);
+			float modifier = cometBoostTimer >= 0 ? GameData.cometBoostMultiplier : 1;
+			currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, modifier * GameData.cometAcelerationLevels[currentAccelerationLevel]);
 		}
 		cometRigid.transform.position = new Vector2(0, currentDistance);
 
@@ -183,6 +198,9 @@ public class GameController : MonoBehaviour
                 inDanger = false;
             }
         }
+
+		if (cometBoostTimer >= 0)
+			cometBoostTimer -= Time.deltaTime;
     }
 
 	void UpdateLevel()
@@ -202,6 +220,11 @@ public class GameController : MonoBehaviour
 				levelTimer -= Time.deltaTime;
 			}
 		}
+	}
+
+	void BoostComet()
+	{
+		cometBoostTimer += GameData.cometBoostTimerAdd;
 	}
 
     void UpdateUi()
@@ -253,6 +276,7 @@ public class GameController : MonoBehaviour
 	{
 		cometRigid.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel * 1.2f);
 		currentPlayer.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel * 1.2f).SetEase(Ease.InOutBack);
+		currentPlayer.transform.DOMoveX(0, GameData.cometStartAccel).SetEase(Ease.InOutBack);
 		yield return new WaitUntil(() => cometRigid.transform.position.y >= GameData.cometStartY);
 		currentPlayer.GetComponent<PlayerController>().canMove = false;
 		starMan.enabled = false;

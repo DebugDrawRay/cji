@@ -56,11 +56,14 @@ public class StarController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (transform.position.y < destroyStarWhenBelowThisYValue)
+		if (gameObject.layer == LayerMask.NameToLayer("Stars"))
 		{
-			StopMovement();
-			transform.position = new Vector3(0, 0, 0);
-			GetComponent<PooledObject>().ReturnToPool();
+			if (transform.position.y < destroyStarWhenBelowThisYValue)
+			{
+				StopMovement();
+				transform.position = new Vector3(0, 0, 0);
+				GetComponent<PooledObject>().ReturnToPool();
+			}
 		}
 
 		if (doShrink == true)
