@@ -320,15 +320,11 @@ public class ConstellationManager : MonoBehaviour
 		{
 			GameData.Star star = constellation.Stars[starId];
 
-<<<<<<< HEAD
             //Pushback
-            float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
-=======
             Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
 
 			//Pushback
 			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
->>>>>>> origin/Logan
 			GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
 
 			BreakStarLink(constellation, starId);

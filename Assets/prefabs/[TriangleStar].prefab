@@ -412,12 +412,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theStarType: 2
-  destroyStarWhenBelowThisYValue: -5
   starTriggered:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  destroyStarWhenBelowThisYValue: -5
   starData:
     Type: 0
     Position: {x: 0, y: 0, z: 0}
@@ -428,8 +428,6 @@ MonoBehaviour:
   delayBeforeSecondBoingTimerBase: 0.1
   delayBeforeSecondBoingTimer: 120
   theAnimator: {fileID: 95000011659409552}
-  starHitCometParticle: {fileID: 1000013988914792, guid: 7a02555c06b70004fb2e2e2a7fa0e2c3,
-    type: 2}
 --- !u!135 &135000012278163830
 SphereCollider:
   m_ObjectHideFlags: 1
