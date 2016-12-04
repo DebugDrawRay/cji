@@ -334,25 +334,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1000011565247668, guid: 5c685d516722a0648b465920dc785652, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010083928252, guid: 5c685d516722a0648b465920dc785652,
-        type: 2}
-      propertyPath: spawnComet
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010813693184, guid: 5c685d516722a0648b465920dc785652,
-        type: 2}
-      propertyPath: ConstellationAdjectivesText
-      value: 
-      objectReference: {fileID: 4900000, guid: c165b1f543a07c348a1e33792d21ab93, type: 3}
-    - target: {fileID: 114000010813693184, guid: 5c685d516722a0648b465920dc785652,
-        type: 2}
-      propertyPath: ConstellationNounsText
-      value: 
-      objectReference: {fileID: 4900000, guid: 81f2b42e38210c840a4cbe465c5ee1a1, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c685d516722a0648b465920dc785652, type: 2}
   m_IsPrefabParent: 0

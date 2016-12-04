@@ -10,9 +10,10 @@ public class ConstellationManager : MonoBehaviour
 	[Header("Constellation Things")]
 	public TextAsset ConstellationNounsText;
 	public TextAsset ConstellationAdjectivesText;
-	public string[] ConstellationNouns;
-	public string[] ConstellationAdjectives;
-	public Sprite[] Constellationbackgrounds;
+	protected string[] ConstellationNouns;
+	protected string[] ConstellationAdjectives;
+	public Sprite[] ConstellationBackgrounds;
+	protected Color ConstellationBackgroundColor = new Color(1, 1, 1, 0.3f);
 
 	[Header("Scene Stuff")]
 	public GameObject LinkPrefab;
@@ -117,6 +118,14 @@ public class ConstellationManager : MonoBehaviour
 
 			GameObject constellationParent = new GameObject("Constellation");
 			constellation.ConstellationParent = constellationParent;
+
+			GameObject constellationBackgorund = new GameObject("Background");
+			constellationBackgorund.transform.SetParent(constellationParent.transform);
+			constellationBackgorund.transform.position = GetAverageStarPosition(new List<GameData.Star>(constellation.Stars.Values).ToArray());
+			SpriteRenderer bgSpriteRenderer = constellationBackgorund.AddComponent<SpriteRenderer>();
+			bgSpriteRenderer.sprite = GetRandomConstellationImage();
+			bgSpriteRenderer.color = ConstellationBackgroundColor;
+			
 
 			string constellationName = GenerateConstellationName(Stars.Keys.Count);
 			constellation.ConstellationName = constellationName;
@@ -297,6 +306,25 @@ public class ConstellationManager : MonoBehaviour
 		}
 	}
 
+	protected Vector2 GetAverageStarPosition(GameData.Star[] stars)
+	{
+		float minX = stars[0].Position.x;
+		float minY = stars[0].Position.y;
+		float maxX = stars[0].Position.x;
+		float maxY = stars[0].Position.y;
+
+		for (int i = 1; i < stars.Length; i++)
+		{
+			var starPos = stars[i].Position;
+			minX = Mathf.Min(minX, starPos.x);
+			minY = Mathf.Min(minY, starPos.y);
+			maxX = Mathf.Max(maxX, starPos.x);
+			maxY = Mathf.Max(maxY, starPos.y);
+		}
+
+		return new Vector2(((float)minX + (float)maxX) / 2, ((float)minY + (float)maxY) / 2);
+	}
+
 
 	#region Constellation Name Generation
 
@@ -316,6 +344,11 @@ public class ConstellationManager : MonoBehaviour
 		}
 		finalName += ConstellationNouns[UnityEngine.Random.Range(0, ConstellationNouns.Length)];
 		return finalName;
+	}
+
+	protected Sprite GetRandomConstellationImage()
+	{
+		return ConstellationBackgrounds[UnityEngine.Random.Range(0, ConstellationBackgrounds.Length)];
 	}
 
 	#endregion
