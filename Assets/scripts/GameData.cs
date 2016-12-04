@@ -6,12 +6,17 @@ public static class GameData
 {
 	public enum StarType { Star, Circle, Triangle, Square, None };
 
+	[Serializable]
 	public class Star
 	{
+		//Data Objects
 		public Guid StarId;
 		public StarType Type;
 		public Vector3 Position;
 		public List<Guid> LinkedStars;
+
+		//Game Objects
+		[NonSerialized]
 		public StarController Controller;
 
 		public Star(StarController controller = null)
@@ -22,12 +27,16 @@ public static class GameData
 		}
 	}
 
+	[Serializable]
 	public class Link
 	{
+		//Data Objects
 		public List<Guid> StarIds;
-		public LineRenderer LineComponent;
 		public Vector3 StartPos;
 		public Vector3 EndPos;
+
+		//Game Objects
+		public LineRenderer LineComponent;
 
 		public Link()
 		{
@@ -37,9 +46,11 @@ public static class GameData
 
 	public class Constellation
 	{
+		public string ConstellationName;
 		public GameObject ConstellationParent;
 		public Dictionary<Guid, Star> Stars;
 		public List<Link> Links;
+		public Sprite Background;
 	}
 
     //Constants 
