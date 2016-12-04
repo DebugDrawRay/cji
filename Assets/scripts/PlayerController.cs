@@ -27,7 +27,10 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     [Header("Comet")]
-    public int cometLayer;
+    public string cometTag;
+
+    [Header("Stars")]
+    public LineRenderer line;
 
     void Awake()
     {
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CompleteConstellationListener();
+        DrawConstellationLine();
     }
 
     void FixedUpdate()
@@ -87,13 +91,11 @@ public class PlayerController : MonoBehaviour
             {
                 lastStar = isStar;
                 isStar.StopMovement();
-                //isStar.starBoing.gameObject.SetActive(true);//activate the star boing
+                //isStar.starBoing.GetComponent<StarBoingController>().StartGrowing();
+                isStar.starBoing.gameObject.SetActive(true);//active the star boing
 
-                //StarController isStarStarCont = isStar.GetComponent<StarController>();
-                //isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
-                isStar.DoBoing();
-
-                FindAllStarsOfSameTypeAndBoingThem(isStar);
+                StarController isStarStarCont = isStar.GetComponent<StarController>();
+                isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
 
                 isStar.starData.Position = isStar.transform.position;
                 ChangeColor(isStar.theStarType);
@@ -101,10 +103,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (hit.gameObject.layer == cometLayer)
+        if (hit.gameObject.tag == cometTag)
         {
             //KILL THE WORLD 
             GameController.TriggerEndGame();
+            gameObject.SetActive(false);
         }
 
     }
@@ -132,32 +135,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void FindAllStarsOfSameTypeAndBoingThem(StarController _isStar)
+    void DrawConstellationLine()
     {
-        GameObject[] allStars = GameObject.FindGameObjectsWithTag("Star");
+        line.enabled = (lastStar != null);
 
-        for (int i = 0; i < allStars.Length; i++)
+        if (lastStar != null)
         {
-            if (_isStar.theStarType == allStars[i].GetComponent<StarController>().theStarType)//if the star that is passed is the same as the star that you come across in the array
-            {
-                //ping the star in the allStars array
-                if(allStars[i].activeSelf == true)//make sure it's active
-                {
-                    allStars[i].GetComponent<StarController>().DoBoing();//boing it
-                }
-            }
-            /*else if (_isStar.theStarType == GameData.StarType.Square)
-            {
-
-            }
-            else if (_isStar.theStarType == GameData.StarType.Triangle)
-            {
-
-            }
-            else if (_isStar.theStarType == GameData.StarType.Star)
-            {
-
-            }*/
+            line.SetPosition(0, line.transform.position);
+            line.SetPosition(1, lastStar.transform.position);
         }
     }
 }
