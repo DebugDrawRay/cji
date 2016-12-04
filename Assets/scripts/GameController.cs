@@ -87,6 +87,11 @@ public class GameController : MonoBehaviour
         AssignEvents();
         starMan = GetComponent<StarManager>();
     }
+
+    void Start()
+    {
+    }
+
     void AssignEvents()
     {
         CometCollisionEvent += AddDistanceToComet;
@@ -133,8 +138,8 @@ public class GameController : MonoBehaviour
                 currentState = State.Start;
                 break;
             case State.Start:
+                InvokeRepeating("UpdateMeters", 0, .15f);
                 AudioController.Instance.StartMusic();
-                UpdateUi();
                 StartCoroutine(StartSequence());
                 currentState = State.Transition;
                 break;
@@ -155,11 +160,11 @@ public class GameController : MonoBehaviour
 
     void UpdateComet()
     {
-			if (!hit)
-			{
-				currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcelerationLevels[currentAccelerationLevel]);
-			}
-			cometRigid.transform.position = new Vector2(0, currentDistance);
+		if (!hit)
+		{
+			currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcelerationLevels[currentAccelerationLevel]);
+		}
+		cometRigid.transform.position = new Vector2(0, currentDistance);
 
         if (currentDistance <= GameData.dangerLimit)
         {
@@ -179,10 +184,22 @@ public class GameController : MonoBehaviour
         }
     }
 
+    float lastY;
     void UpdateUi()
     {
         UiController.TriggerScoreEvent(currentScore);
         UiController.TriggerDistanceEvent(currentDistance);
+    }
+
+    void UpdateMeters()
+    {
+        if (Time.deltaTime != 0)
+        {
+            float speed = (lastY - cometRigid.transform.position.y) / Time.deltaTime;
+            lastY = cometRigid.transform.position.y;
+
+            UiController.TriggerVelocityEvent(speed);
+        }
     }
 
     void AddDistanceToComet(float strength, float speed)

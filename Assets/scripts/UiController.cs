@@ -35,6 +35,15 @@ public class UiController : MonoBehaviour
         }
     }
 
+    public static Message<float> VelocityEvent;
+
+    public static void TriggerVelocityEvent(float velocity)
+    {
+        if(VelocityEvent != null)
+        {
+            VelocityEvent(velocity);
+        }
+    }
 
     public delegate void ScoreData(int starCount, int linkCount, int score, string name);
     public static event ScoreData ScoreDataEvent;
@@ -49,8 +58,9 @@ public class UiController : MonoBehaviour
 
     public Text scoreDisplay;
     public Text distanceDisplay;
-    public Text scoreFeed;
     public DistanceMeter distaceMeter;
+    public Text velocityDisplay;
+
     public GameObject killScreen;
     private Tween currentTween;
 
@@ -66,6 +76,8 @@ public class UiController : MonoBehaviour
         DistanceEvent += distaceMeter.ChangeDistance;
         ScoreDataEvent += AddToScoreFeed;
         KillScreenEvent += DisplayKillScreen;
+        VelocityEvent += DisplayVelocity;
+
     }
 
     void OnDestroy()
@@ -75,7 +87,7 @@ public class UiController : MonoBehaviour
         DistanceEvent -= distaceMeter.ChangeDistance;
         ScoreDataEvent -= AddToScoreFeed;
         KillScreenEvent -= DisplayKillScreen;
-
+        VelocityEvent -= DisplayVelocity;
     }
 
     void DisplayScore(int score)
@@ -83,6 +95,10 @@ public class UiController : MonoBehaviour
         scoreDisplay.text = score.ToString();
     }
 
+    void DisplayVelocity(float velocity)
+    {
+        velocityDisplay.text = (velocity * 2000).ToString();
+    }
 
     void AddToScoreFeed(int starCount, int linkCount, int score, string name)
     {
@@ -90,17 +106,14 @@ public class UiController : MonoBehaviour
         {
             currentTween.Kill();
         }
-        scoreFeed.color = Color.white;
-        scoreFeed.text += name + ": " + starCount.ToString() + " Stars, " + linkCount.ToString() + " Links: " + score.ToString() + " Points \n";
         Color clear = Color.white;
         clear.a = 0;
-        currentTween = scoreFeed.DOColor(clear, 2f);
     }
 
     void DisplayDistance(float distance)
     {
         float total = distance + Mathf.Abs(GameData.cometDest);
-        distanceDisplay.text = (total * GameData.distanceScalar).ToString();
+        distanceDisplay.text = Mathf.RoundToInt(total * GameData.distanceScalar).ToString();
     }
 
     void DisplayKillScreen(string message)
