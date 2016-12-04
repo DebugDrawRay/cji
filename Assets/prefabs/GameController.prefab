@@ -120,6 +120,7 @@ MonoBehaviour:
   playerSpawn: {fileID: 4000012405734070}
   comet: {fileID: 1000010731242480, guid: eb3739344bb528140ba6c428fa88dbfd, type: 2}
   cometSpawn: {fileID: 4000012464883300}
+  frozen: 0
   starMan: {fileID: 114000012969979918}
   spawnComet: 1
 --- !u!114 &114000010813693184
@@ -145,6 +146,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6a92563d1c52d6848b81adffe60a11b0, type: 3}
   - {fileID: 21300000, guid: bc332ba2a661aad44a50b187767f11f0, type: 3}
   - {fileID: 21300000, guid: 554be82e4e291d545aa9910dcb08863d, type: 3}
+  - {fileID: 21300000, guid: 978a76edcc5091d48853c856c953f696, type: 3}
+  - {fileID: 21300000, guid: 96c8c4d026530db478c6c25abc0f2106, type: 3}
   LinkPrefab: {fileID: 191624, guid: c74daa68dcd86564e9f0953017e146d5, type: 2}
   StarLinkParent: {fileID: 0}
 --- !u!114 &114000011350973540
