@@ -662,7 +662,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0af304df59c2e7d4aad97d5b46e0c803, type: 3}
   - {fileID: 8300000, guid: 1191fca98c4d3084fb9828b13a51a6ec, type: 3}
   - {fileID: 8300000, guid: 46d17485fdb79064f8244ae33c9fa36c, type: 3}
-  DynamicSoundClips: []
+  DynamicSoundClips:
+  - {fileID: 8300000, guid: 4c2112b6378e5e34782cafd8a29dfceb, type: 3}
 --- !u!114 &114000013122938350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -682,4 +683,4 @@ MonoBehaviour:
   - {fileID: 82000010594354032}
   - {fileID: 82000010112492496}
   - {fileID: 82000013664024258}
-  dynamicBus: {fileID: 0}
+  dynamicBus: {fileID: 82000014165507836}

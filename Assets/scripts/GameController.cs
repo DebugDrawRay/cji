@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
     //Timing
     private float timeToSpeedIncrease;
     private int currentAccelerationLevel;
+    private bool inDanger;
 
     [Header("Star Properties")]
     public StarManager starMan;
@@ -154,27 +155,28 @@ public class GameController : MonoBehaviour
 
     void UpdateComet()
     {
-		if (!frozen)
-		{
 			if (!hit)
 			{
 				currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcelerationLevels[currentAccelerationLevel]);
 			}
 			cometRigid.transform.position = new Vector2(0, currentDistance);
-            AudioController.Instance.ChangeDynamicSound(currentDistance);
-			if (timeToSpeedIncrease > 0)
-			{
-				timeToSpeedIncrease -= Time.deltaTime;
-			}
-			else
-			{
-				currentAccelerationLevel++;
-				if (currentAccelerationLevel >= GameData.cometAcelerationLevels.Length)
-				{
-					currentAccelerationLevel = GameData.cometAcelerationLevels.Length - 1;
-				}
-			}
-		}
+
+        if (currentDistance <= GameData.dangerLimit)
+        {
+            if (!inDanger)
+            {
+                AudioController.Instance.FadeToDanger(true);
+                inDanger = true;
+            }
+        }
+        else
+        {
+            if (inDanger)
+            {
+                AudioController.Instance.FadeToDanger(false);
+                inDanger = false;
+            }
+        }
     }
 
     void UpdateUi()
@@ -191,21 +193,9 @@ public class GameController : MonoBehaviour
             currentTween.Kill();
         }
 
-		//StopAllCoroutines();
-		//cometRotate.enabled = false;
-		//frozen = true;
-		//StartCoroutine(DelayedJump(strength, speed));
-
         currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed).SetEase(Ease.OutExpo);
         currentTween.OnComplete(() => hit = false);
     }
-
-	protected IEnumerator DelayedJump(float strength, float speed)
-	{
-		yield return new WaitForSeconds(0.05f);
-		cometRotate.enabled = true;
-		frozen = false;
-	}
 
     void AddScore(int score)
     {

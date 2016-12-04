@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class AudioController : MonoBehaviour
 {
@@ -54,10 +55,17 @@ public class AudioController : MonoBehaviour
         bus.Play();
     }
 
-    public void ChangeDynamicSound(float amount)
+    public void FadeToDanger(bool inDanger)
     {
-        float total = amount / 5;
-        total = Mathf.Clamp(total, 0, 1);
-        dynamicBus.volume = 1 - total;
+        if(inDanger)
+        {
+            dynamicBus.DOFade(.6f, .25f);
+            musicBus.DOFade(0f, .25f);
+        }
+        else
+        {
+            dynamicBus.DOFade(0f, .25f);
+            musicBus.DOFade(.6f, .25f);
+        }
     }
 }
