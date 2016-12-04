@@ -232,7 +232,7 @@ public class GameController : MonoBehaviour
         {
             currentTween.Kill();
         }
-
+        float newDistance = currentDistance + strength;
         currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed).SetEase(Ease.OutExpo);
         currentTween.OnComplete(() => hit = false);
     }

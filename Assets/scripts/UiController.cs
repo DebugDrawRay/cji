@@ -45,6 +45,15 @@ public class UiController : MonoBehaviour
         }
     }
 
+    public static Message<GameObject> ConstellationEvent;
+    public static void TriggerConstellationEvent(GameObject cons)
+    {
+        if(ConstellationEvent != null)
+        {
+            ConstellationEvent(cons);
+        }
+    }
+
     public delegate void ScoreData(int starCount, int linkCount, int score, string name);
     public static event ScoreData ScoreDataEvent;
 
@@ -58,7 +67,7 @@ public class UiController : MonoBehaviour
 
     public Text scoreDisplay;
     public Text distanceDisplay;
-    public DistanceMeter distaceMeter;
+    public DistanceMeter distanceMeter;
     public Text velocityDisplay;
 
     public GameObject killScreen;
@@ -73,21 +82,23 @@ public class UiController : MonoBehaviour
     {
         ScoreEvent += DisplayScore;
         DistanceEvent += DisplayDistance;
-        DistanceEvent += distaceMeter.ChangeDistance;
+        DistanceEvent += distanceMeter.ChangeDistance;
         ScoreDataEvent += AddToScoreFeed;
         KillScreenEvent += DisplayKillScreen;
         VelocityEvent += DisplayVelocity;
-
+        ConstellationEvent += distanceMeter.DisplayConstellation;
     }
 
     void OnDestroy()
     {
         ScoreEvent -= DisplayScore;
         DistanceEvent -= DisplayDistance;
-        DistanceEvent -= distaceMeter.ChangeDistance;
+        DistanceEvent -= distanceMeter.ChangeDistance;
         ScoreDataEvent -= AddToScoreFeed;
         KillScreenEvent -= DisplayKillScreen;
         VelocityEvent -= DisplayVelocity;
+        ConstellationEvent -= distanceMeter.DisplayConstellation;
+
     }
 
     void DisplayScore(int score)
