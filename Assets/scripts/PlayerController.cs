@@ -91,6 +91,12 @@ public class PlayerController : MonoBehaviour
             {
                 lastStar = isStar;
                 isStar.StopMovement();
+                //isStar.starBoing.GetComponent<StarBoingController>().StartGrowing();
+                isStar.starBoing.gameObject.SetActive(true);//active the star boing
+
+                StarController isStarStarCont = isStar.GetComponent<StarController>();
+                isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
+
                 isStar.starData.Position = isStar.transform.position;
                 ChangeColor(isStar.theStarType);
                 constManager.AddStar(isStar.starData);
