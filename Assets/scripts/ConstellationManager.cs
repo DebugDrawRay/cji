@@ -171,11 +171,17 @@ public class ConstellationManager : MonoBehaviour
 			Stars.Clear();
 			Links.Clear();
 
+<<<<<<< HEAD
+            UiController.TriggerConstellationEvent(constellationParent);
+            Tweener tween = constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InOutBack);
+=======
 			//Create Mini
 			CreateDisplayConstellation(constellation);
 
 			Tweener tween = constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InOutBack);
+>>>>>>> origin/AmandaTheGoodOne
 			tween.OnComplete(() => DestroyConstellation(constellation));
+
 
 			AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationComplete);
 			AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[(int)SoundBank.SoundEffects.ConstellationComplete], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);

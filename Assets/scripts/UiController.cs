@@ -45,6 +45,15 @@ public class UiController : MonoBehaviour
         }
     }
 
+    public static Message<GameObject> ConstellationEvent;
+    public static void TriggerConstellationEvent(GameObject cons)
+    {
+        if(ConstellationEvent != null)
+        {
+            ConstellationEvent(cons);
+        }
+    }
+
     public delegate void ScoreData(int starCount, int linkCount, int score, string name);
     public static event ScoreData ScoreDataEvent;
 
@@ -67,7 +76,7 @@ public class UiController : MonoBehaviour
 
 	public Text scoreDisplay;
     public Text distanceDisplay;
-    public DistanceMeter distaceMeter;
+    public DistanceMeter distanceMeter;
     public Text velocityDisplay;
 
 	 public RawImage ConstellationDisplay;
@@ -86,22 +95,32 @@ public class UiController : MonoBehaviour
     {
         ScoreEvent += DisplayScore;
         DistanceEvent += DisplayDistance;
-        DistanceEvent += distaceMeter.ChangeDistance;
+        DistanceEvent += distanceMeter.ChangeDistance;
         ScoreDataEvent += AddToScoreFeed;
         KillScreenEvent += DisplayKillScreen;
         VelocityEvent += DisplayVelocity;
+<<<<<<< HEAD
+        ConstellationEvent += distanceMeter.DisplayConstellation;
+    }
+=======
 		  ConstellationFadeEvent += FadeInConstellation;
 	 }
+>>>>>>> origin/AmandaTheGoodOne
 
     void OnDestroy()
     {
         ScoreEvent -= DisplayScore;
         DistanceEvent -= DisplayDistance;
-        DistanceEvent -= distaceMeter.ChangeDistance;
+        DistanceEvent -= distanceMeter.ChangeDistance;
         ScoreDataEvent -= AddToScoreFeed;
         KillScreenEvent -= DisplayKillScreen;
         VelocityEvent -= DisplayVelocity;
+<<<<<<< HEAD
+        ConstellationEvent -= distanceMeter.DisplayConstellation;
+
+=======
 		  ConstellationFadeEvent -= FadeInConstellation;
+>>>>>>> origin/AmandaTheGoodOne
     }
 
     void DisplayScore(int score)
