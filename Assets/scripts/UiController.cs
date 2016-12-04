@@ -165,13 +165,13 @@ public class UiController : MonoBehaviour
 
 		float t = 0;
 		Color color = ConstellationDisplay.color;
-        Color textColor = constellationInfo.color;
+		Color textColor = constellationInfo.color;
 		while (color.a < 1)
 		{
 			color.a = Mathf.Lerp(0, 1, t);
-            textColor.a = Mathf.Lerp(0, 1, t);
-            ConstellationDisplay.color = color;
-            constellationInfo.color = textColor;
+			textColor.a = Mathf.Lerp(0, 1, t);
+			ConstellationDisplay.color = color;
+			constellationInfo.color = textColor;
 			t += (Time.deltaTime * 2);
 			yield return null;
 		}
@@ -186,14 +186,15 @@ public class UiController : MonoBehaviour
 	{
 		float t = 0;
 		Color color = Color.white;
-        Color textColor = constellationInfo.color;
-        while (color.a < 1)
-        {
-            color.a = Mathf.Lerp(0, 1, t);
-            textColor.a = Mathf.Lerp(0, 1, t);
-            ConstellationDisplay.color = color;
-            constellationInfo.color = textColor;
-            t += Time.deltaTime;
+		Color textColor = constellationInfo.color;
+
+		while (color.a > 0)
+		{
+			color.a = Mathf.Lerp(1, 0, t);
+			textColor.a = Mathf.Lerp(1, 0, t);
+			ConstellationDisplay.color = color;
+			constellationInfo.color = textColor;
+			t += Time.deltaTime;
 			yield return null;
 		}
 
