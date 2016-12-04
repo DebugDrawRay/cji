@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class GameData
 {
-	public enum StarType { Star, Circle, Triangle, Square };
+	public enum StarType { Star, Circle, Triangle, Square, None };
 
 	public class Star
 	{
@@ -71,4 +71,5 @@ public static class GameData
     public const float scoreConnectionMulti = .1f;
     public const float constSizeMulti = .25f;
 
+    public const float distanceScalar = 1000;
 }

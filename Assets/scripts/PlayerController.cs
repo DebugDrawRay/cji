@@ -17,21 +17,28 @@ public class PlayerController : MonoBehaviour
 
     public GameObject PlayerModel;
 
+    [Header("Player Colors")]
     public Material NormalMat;
     public Material PinkMat;
     public Material BlueMat;
     public Material GreenMat;
     public Material YellowMat;
 
-    public GameObject theCamera;
+    public static PlayerController Instance;
+
+    [Header("Comet")]
+    public int cometLayer;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
         actions = PlayerActions.BindAll();
         rigid = GetComponent<Rigidbody>();
         constManager = ConstellationManager.Instance;
-
-        theCamera = GameObject.Find("Main Camera");
     }
 
     void Update()
@@ -44,16 +51,15 @@ public class PlayerController : MonoBehaviour
         Movement();
     }
 
-    public void ReturnToNormalMat()
-    {
-        PlayerModel.GetComponent<Renderer>().material = NormalMat;
-    }
-
     void CompleteConstellationListener()
     {
         if(actions.PrimaryAction.WasPressed)
         {
-            constManager.CompleteConstellation();
+            if(constManager.CompleteConstellation())
+            {
+                ChangeColor(GameData.StarType.None);
+                lastStar = null;
+            }
         }
     }
     void Movement()
@@ -72,9 +78,9 @@ public class PlayerController : MonoBehaviour
         {
             if(lastStar != null && lastStar.theStarType != isStar.theStarType)
             {
-                theCamera.GetComponent<CameraController>().DoScreenShake(0.5f);
-                PlayerModel.GetComponent<MeshRenderer>().material = NormalMat;
+                Camera.main.GetComponent<CameraController>().DoScreenShake();
                 constManager.BreakConstellation();
+                ChangeColor(GameData.StarType.None);
                 lastStar = null;
             }
             else
@@ -88,25 +94,39 @@ public class PlayerController : MonoBehaviour
                 isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
 
                 isStar.starData.Position = isStar.transform.position;
-                if (isStar.theStarType == GameData.StarType.Circle)//blue
-                {
-                    PlayerModel.GetComponent<Renderer>().material = BlueMat;
-                }
-                else if (isStar.theStarType == GameData.StarType.Square)//Pink
-                {
-                    PlayerModel.GetComponent<Renderer>().material = PinkMat;
-                }
-                else if (isStar.theStarType == GameData.StarType.Star)//Yellow
-                {
-                    PlayerModel.GetComponent<Renderer>().material = YellowMat;
-                }
-                else if (isStar.theStarType == GameData.StarType.Triangle)//Green
-                {
-                    PlayerModel.GetComponent<Renderer>().material = GreenMat;
-                }
-
+                ChangeColor(isStar.theStarType);
                 constManager.AddStar(isStar.starData);
             }
+        }
+
+        if (hit.gameObject.layer == cometLayer)
+        {
+            //KILL THE WORLD 
+            GameController.TriggerEndGame();
+        }
+
+    }
+
+    public void ChangeColor(GameData.StarType type)
+    {
+        Renderer render = PlayerModel.GetComponent<Renderer>();
+        switch (type)
+        {
+            case GameData.StarType.Circle:
+                render.material = BlueMat;
+                break;
+            case GameData.StarType.Square:
+                render.material = PinkMat;
+                break;
+            case GameData.StarType.Star:
+                render.material = YellowMat;
+                break;
+            case GameData.StarType.Triangle:
+                render.material = GreenMat;
+                break;
+            case GameData.StarType.None:
+                render.material = NormalMat;
+                break;
         }
     }
 }
