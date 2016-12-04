@@ -147,8 +147,12 @@ public class ConstellationManager : MonoBehaviour
 			}
 
 			//Send data to Visualization and score
-			int score = constellation.Stars.Count * constellation.Links.Count;
-			UiController.TriggerScoreData(constellation.Stars.Count, constellation.Links.Count, score, constellationName);
+            //Score
+            int score = GameData.scorePerStar;
+            float totalConnections = 1 + (GameData.scoreConnectionMulti * constellation.Links.Count);
+            float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
+            GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
+            UiController.TriggerScoreData(constellation.Stars.Count, constellation.Links.Count, score, constellationName);
 
 			Stars.Clear();
 			Links.Clear();
@@ -291,12 +295,6 @@ public class ConstellationManager : MonoBehaviour
 			//Pushback
 			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
 			GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
-
-			//Score
-			int score = GameData.scorePerStar;
-			float totalConnections = 1 + (GameData.scoreConnectionMulti * star.LinkedStars.Count);
-			float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
-			GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
 
 			BreakStarLink(constellation, starId);
 			if (constellation.Stars.Count <= 0)

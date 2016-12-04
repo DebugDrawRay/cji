@@ -65,8 +65,10 @@ public static class GameData
     //Star timing
     public const float minTimeToSpawn = 0.25f;
     public const float maxTimeToSpawn = .5f;
-    public const float starSpawnXMin = -4;
-    public const float starSpawnXMax = 4;
+
+    //Star spawn
+    public const float fieldSize = 4;
+    public const float starSize = .5f;
     public const float starSpawnY = 5;
 
     //Comet parameters
