@@ -65,23 +65,24 @@ public class UiController : MonoBehaviour
         }
     }
 
-	public static Message<bool> ConstellationFadeEvent;
-	public static void TriggerConstellationFadeEvent(bool stuff)
+	public static Message<string> ConstellationFadeEvent;
+	public static void TriggerConstellationFadeEvent(string info)
 	{
 		if (ConstellationFadeEvent != null)
 		{
-			ConstellationFadeEvent(stuff);
+			ConstellationFadeEvent(info);
 		}
 	}
 
 	public Text scoreDisplay;
     public Text distanceDisplay;
+    public Text constellationInfo;
     public DistanceMeter distanceMeter;
     public Text velocityDisplay;
 
-	 public RawImage ConstellationDisplay;
-	 protected IEnumerator ConstellationFadeIn;
-	 protected IEnumerator ConstellationFadeOut;
+	public RawImage ConstellationDisplay;
+	protected IEnumerator ConstellationFadeIn;
+	protected IEnumerator ConstellationFadeOut;
 
     public GameObject killScreen;
     private Tween currentTween;
@@ -147,11 +148,12 @@ public class UiController : MonoBehaviour
         killScreen.SetActive(true);
     }
 
-	void FadeInConstellation(bool stuff)
+	void FadeInConstellation(string info)
 	{
 		if (ConstellationFadeIn != null)
 			StopCoroutine(ConstellationFadeIn);
 
+        constellationInfo.text = info;
 		ConstellationFadeIn = FadeInConstellationWork();
 		StartCoroutine(ConstellationFadeIn);
 	}
@@ -163,11 +165,13 @@ public class UiController : MonoBehaviour
 
 		float t = 0;
 		Color color = ConstellationDisplay.color;
-
+        Color textColor = constellationInfo.color;
 		while (color.a < 1)
 		{
 			color.a = Mathf.Lerp(0, 1, t);
-			ConstellationDisplay.color = color;
+            textColor.a = Mathf.Lerp(0, 1, t);
+            ConstellationDisplay.color = color;
+            constellationInfo.color = textColor;
 			t += (Time.deltaTime * 2);
 			yield return null;
 		}
@@ -182,12 +186,14 @@ public class UiController : MonoBehaviour
 	{
 		float t = 0;
 		Color color = Color.white;
-
-		while (color.a > 0)
-		{
-			color.a = Mathf.Lerp(1, 0, t);
-			ConstellationDisplay.color = color;
-			t += Time.deltaTime;
+        Color textColor = constellationInfo.color;
+        while (color.a < 1)
+        {
+            color.a = Mathf.Lerp(0, 1, t);
+            textColor.a = Mathf.Lerp(0, 1, t);
+            ConstellationDisplay.color = color;
+            constellationInfo.color = textColor;
+            t += Time.deltaTime;
 			yield return null;
 		}
 
