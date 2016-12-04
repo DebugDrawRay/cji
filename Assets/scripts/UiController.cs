@@ -100,7 +100,7 @@ public class UiController : MonoBehaviour
         KillScreenEvent += DisplayKillScreen;
         VelocityEvent += DisplayVelocity;
         ConstellationEvent += distanceMeter.DisplayConstellation;
-		  ConstellationFadeEvent += FadeInConstellation;
+        ConstellationFadeEvent += FadeInConstellation;
 	 }
 
     void OnDestroy()
@@ -112,7 +112,8 @@ public class UiController : MonoBehaviour
         KillScreenEvent -= DisplayKillScreen;
         VelocityEvent -= DisplayVelocity;
         ConstellationEvent -= distanceMeter.DisplayConstellation;
-		  ConstellationFadeEvent -= FadeInConstellation;
+        ConstellationFadeEvent -= FadeInConstellation;
+
     }
 
     void DisplayScore(int score)
