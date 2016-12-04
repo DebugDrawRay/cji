@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour
                 break;
             case State.Start:
                 UpdateUi();
-                InvokeRepeating("UpdateMeters", 0, .15f);
+                UiController.TriggerVelocityEvent(GameData.cometAcelerationLevels[currentAccelerationLevel] * GameData.speedScalar);
                 AudioController.Instance.StartMusic();
                 StartCoroutine(StartSequence());
                 currentState = State.Transition;
@@ -203,8 +203,6 @@ public class GameController : MonoBehaviour
 			cometBoostTimer -= Time.deltaTime;
     }
 
-    float lastY;
-
 	void UpdateLevel()
 	{
 		if (currentAccelerationLevel < GameData.cometAcelerationLevels.Length - 1)
@@ -215,8 +213,9 @@ public class GameController : MonoBehaviour
 				currentAccelerationLevel++;
 				starMan.spawnLevel++;
 				Debug.Log("NEW LEVEL: " + currentAccelerationLevel);
-			}
-			else
+                UiController.TriggerVelocityEvent(GameData.cometAcelerationLevels[currentAccelerationLevel] * GameData.speedScalar);
+            }
+            else
 			{
 				levelTimer -= Time.deltaTime;
 			}
@@ -236,13 +235,6 @@ public class GameController : MonoBehaviour
 
     void UpdateMeters()
     {
-        if (Time.deltaTime != 0)
-        {
-            float speed = (lastY - cometRigid.transform.position.y) / Time.deltaTime;
-            lastY = cometRigid.transform.position.y;
-
-            UiController.TriggerVelocityEvent(speed);
-        }
     }
 
     void AddDistanceToComet(float strength, float speed)
