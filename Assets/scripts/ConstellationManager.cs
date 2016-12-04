@@ -14,7 +14,7 @@ public class ConstellationManager : MonoBehaviour
 	public TextAsset ConstellationAdjectivesText;
 	protected string[] ConstellationNouns;
 	protected string[] ConstellationAdjectives;
-	public Sprite[] ConstellationBackgrounds;
+	public ConstellationsData ConstellationData;
 	protected Color ConstellationBackgroundColor = new Color(1, 1, 1, 0.3f);
 	protected Color ConstellationDisplayBackgroundColor = new Color(1, 1, 1, 0.8f);
 
@@ -380,7 +380,7 @@ public class ConstellationManager : MonoBehaviour
 
 	protected Sprite GetRandomConstellationImage()
 	{
-		return ConstellationBackgrounds[UnityEngine.Random.Range(0, ConstellationBackgrounds.Length)];
+		return ConstellationData.ConstellationSprites[UnityEngine.Random.Range(0, ConstellationData.ConstellationSprites.Length)];
 	}
 
 	#endregion
