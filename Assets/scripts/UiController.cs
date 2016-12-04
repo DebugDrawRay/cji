@@ -158,9 +158,8 @@ public class UiController : MonoBehaviour
 
 	IEnumerator FadeInConstellationWork()
 	{
-		ConstellationFadeOut = FadeOutConstellationWork();
-		StopCoroutine(ConstellationFadeOut);
-		Debug.Log("Starting fade in");
+		if (ConstellationFadeOut != null)
+			StopCoroutine(ConstellationFadeOut);
 
 		float t = 0;
 		Color color = ConstellationDisplay.color;
@@ -173,8 +172,9 @@ public class UiController : MonoBehaviour
 			yield return null;
 		}
 
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(5);
 
+		ConstellationFadeOut = FadeOutConstellationWork();
 		StartCoroutine(ConstellationFadeOut);
 	}
 
