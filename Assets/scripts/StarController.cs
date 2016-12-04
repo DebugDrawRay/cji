@@ -17,6 +17,9 @@ public class StarController : MonoBehaviour
     [HideInInspector]
     public GameData.Star starData;
 
+    public float shrinkSpeed;
+    public bool doShrink;
+
     //public float starSize;
 
     void Awake()
@@ -46,6 +49,18 @@ public class StarController : MonoBehaviour
             transform.position = new Vector3(0, 0, 0);
             GetComponent<PooledObject>().ReturnToPool();
         }
+
+        if (doShrink == true)
+        {
+            if (transform.localScale.x > 0.1f)
+            {
+                transform.localScale = new Vector3(transform.localScale.x - (shrinkSpeed * Time.deltaTime), transform.localScale.y - (shrinkSpeed * Time.deltaTime), transform.localScale.z - (shrinkSpeed * Time.deltaTime));
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 	}
 
 	public void UpdateLayerToSendStar()
@@ -73,4 +88,18 @@ public class StarController : MonoBehaviour
 	{
 		starTriggered.Invoke();
 	}
+
+    //this function shrinkles the failed constellation stars
+    public void Shrinkle()
+    {
+        
+        doShrink = true;
+
+    }
+
+    //this function twinkles the failed constellation stars
+    public void Twinkle()
+    {
+        
+    }
 }
