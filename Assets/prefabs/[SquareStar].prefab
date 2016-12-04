@@ -74,6 +74,7 @@ GameObject:
   - 33: {fileID: 33000012647736746}
   - 23: {fileID: 23000013454071858}
   - 114: {fileID: 114000011404372434}
+  - 95: {fileID: 95000013676974192}
   m_Layer: 10
   m_Name: Square_Star_fbx
   m_TagString: Untagged
@@ -113,7 +114,7 @@ GameObject:
   - 135: {fileID: 135000011399145764}
   m_Layer: 10
   m_Name: '[SquareStar]'
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,6 +325,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &95000013676974192
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011421556728}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 114988b74016afa4ca2374c3eb0ab9a1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114000011404372434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -356,12 +374,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  starData:
+    Type: 0
+    Position: {x: 0, y: 0, z: 0}
   shrinkSpeed: 1
   doShrink: 0
   starBoing: {fileID: 1000013474371534}
   starBoing02: {fileID: 1000010300746062}
-  delayBeforeSecondBoingTimerBase: 0.05
+  delayBeforeSecondBoingTimerBase: 0.1
   delayBeforeSecondBoingTimer: 120
+  theAnimator: {fileID: 95000013676974192}
+  starHitCometParticle: {fileID: 1000013988914792, guid: 7a02555c06b70004fb2e2e2a7fa0e2c3,
+    type: 2}
 --- !u!114 &114000013076420046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -373,11 +397,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c895b9ee9def4bb890442c5376053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBeforeInvisBase: 0.25
-  timeBeforeInvis: 0.25
+  timeBeforeInvisBase: 0.5
+  timeBeforeInvis: 0.5
   startedGrowing: 0
   startScale: {x: 0, y: 0, z: 0}
-  scaleSpeed: {x: 15, y: 15, z: 15}
+  scaleSpeed: {x: 5, y: 5, z: 5}
 --- !u!114 &114000013394058744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -401,11 +425,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c895b9ee9def4bb890442c5376053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBeforeInvisBase: 0.25
-  timeBeforeInvis: 0.25
+  timeBeforeInvisBase: 0.5
+  timeBeforeInvis: 0.5
   startedGrowing: 0
   startScale: {x: 0, y: 0, z: 0}
-  scaleSpeed: {x: 15, y: 15, z: 15}
+  scaleSpeed: {x: 5, y: 5, z: 5}
 --- !u!135 &135000011399145764
 SphereCollider:
   m_ObjectHideFlags: 1

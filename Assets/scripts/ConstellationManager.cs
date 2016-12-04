@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 
 public class ConstellationManager : MonoBehaviour
 {
@@ -30,6 +29,8 @@ public class ConstellationManager : MonoBehaviour
 	protected List<GameData.Link> Links;
 
     GameObject player;
+
+    public GameObject starHitCometParticle;
 
 	void Awake()
 	{
@@ -175,11 +176,8 @@ public class ConstellationManager : MonoBehaviour
 			Stars.Clear();
 			Links.Clear();
 
-            constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InBack);
-            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationComplete);
-            AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[(int)SoundBank.SoundEffects.ConstellationComplete], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);
-            //StartCoroutine(ConstellationFlyAway(constellation));
-            return true;
+			StartCoroutine(ConstellationFlyAway(constellation));
+			return true;
 		}
 		else
 		{
@@ -249,8 +247,8 @@ public class ConstellationManager : MonoBehaviour
 		var keys = new List<Guid>(Stars.Keys);
 		for (int i = 0; i < Stars.Count; i++)
 		{
-			Stars[keys[i]].Controller.StartMovement(1.4f);
-			Stars[keys[i]].Controller.FadeOutStar();
+			Stars[keys[i]].Controller.StartMovement();
+			Stars[keys[i]].Controller.DeactivateCollider();
          //Stars[keys[i]].Controller.Shrinkle();
 		}
 
@@ -263,11 +261,9 @@ public class ConstellationManager : MonoBehaviour
 
 		Stars = new Dictionary<Guid, GameData.Star>();
 		Links = new List<GameData.Link>();
-        AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
+	}
 
-    }
-
-    protected void CheckStrandedStar(GameData.Star star)
+	protected void CheckStrandedStar(GameData.Star star)
 	{
 		if (star.LinkedStars.Count <= 0)
 		{
@@ -318,8 +314,10 @@ public class ConstellationManager : MonoBehaviour
 		{
 			GameData.Star star = constellation.Stars[starId];
 
-            //Pushback
-            float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+            Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
+
+			//Pushback
+			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
 			GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
 
 			BreakStarLink(constellation, starId);
@@ -327,10 +325,8 @@ public class ConstellationManager : MonoBehaviour
 			{
 				Destroy(constellation.ConstellationParent);
 			}
-            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationHit);
-
-        }
-    }
+		}
+	}
 
 	protected Vector2 GetAverageStarPosition(GameData.Star[] stars)
 	{
