@@ -22,12 +22,19 @@ public class StarController : MonoBehaviour
 	public float delayBeforeSecondBoingTimerBase;
 	public float delayBeforeSecondBoingTimer;
 
+<<<<<<< HEAD
 	protected Material starMaterial;
 	protected Renderer starRenderer;
 	protected MaterialPropertyBlock properties;
 	protected Color startColor;
 	protected Color startEmissionColor;
 	protected Color startSpecularColor;
+=======
+    public Animator theAnimator;
+
+
+    //public float starSize;
+>>>>>>> origin/Logan
 
 	//public float starSize;
 
@@ -153,6 +160,7 @@ public class StarController : MonoBehaviour
 
 	void OnTriggerEnter(Collider coll)
 	{
+        //Instantiate(starHitCometParticle, transform.position, Quaternion.identity);
 		starTriggered.Invoke();
 	}
 
@@ -168,5 +176,27 @@ public class StarController : MonoBehaviour
 	public void Twinkle()
 	{
 
+<<<<<<< HEAD
 	}
+=======
+    //this function twinkles the failed constellation stars
+    public void Twinkle()
+    {
+        
+    }
+
+    public void DoBoing()
+    {
+        starBoing.gameObject.SetActive(true);
+        delayBeforeSecondBoingTimer = delayBeforeSecondBoingTimerBase;
+
+
+        //theAnimator.GetComponent<Animator>().SetBool("DoQuickGrowThenShrink", true);
+    }
+
+    public void DoGotHitAnim()
+    {
+        theAnimator.GetComponent<Animator>().SetBool("DoQuickGrowThenShrink", true);
+    }
+>>>>>>> origin/Logan
 }

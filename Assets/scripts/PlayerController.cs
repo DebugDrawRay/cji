@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
 				lastStar = null;
             }
             else
+<<<<<<< HEAD
 			{
 				lastStar = isStar;
 				isStar.StopMovement();
@@ -116,6 +117,24 @@ public class PlayerController : MonoBehaviour
 				ChangeColor(isStar.theStarType);
 				constManager.AddStar(isStar.starData);
                 AudioController.Instance.PlaySfx(SoundBank.SoundEffects.StarGood);
+=======
+            {
+                lastStar = isStar;
+                isStar.StopMovement();
+                //isStar.starBoing.GetComponent<StarBoingController>().StartGrowing();
+                //isStar.starBoing.gameObject.SetActive(true);//active the star boing
+
+               // StarController isStarStarCont = isStar.GetComponent<StarController>();
+                //isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
+                isStar.DoBoing();
+                isStar.DoGotHitAnim();
+
+                FindAllStarsOfSameTypeAndBoingThem(isStar);
+
+                isStar.starData.Position = isStar.transform.position;
+                ChangeColor(isStar.theStarType);
+                constManager.AddStar(isStar.starData);
+>>>>>>> origin/Logan
             }
         }
 
@@ -129,6 +148,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+<<<<<<< HEAD
 	public void ChangeColor(GameData.StarType type)
 	{
 		Renderer render = PlayerModel.GetComponent<Renderer>();
@@ -162,4 +182,68 @@ public class PlayerController : MonoBehaviour
 			line.SetPosition(1, lastStar.transform.position);
 		}
 	}
+=======
+    public void ChangeColor(GameData.StarType type)
+    {
+        Renderer render = PlayerModel.GetComponent<Renderer>();
+        switch (type)
+        {
+            case GameData.StarType.Circle:
+                render.material = BlueMat;
+                break;
+            case GameData.StarType.Square:
+                render.material = PinkMat;
+                break;
+            case GameData.StarType.Star:
+                render.material = YellowMat;
+                break;
+            case GameData.StarType.Triangle:
+                render.material = GreenMat;
+                break;
+            case GameData.StarType.None:
+                render.material = NormalMat;
+                break;
+        }
+    }
+
+    void DrawConstellationLine()
+    {
+        line.enabled = (lastStar != null);
+
+        if (lastStar != null)
+        {
+            line.SetPosition(0, line.transform.position);
+            line.SetPosition(1, lastStar.transform.position);
+        }
+    }
+
+    void FindAllStarsOfSameTypeAndBoingThem(StarController _isStar)
+    {
+        GameObject[] allStars = GameObject.FindGameObjectsWithTag("Star");
+
+        for (int i = 0; i < allStars.Length; i++)
+        {
+            if (_isStar.theStarType == allStars[i].GetComponent<StarController>().theStarType)//if the star that is passed is the same as the star that you come across in the array
+            {
+                //ping the star in the allStars array
+                if(allStars[i].activeSelf == true)//make sure it's active
+                {
+                    allStars[i].GetComponent<StarController>().DoBoing();//boing it
+                }
+            }
+            /*else if (_isStar.theStarType == GameData.StarType.Square)
+            {
+
+            }
+            else if (_isStar.theStarType == GameData.StarType.Triangle)
+            {
+
+            }
+            else if (_isStar.theStarType == GameData.StarType.Star)
+            {
+
+            }*/
+        }
+    }
+>>>>>>> origin/Logan
 }
