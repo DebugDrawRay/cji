@@ -128,9 +128,13 @@ public class PlayerController : MonoBehaviour
 		{
 			//KILL THE WORLD 
 			GameController.TriggerEndGame();
-            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
-			gameObject.SetActive(false);
-        }
+			AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
+			var colliders = gameObject.GetComponents<Collider>();
+			for (int i = 0; i < colliders.Length; i++)
+				colliders[i].enabled = false;
+
+			//gameObject.SetActive(false);
+		}
 
     }
 
