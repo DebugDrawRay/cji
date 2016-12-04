@@ -30,6 +30,8 @@ public class ConstellationManager : MonoBehaviour
 
     GameObject player;
 
+    public GameObject starHitCometParticle;
+
 	void Awake()
 	{
 		Instance = this;
@@ -311,6 +313,8 @@ public class ConstellationManager : MonoBehaviour
 		if (constellation.Stars.ContainsKey(starId))
 		{
 			GameData.Star star = constellation.Stars[starId];
+
+            Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
 
 			//Pushback
 			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);

@@ -140,6 +140,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dc53037665653c14db3c3a1f594d4234, type: 3}
   LinkPrefab: {fileID: 191624, guid: c74daa68dcd86564e9f0953017e146d5, type: 2}
   StarLinkParent: {fileID: 0}
+  starHitCometParticle: {fileID: 1000013988914792, guid: 7a02555c06b70004fb2e2e2a7fa0e2c3,
+    type: 2}
 --- !u!114 &114000011840028696
 MonoBehaviour:
   m_ObjectHideFlags: 1

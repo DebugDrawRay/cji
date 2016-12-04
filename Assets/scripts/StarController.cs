@@ -25,6 +25,9 @@ public class StarController : MonoBehaviour
     public float delayBeforeSecondBoingTimerBase;
     public float delayBeforeSecondBoingTimer;
 
+    public Animator theAnimator;
+
+
     //public float starSize;
 
     void Awake()
@@ -107,6 +110,7 @@ public class StarController : MonoBehaviour
 
 	void OnTriggerEnter(Collider coll)
 	{
+        //Instantiate(starHitCometParticle, transform.position, Quaternion.identity);
 		starTriggered.Invoke();
 	}
 
@@ -128,5 +132,13 @@ public class StarController : MonoBehaviour
     {
         starBoing.gameObject.SetActive(true);
         delayBeforeSecondBoingTimer = delayBeforeSecondBoingTimerBase;
+
+
+        //theAnimator.GetComponent<Animator>().SetBool("DoQuickGrowThenShrink", true);
+    }
+
+    public void DoGotHitAnim()
+    {
+        theAnimator.GetComponent<Animator>().SetBool("DoQuickGrowThenShrink", true);
     }
 }

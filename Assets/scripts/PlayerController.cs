@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour
                // StarController isStarStarCont = isStar.GetComponent<StarController>();
                 //isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
                 isStar.DoBoing();
+                isStar.DoGotHitAnim();
 
                 FindAllStarsOfSameTypeAndBoingThem(isStar);
 
