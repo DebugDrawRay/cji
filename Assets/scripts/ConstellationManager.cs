@@ -273,23 +273,26 @@ public class ConstellationManager : MonoBehaviour
 
 	protected void StarToCometCollision(GameData.Constellation constellation, Guid starId)
 	{
-		Debug.Log("Calling Star Destroy for " + starId);
-		GameData.Star star = constellation.Stars[starId];
-		
-		//Pushback
-		float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
-		GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
-
-		//Score
-		int score = GameData.scorePerStar;
-		float totalConnections = 1 + (GameData.scoreConnectionMulti * star.LinkedStars.Count);
-		float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
-		GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
-
-		BreakStarLink(constellation, starId);
-		if (constellation.Stars.Count <= 0)
+		if (constellation.Stars.ContainsKey(starId))
 		{
-			Destroy(constellation.ConstellationParent);
+			Debug.Log("Calling Star Destroy for " + starId);
+			GameData.Star star = constellation.Stars[starId];
+
+			//Pushback
+			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+			GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
+
+			//Score
+			int score = GameData.scorePerStar;
+			float totalConnections = 1 + (GameData.scoreConnectionMulti * star.LinkedStars.Count);
+			float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
+			GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
+
+			BreakStarLink(constellation, starId);
+			if (constellation.Stars.Count <= 0)
+			{
+				Destroy(constellation.ConstellationParent);
+			}
 		}
 	}
 
