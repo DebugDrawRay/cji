@@ -193,8 +193,6 @@ public class ConstellationManager : MonoBehaviour
 
 	protected void BreakLink(GameData.Link link)
 	{
-		Debug.Log("Breaking Link");
-
 		//Unlink Stars
 		Stars[link.StarIds[0]].LinkedStars.Remove(link.StarIds[1]);
 		Stars[link.StarIds[1]].LinkedStars.Remove(link.StarIds[0]);
@@ -208,7 +206,6 @@ public class ConstellationManager : MonoBehaviour
 
 	public void BreakConstellation()
 	{
-		Debug.Log("Resetting Constellation");
 		LastStar = null;
 
 		//Release Stars
@@ -280,7 +277,6 @@ public class ConstellationManager : MonoBehaviour
 	{
 		if (constellation.Stars.ContainsKey(starId))
 		{
-			Debug.Log("Calling Star Destroy for " + starId);
 			GameData.Star star = constellation.Stars[starId];
 
 			//Pushback
@@ -313,7 +309,7 @@ public class ConstellationManager : MonoBehaviour
 	protected string GenerateConstellationName(int starCount)
 	{
 		int wordCount = Mathf.Max(1, Mathf.FloorToInt(starCount / 2));
-		string finalName = "";
+		string finalName = "The ";
 		for (int i = 0; i < wordCount - 1; i++)
 		{
 			finalName += ConstellationAdjectives[UnityEngine.Random.Range(0, ConstellationAdjectives.Length)] + " ";
