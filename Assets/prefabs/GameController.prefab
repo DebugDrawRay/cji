@@ -37,6 +37,9 @@ GameObject:
   - 114: {fileID: 114000011840028696}
   - 114: {fileID: 114000010083928252}
   - 114: {fileID: 114000010813693184}
+  - 114: {fileID: 114000012359162786}
+  - 114: {fileID: 114000011350973540}
+  - 114: {fileID: 114000012969979918}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -66,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013131603496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -79,7 +82,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011267759784}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: -15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -117,6 +120,7 @@ MonoBehaviour:
   playerSpawn: {fileID: 4000012405734070}
   comet: {fileID: 1000010731242480, guid: eb3739344bb528140ba6c428fa88dbfd, type: 2}
   cometSpawn: {fileID: 4000012464883300}
+  starMan: {fileID: 114000012969979918}
   spawnComet: 1
 --- !u!114 &114000010813693184
 MonoBehaviour:
@@ -140,6 +144,20 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dc53037665653c14db3c3a1f594d4234, type: 3}
   LinkPrefab: {fileID: 191624, guid: c74daa68dcd86564e9f0953017e146d5, type: 2}
   StarLinkParent: {fileID: 0}
+--- !u!114 &114000011350973540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011565247668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
 --- !u!114 &114000011840028696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,3 +186,46 @@ MonoBehaviour:
   nativeInputOverrideUpdateRate: 0
   nativeInputUpdateRate: 0
   customProfiles: []
+--- !u!114 &114000012359162786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011565247668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b24994c7bab8d436a8b302ce62dfa856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+  submitButton: 19
+  cancelButton: 20
+  analogMoveThreshold: 0.5
+  moveRepeatFirstDuration: 0.8
+  moveRepeatDelayDuration: 0.1
+  allowMobileDevice: 1
+  allowMouseInput: 1
+  focusOnMouseHover: 0
+--- !u!114 &114000012969979918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011565247668}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfbb2857d1e7e0041a5fbb4a724a50f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StarsToSpawn:
+  - {fileID: 1000013249568514, guid: 1bdfa4018317c474fa8f809b498e6439, type: 2}
+  - {fileID: 1000013448462480, guid: c66a85e14111e9c42b1df12bc1d10d83, type: 2}
+  - {fileID: 1000013361512614, guid: e84f55e44076051459578d604b5fdeac, type: 2}
+  - {fileID: 1000013985736620, guid: f8ccebe940acaa94d980aff2bb0c558f, type: 2}
+  starScale: 0.65

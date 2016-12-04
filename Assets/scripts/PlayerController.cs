@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float speed;
     public float acceleration;
+    public bool canMove = false;
 
     private PlayerActions actions;
     private Rigidbody rigid;
@@ -52,7 +53,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movement();
+        if (canMove)
+        {
+            Movement();
+        }
     }
 
     void CompleteConstellationListener()

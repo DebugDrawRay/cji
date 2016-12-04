@@ -9,7 +9,8 @@ public class GameController : MonoBehaviour
         Start,
         InGame,
         Pause,
-        End
+        End,
+        Transition
     }
     public State currentState;
 
@@ -17,6 +18,7 @@ public class GameController : MonoBehaviour
 
     [Header("Player")]
     public GameObject player;
+    private GameObject currentPlayer;
     public Transform playerSpawn;
 
     [Header("Comet Properties")]
@@ -30,6 +32,13 @@ public class GameController : MonoBehaviour
     //Current tween
     private Tween currentTween;
     private bool hit;
+
+    //Timing
+    private float timeToSpeedIncrease;
+    private int currentAccelerationLevel;
+
+    [Header("Star Properties")]
+    public StarManager starMan;
 
     [Header("Debug")]
     public bool spawnComet;
@@ -72,6 +81,11 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        AssignEvents();
+        starMan = GetComponent<StarManager>();
+    }
+    void AssignEvents()
+    {
         CometCollisionEvent += AddDistanceToComet;
         AddScoreEvent += AddScore;
         EndGameTrigger += EndGame;
@@ -90,7 +104,7 @@ public class GameController : MonoBehaviour
 
     void SpawnObjects()
     {
-        Instantiate(player, playerSpawn.position, playerSpawn.rotation);
+        currentPlayer = (GameObject)Instantiate(player, playerSpawn.position, playerSpawn.rotation);
         if (spawnComet)
         {
             GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
@@ -101,6 +115,8 @@ public class GameController : MonoBehaviour
     void SetupLevel()
     {
         currentDistance = GameData.cometStartY;
+        timeToSpeedIncrease = GameData.accelerationIncreaseRate;
+        currentAccelerationLevel = 0;
     }
 
     void RunStates()
@@ -113,7 +129,10 @@ public class GameController : MonoBehaviour
                 currentState = State.Start;
                 break;
             case State.Start:
-                currentState = State.InGame;
+                AudioController.Instance.StartMusic();
+                UpdateUi();
+                StartCoroutine(StartSequence());
+                currentState = State.Transition;
                 break;
             case State.InGame:
                 UpdateComet();
@@ -123,6 +142,9 @@ public class GameController : MonoBehaviour
                 break;
             case State.End:
                 UiController.TriggerKillScreen("Nothing");
+                starMan.enabled = false;
+                break;
+            case State.Transition:
                 break;
         }
     }
@@ -131,9 +153,22 @@ public class GameController : MonoBehaviour
     {
         if(!hit)
         {
-            currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcceleration);
+            currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcelerationLevels[currentAccelerationLevel]);
         }
         cometRigid.transform.position = new Vector2(0, currentDistance);
+
+        if(timeToSpeedIncrease > 0)
+        {
+            timeToSpeedIncrease -= Time.deltaTime;
+        }
+        else
+        {
+            currentAccelerationLevel++;
+            if(currentAccelerationLevel >= GameData.cometAcelerationLevels.Length)
+            {
+                currentAccelerationLevel = GameData.cometAcelerationLevels.Length - 1;
+            }
+        }
     }
 
     void UpdateUi()
@@ -162,5 +197,16 @@ public class GameController : MonoBehaviour
     void EndGame()
     {
         currentState = State.End;
+    }
+
+    IEnumerator StartSequence()
+    {
+        cometRigid.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel);
+        yield return new WaitUntil(() => cometRigid.transform.position.y >= GameData.cometStartY);
+        currentPlayer.transform.DOMoveY(GameData.playerStartY, GameData.playerStartAccel);
+        yield return new WaitUntil(() => currentPlayer.transform.position.y >= GameData.playerStartY);
+        currentPlayer.GetComponent<PlayerController>().canMove = true;
+        starMan.enabled = true;
+        currentState = State.InGame;
     }
 }
