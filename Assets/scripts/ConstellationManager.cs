@@ -31,6 +31,8 @@ public class ConstellationManager : MonoBehaviour
 
     GameObject player;
 
+    public GameObject starHitCometParticle;
+
 	void Awake()
 	{
 		Instance = this;
@@ -175,9 +177,11 @@ public class ConstellationManager : MonoBehaviour
 			Stars.Clear();
 			Links.Clear();
 
-            constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY, GameData.sendSpeed).SetEase(Ease.InBack);
-			//StartCoroutine(ConstellationFlyAway(constellation));
-			return true;
+            constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InBack);
+            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationComplete);
+            AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[(int)SoundBank.SoundEffects.ConstellationComplete], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);
+            //StartCoroutine(ConstellationFlyAway(constellation));
+            return true;
 		}
 		else
 		{
@@ -261,9 +265,11 @@ public class ConstellationManager : MonoBehaviour
 
 		Stars = new Dictionary<Guid, GameData.Star>();
 		Links = new List<GameData.Link>();
-	}
+        AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
 
-	protected void CheckStrandedStar(GameData.Star star)
+    }
+
+    protected void CheckStrandedStar(GameData.Star star)
 	{
 		if (star.LinkedStars.Count <= 0)
 		{
@@ -314,8 +320,15 @@ public class ConstellationManager : MonoBehaviour
 		{
 			GameData.Star star = constellation.Stars[starId];
 
+<<<<<<< HEAD
+            //Pushback
+            float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+=======
+            Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
+
 			//Pushback
 			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+>>>>>>> origin/Logan
 			GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
 
 			BreakStarLink(constellation, starId);
@@ -323,8 +336,10 @@ public class ConstellationManager : MonoBehaviour
 			{
 				Destroy(constellation.ConstellationParent);
 			}
-		}
-	}
+            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationHit);
+
+        }
+    }
 
 	protected Vector2 GetAverageStarPosition(GameData.Star[] stars)
 	{
