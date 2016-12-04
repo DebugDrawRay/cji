@@ -427,7 +427,7 @@ public class ConstellationManager : MonoBehaviour
 
 	protected IEnumerator DisplayConstellationSuicide(GameObject constellation)
 	{
-		yield return new WaitForSeconds(4);
+		yield return new WaitForSeconds(6);
 		if (constellation != null)
 			Destroy(constellation);
 	}
