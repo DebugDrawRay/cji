@@ -59,6 +59,10 @@ public class PlayerController : MonoBehaviour
 		{
 			Movement();
 		}
+		else
+		{
+			Spiral();
+		}
 	}
 
 	void CompleteConstellationListener()
@@ -86,6 +90,14 @@ public class PlayerController : MonoBehaviour
 		PlayerModel.transform.localEulerAngles = CurrentRotation = rotation;
 
 		rigid.velocity = newSpeed;
+	}
+
+	void Spiral()
+	{
+		//Rotation	
+		Vector3 destRot = CurrentRotation;
+		destRot.y = CurrentRotation.y > 360 ? 0 : CurrentRotation.y + 20;
+		PlayerModel.transform.localEulerAngles = CurrentRotation = destRot;
 	}
 
 	void OnTriggerEnter(Collider hit)
@@ -130,6 +142,9 @@ public class PlayerController : MonoBehaviour
 			GameController.TriggerEndGame();
 			AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
 			var colliders = gameObject.GetComponents<Collider>();
+			lastStar = null;
+			canMove = false;
+			constManager.BreakConstellation();
 			for (int i = 0; i < colliders.Length; i++)
 				colliders[i].enabled = false;
 
