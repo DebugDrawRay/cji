@@ -69,12 +69,12 @@ public static class GameData
     //Star spawn
     public const float fieldSize = 4;
     public const float starSize = .5f;
-    public const float starSpawnY = 5;
+    public const float starSpawnY = 10;
 
     //Comet parameters
     public const float cometAcceleration = .005f;
     public const float accelerationIncreaseRate = 100;
-    public static readonly float[] cometAcelerationLevels = { .005f, .01f};
+    public static readonly float[] cometAcelerationLevels = { .0025f, .005f};
 
     //Star power
     public const float strengthMultiplier = .25f;
@@ -93,4 +93,7 @@ public static class GameData
 
     //player
     public const float playerStartY = 0;
+
+    //Constellation parameters
+    public const float sendSpeed = 1.5f;
 }

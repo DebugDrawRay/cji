@@ -9,7 +9,8 @@ public class DistanceMeter : MonoBehaviour
     public void ChangeDistance(float distance)
     {
         float currentDistance = (distance + Mathf.Abs(GameData.cometDest)) / (GameData.cometStartY + Mathf.Abs(GameData.cometDest));
-        currentDistance = currentDistance * cometStart;
+        currentDistance = Mathf.Clamp(currentDistance, 0, 1) * cometStart;
+        
         comet.anchoredPosition = new Vector2(0, currentDistance);
     }
 }

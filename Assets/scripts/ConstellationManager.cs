@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class ConstellationManager : MonoBehaviour
 {
@@ -174,7 +175,8 @@ public class ConstellationManager : MonoBehaviour
 			Stars.Clear();
 			Links.Clear();
 
-			StartCoroutine(ConstellationFlyAway(constellation));
+            constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY, GameData.sendSpeed).SetEase(Ease.InBack);
+			//StartCoroutine(ConstellationFlyAway(constellation));
 			return true;
 		}
 		else
