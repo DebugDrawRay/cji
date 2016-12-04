@@ -21,6 +21,7 @@ public class StarController : MonoBehaviour
     public bool doShrink;
 
     public GameObject starBoing;
+    public GameObject starBoing02;
     public float delayBeforeSecondBoingTimerBase;
     public float delayBeforeSecondBoingTimer;
 
@@ -29,6 +30,7 @@ public class StarController : MonoBehaviour
     void Awake()
     {
         starData = new GameData.Star(this);
+
     }
 
 	// Use this for initialization
@@ -64,6 +66,16 @@ public class StarController : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+
+        if (delayBeforeSecondBoingTimer > 0 && delayBeforeSecondBoingTimer < 100)
+        {
+            delayBeforeSecondBoingTimer -= Time.deltaTime;
+        }
+        else if(delayBeforeSecondBoingTimer <= 0)
+        {
+            starBoing02.gameObject.SetActive(true);
+            delayBeforeSecondBoingTimer = 120;
         }
 	}
 

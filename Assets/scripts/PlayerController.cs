@@ -27,7 +27,10 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     [Header("Comet")]
-    public int cometLayer;
+    public string cometTag;
+
+    [Header("Stars")]
+    public LineRenderer line;
 
     void Awake()
     {
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CompleteConstellationListener();
+        DrawConstellationLine();
     }
 
     void FixedUpdate()
@@ -87,16 +91,23 @@ public class PlayerController : MonoBehaviour
             {
                 lastStar = isStar;
                 isStar.StopMovement();
+                //isStar.starBoing.GetComponent<StarBoingController>().StartGrowing();
+                isStar.starBoing.gameObject.SetActive(true);//active the star boing
+
+                StarController isStarStarCont = isStar.GetComponent<StarController>();
+                isStarStarCont.delayBeforeSecondBoingTimer = isStarStarCont.delayBeforeSecondBoingTimerBase;//start the timer for the 2nd star boing
+
                 isStar.starData.Position = isStar.transform.position;
                 ChangeColor(isStar.theStarType);
                 constManager.AddStar(isStar.starData);
             }
         }
 
-        if (hit.gameObject.layer == cometLayer)
+        if (hit.gameObject.tag == cometTag)
         {
             //KILL THE WORLD 
             GameController.TriggerEndGame();
+            gameObject.SetActive(false);
         }
 
     }
@@ -121,6 +132,17 @@ public class PlayerController : MonoBehaviour
             case GameData.StarType.None:
                 render.material = NormalMat;
                 break;
+        }
+    }
+
+    void DrawConstellationLine()
+    {
+        line.enabled = (lastStar != null);
+
+        if (lastStar != null)
+        {
+            line.SetPosition(0, line.transform.position);
+            line.SetPosition(1, lastStar.transform.position);
         }
     }
 }

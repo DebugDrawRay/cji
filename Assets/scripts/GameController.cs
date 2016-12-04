@@ -74,8 +74,15 @@ public class GameController : MonoBehaviour
     {
         CometCollisionEvent += AddDistanceToComet;
         AddScoreEvent += AddScore;
+        EndGameTrigger += EndGame;
     }
 
+    void OnDestroy()
+    {
+        CometCollisionEvent -= AddDistanceToComet;
+        AddScoreEvent -= AddScore;
+        EndGameTrigger -= EndGame;
+    }
     void Update()
     {
         RunStates();
@@ -115,7 +122,7 @@ public class GameController : MonoBehaviour
             case State.Pause:
                 break;
             case State.End:
-                Debug.Log("HAHAHAHAH LOSER AHHHHHHHHHHHHAHAHAHAH");
+                UiController.TriggerKillScreen("Nothing");
                 break;
         }
     }

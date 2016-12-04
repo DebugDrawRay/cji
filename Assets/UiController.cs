@@ -26,6 +26,16 @@ public class UiController : MonoBehaviour
         }
     }
 
+    public static Message<string> KillScreenEvent;
+    public static void TriggerKillScreen(string message)
+    {
+        if(KillScreenEvent != null)
+        {
+            KillScreenEvent(message);
+        }
+    }
+
+
     public delegate void ScoreData(int starCount, int linkCount, int score, string name);
     public static event ScoreData ScoreDataEvent;
 
@@ -41,15 +51,31 @@ public class UiController : MonoBehaviour
     public Text distanceDisplay;
     public Text scoreFeed;
     public DistanceMeter distaceMeter;
-
+    public GameObject killScreen;
     private Tween currentTween;
 
     void Awake()
+    {
+        AssignEvents();
+    }
+
+    void AssignEvents()
     {
         ScoreEvent += DisplayScore;
         DistanceEvent += DisplayDistance;
         DistanceEvent += distaceMeter.ChangeDistance;
         ScoreDataEvent += AddToScoreFeed;
+        KillScreenEvent += DisplayKillScreen;
+    }
+
+    void OnDestroy()
+    {
+        ScoreEvent -= DisplayScore;
+        DistanceEvent -= DisplayDistance;
+        DistanceEvent -= distaceMeter.ChangeDistance;
+        ScoreDataEvent -= AddToScoreFeed;
+        KillScreenEvent -= DisplayKillScreen;
+
     }
 
     void DisplayScore(int score)
@@ -75,5 +101,10 @@ public class UiController : MonoBehaviour
     {
         float total = distance + Mathf.Abs(GameData.cometDest);
         distanceDisplay.text = (total * GameData.distanceScalar).ToString();
+    }
+
+    void DisplayKillScreen(string message)
+    {
+        killScreen.SetActive(true);
     }
 }
