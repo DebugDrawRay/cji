@@ -20,11 +20,20 @@ public class StarController : MonoBehaviour
     public float shrinkSpeed;
     public bool doShrink;
 
+    public GameObject starBoing;
+    public GameObject starBoing02;
+    public float delayBeforeSecondBoingTimerBase;
+    public float delayBeforeSecondBoingTimer;
+
+    public Animator theAnimator;
+
+
     //public float starSize;
 
     void Awake()
     {
         starData = new GameData.Star(this);
+
     }
 
 	// Use this for initialization
@@ -61,11 +70,26 @@ public class StarController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if (delayBeforeSecondBoingTimer > 0 && delayBeforeSecondBoingTimer < 100)
+        {
+            delayBeforeSecondBoingTimer -= Time.deltaTime;
+        }
+        else if(delayBeforeSecondBoingTimer <= 0)
+        {
+            starBoing02.gameObject.SetActive(true);
+            delayBeforeSecondBoingTimer = 120;
+        }
 	}
 
 	public void UpdateLayerToSendStar()
 	{
 		gameObject.layer = LayerMask.NameToLayer("SentStars");
+	}
+
+	public void UpdateLayerToStar()
+	{
+		gameObject.layer = LayerMask.NameToLayer("Stars");
 	}
 
 	public void DeactivateCollider()
@@ -86,6 +110,7 @@ public class StarController : MonoBehaviour
 
 	void OnTriggerEnter(Collider coll)
 	{
+        //Instantiate(starHitCometParticle, transform.position, Quaternion.identity);
 		starTriggered.Invoke();
 	}
 
@@ -101,5 +126,19 @@ public class StarController : MonoBehaviour
     public void Twinkle()
     {
         
+    }
+
+    public void DoBoing()
+    {
+        starBoing.gameObject.SetActive(true);
+        delayBeforeSecondBoingTimer = delayBeforeSecondBoingTimerBase;
+
+
+        //theAnimator.GetComponent<Animator>().SetBool("DoQuickGrowThenShrink", true);
+    }
+
+    public void DoGotHitAnim()
+    {
+        theAnimator.GetComponent<Animator>().SetBool("DoQuickGrowThenShrink", true);
     }
 }

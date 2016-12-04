@@ -4,14 +4,19 @@ using System.Collections.Generic;
 
 public static class GameData
 {
-	public enum StarType { Star, Circle, Triangle, Square };
+	public enum StarType { Star, Circle, Triangle, Square, None };
 
+	[Serializable]
 	public class Star
 	{
+		//Data Objects
 		public Guid StarId;
 		public StarType Type;
 		public Vector3 Position;
 		public List<Guid> LinkedStars;
+
+		//Game Objects
+		[NonSerialized]
 		public StarController Controller;
 
 		public Star(StarController controller = null)
@@ -22,12 +27,16 @@ public static class GameData
 		}
 	}
 
+	[Serializable]
 	public class Link
 	{
+		//Data Objects
 		public List<Guid> StarIds;
-		public LineRenderer LineComponent;
 		public Vector3 StartPos;
 		public Vector3 EndPos;
+
+		//Game Objects
+		public LineRenderer LineComponent;
 
 		public Link()
 		{
@@ -37,12 +46,15 @@ public static class GameData
 
 	public class Constellation
 	{
+		public string ConstellationName;
+		public GameObject ConstellationParent;
 		public Dictionary<Guid, Star> Stars;
 		public List<Link> Links;
+		public Sprite Background;
 	}
 
     //Constants 
-    public const float cometStartY = 7;
+    public const float cometStartY = 8;
     public const float cometDest = -5f;
     public const int minimumStars = 3;
 
@@ -53,12 +65,14 @@ public static class GameData
     //Star timing
     public const float minTimeToSpawn = 0.25f;
     public const float maxTimeToSpawn = .5f;
-    public const float starSpawnXMin = -4;
-    public const float starSpawnXMax = 4;
+
+    //Star spawn
+    public const float fieldSize = 4;
+    public const float starSize = .5f;
     public const float starSpawnY = 5;
 
     //Comet parameters
-    public const float cometAcceleration = .01f;
+    public const float cometAcceleration = .00275f;
 
     //Star power
     public const float strengthMultiplier = .25f;
@@ -69,4 +83,5 @@ public static class GameData
     public const float scoreConnectionMulti = .1f;
     public const float constSizeMulti = .25f;
 
+    public const float distanceScalar = 1000;
 }

@@ -41,7 +41,14 @@ public class StarManager : MonoBehaviour
 
     Vector3 GetSpawnPos()
     {
-        Vector3 theSpawnPos = new Vector3(Random.Range(GameData.starSpawnXMin, GameData.starSpawnXMax), GameData.starSpawnY, 0);
+        int spot = Random.Range(0, Mathf.RoundToInt(GameData.fieldSize / GameData.starSize));
+        float sign = 1;
+        if(Random.value >= .5)
+        {
+            sign = -1;
+        }
+        float xPos = (spot * GameData.starSize) * sign;
+        Vector3 theSpawnPos = new Vector3(xPos, GameData.starSpawnY, 0);
         return theSpawnPos;
     }
 
