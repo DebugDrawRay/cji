@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour
                 break;
             case State.InGame:
                 UpdateComet();
-				    UpdateLevel();
+                UpdateLevel();
                 UpdateUi();
                 break;
             case State.Pause:
@@ -188,9 +188,8 @@ public class GameController : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     float lastY;
-=======
+
 	void UpdateLevel()
 	{
 		if (currentAccelerationLevel < GameData.cometAcelerationLevels.Length - 1)
@@ -209,7 +208,6 @@ public class GameController : MonoBehaviour
 		}
 	}
 
->>>>>>> origin/AmandaTheGoodOne
     void UpdateUi()
     {
         UiController.TriggerScoreEvent(currentScore);
