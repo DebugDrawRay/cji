@@ -849,6 +849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreDisplay: {fileID: 114000012060746036}
   distanceDisplay: {fileID: 114000010934327148}
+  constellationInfo: {fileID: 114000011998527214}
   distanceMeter: {fileID: 114000012292212520}
   velocityDisplay: {fileID: 114000013502330814}
   ConstellationDisplay: {fileID: 114000014140356826}
@@ -1068,7 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9686275, g: 0.57254905, b: 0.12941177, a: 1}
+  m_Color: {r: 0.9686275, g: 0.57254905, b: 0.12941177, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2399,7 +2400,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -96.1, y: -161.1}
+  m_AnchoredPosition: {x: -96.1, y: -185}
   m_SizeDelta: {x: 180, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000012698213416

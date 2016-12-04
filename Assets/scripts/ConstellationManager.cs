@@ -423,7 +423,7 @@ public class ConstellationManager : MonoBehaviour
 		duplicateConstellation.transform.localScale = Vector3.one;
 		duplicateConstellation.transform.localPosition = Vector3.zero - center;
 
-		UiController.TriggerConstellationFadeEvent(true);
+		UiController.TriggerConstellationFadeEvent(original.ConstellationName);
 		StartCoroutine(DisplayConstellationSuicide(duplicateConstellation));
 	}
 
