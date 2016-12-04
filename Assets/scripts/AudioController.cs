@@ -5,6 +5,7 @@ public class AudioController : MonoBehaviour
 {
     public AudioSource musicBus;
     public AudioSource[] effectBus;
+    public AudioSource dynamicBus;
 
     public static AudioController Instance;
 
@@ -16,6 +17,12 @@ public class AudioController : MonoBehaviour
         bank = GetComponent<SoundBank>();
     }
 
+    void Start()
+    {
+        dynamicBus.clip = bank.Request(SoundBank.DynamicSounds.Comet);
+        dynamicBus.loop = true;
+        dynamicBus.Play();
+    }
     public void StartMusic()
     {
         musicBus.clip = bank.Request(SoundBank.Music.Intro);
@@ -38,21 +45,19 @@ public class AudioController : MonoBehaviour
         source.Play();
     }
 
-    public void PlaySfx(AudioClip clip)
+    public void PlaySfx(SoundBank.SoundEffects clip)
     {
-        int index = 0;
-        while(effectBus[index].isPlaying)
-        {
-            index++;
-            if(index >= effectBus.Length - 1)
-            {
-                index = 0;
-            }
-        }
-        AudioSource bus = effectBus[index];
+        AudioSource bus = effectBus[(int)clip];
 
-        bus.clip = clip;
+        bus.clip = bank.Request(clip);
         bus.loop = false;
         bus.Play();
+    }
+
+    public void ChangeDynamicSound(float amount)
+    {
+        float total = amount / 5;
+        total = Mathf.Clamp(total, 0, 1);
+        dynamicBus.volume = 1 - total;
     }
 }

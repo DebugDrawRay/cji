@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
 				isStar.starData.Position = isStar.transform.position;
 				ChangeColor(isStar.theStarType);
 				constManager.AddStar(isStar.starData);
-                AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.StarGood));
+                AudioController.Instance.PlaySfx(SoundBank.SoundEffects.StarGood);
             }
         }
 
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
 		{
 			//KILL THE WORLD 
 			GameController.TriggerEndGame();
-            AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationBroken));
+            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
 			gameObject.SetActive(false);
         }
 

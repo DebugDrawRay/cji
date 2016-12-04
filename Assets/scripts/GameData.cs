@@ -78,7 +78,7 @@ public static class GameData
 
     //Star power
     public const float strengthMultiplier = .25f;
-    public const float cometCollisionSpeed = .25f;
+    public const float cometCollisionSpeed = 1f;
 
     //Scoring
     public const int scorePerStar = 10;

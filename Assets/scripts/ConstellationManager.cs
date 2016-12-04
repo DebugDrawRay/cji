@@ -175,9 +175,9 @@ public class ConstellationManager : MonoBehaviour
 			Stars.Clear();
 			Links.Clear();
 
-            constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY, GameData.sendSpeed).SetEase(Ease.InBack);
-            AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationComplete));
-            AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[AudioController.Instance.effectBus.Length - 1], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);
+            constellation.ConstellationParent.transform.DOMoveY(GameData.cometStartY * 2, GameData.sendSpeed).SetEase(Ease.InBack);
+            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationComplete);
+            AudioController.Instance.PlayAtEnd(AudioController.Instance.effectBus[(int)SoundBank.SoundEffects.ConstellationComplete], SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationSent), false);
             //StartCoroutine(ConstellationFlyAway(constellation));
             return true;
 		}
@@ -263,7 +263,7 @@ public class ConstellationManager : MonoBehaviour
 
 		Stars = new Dictionary<Guid, GameData.Star>();
 		Links = new List<GameData.Link>();
-        AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationBroken));
+        AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
 
     }
 
@@ -318,8 +318,8 @@ public class ConstellationManager : MonoBehaviour
 		{
 			GameData.Star star = constellation.Stars[starId];
 
-			//Pushback
-			float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
+            //Pushback
+            float strength = GameData.strengthMultiplier * (star.LinkedStars.Count + 1);
 			GameController.TriggerCometCollision(strength, GameData.cometCollisionSpeed);
 
 			BreakStarLink(constellation, starId);
@@ -327,7 +327,7 @@ public class ConstellationManager : MonoBehaviour
 			{
 				Destroy(constellation.ConstellationParent);
 			}
-            AudioController.Instance.PlaySfx(SoundBank.Instance.Request(SoundBank.SoundEffects.ConstellationHit));
+            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationHit);
 
         }
     }

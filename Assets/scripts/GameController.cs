@@ -161,7 +161,7 @@ public class GameController : MonoBehaviour
 				currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcelerationLevels[currentAccelerationLevel]);
 			}
 			cometRigid.transform.position = new Vector2(0, currentDistance);
-
+            AudioController.Instance.ChangeDynamicSound(currentDistance);
 			if (timeToSpeedIncrease > 0)
 			{
 				timeToSpeedIncrease -= Time.deltaTime;
@@ -191,12 +191,12 @@ public class GameController : MonoBehaviour
             currentTween.Kill();
         }
 
-			StopAllCoroutines();
-			cometRotate.enabled = false;
-			frozen = true;
-			StartCoroutine(DelayedJump(strength, speed));
+		//StopAllCoroutines();
+		//cometRotate.enabled = false;
+		//frozen = true;
+		//StartCoroutine(DelayedJump(strength, speed));
 
-        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed);
+        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed).SetEase(Ease.OutExpo);
         currentTween.OnComplete(() => hit = false);
     }
 

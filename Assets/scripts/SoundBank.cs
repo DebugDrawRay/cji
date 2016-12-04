@@ -21,6 +21,12 @@ public class SoundBank : MonoBehaviour
     }
     public AudioClip[] SoundEffectClips;
 
+    public enum DynamicSounds
+    {
+        Comet
+    }
+    public AudioClip[] DynamicSoundClips;
+
     public static SoundBank Instance;
 
     void Awake()
@@ -37,5 +43,10 @@ public class SoundBank : MonoBehaviour
     {
         int index = (int)soundEffect;
         return SoundEffectClips[index];
+    }
+    public AudioClip Request(DynamicSounds dynamic)
+    {
+        int index = (int)dynamic;
+        return DynamicSoundClips[index];
     }
 }
