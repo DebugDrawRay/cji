@@ -90,6 +90,7 @@ public static class GameData
     public const float constSizeMulti = .25f;
 
     public const float distanceScalar = 1000;
+    public const float speedScalar = 1000;
 
     //Start Sequence
     public const float cometStartAccel = 2f;
