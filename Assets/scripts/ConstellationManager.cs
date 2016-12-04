@@ -196,8 +196,6 @@ public class ConstellationManager : MonoBehaviour
 	{
 		Debug.Log("Resetting Constellation");
 
-
-
 		LastStar = null;
 
 		//Release Stars
@@ -305,7 +303,8 @@ public class ConstellationManager : MonoBehaviour
         int score = GameData.scorePerStar;
         float totalConnections = 1 + (GameData.scoreConnectionMulti * star.LinkedStars.Count);
         float totalStars = 1 + (GameData.constSizeMulti * constellation.Stars.Count);
-
+        
+        UiController.TriggerScoreData(constellation.Stars.Count, constellation.Links.Count, (int)((score * totalConnections) * totalStars), "Test");
         GameController.TriggerAddScore((int)((score * totalConnections) * totalStars));
 	}
 }

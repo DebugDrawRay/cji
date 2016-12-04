@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController Instance;
 
+    [Header("Comet")]
+    public int cometLayer;
+
     void Awake()
     {
         Instance = this;
@@ -89,6 +92,13 @@ public class PlayerController : MonoBehaviour
                 constManager.AddStar(isStar.starData);
             }
         }
+
+        if (hit.gameObject.layer == cometLayer)
+        {
+            //KILL THE WORLD 
+            GameController.TriggerEndGame();
+        }
+
     }
 
     public void ChangeColor(GameData.StarType type)
