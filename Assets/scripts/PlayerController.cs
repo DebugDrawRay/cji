@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
             if (lastStar != null && lastStar.theStarType != isStar.theStarType)
             {
                 Camera.main.GetComponent<CameraController>().DoScreenShake();
+				GameController.TriggerCometBoost();
                 constManager.BreakConstellation();
                 isStar.FadeOutStar();
                 ChangeColor(GameData.StarType.None);

@@ -124,7 +124,7 @@ public class UiController : MonoBehaviour
 
     void DisplayVelocity(float velocity)
     {
-        velocityDisplay.text = (velocity * 2000).ToString();
+        velocityDisplay.text = (velocity * GameData.speedScalar).ToString() + " M/s";
     }
 
     void AddToScoreFeed(int starCount, int linkCount, int score, string name)
@@ -140,7 +140,7 @@ public class UiController : MonoBehaviour
     void DisplayDistance(float distance)
     {
         float total = distance + Mathf.Abs(GameData.cometDest);
-        distanceDisplay.text = Mathf.RoundToInt(total * GameData.distanceScalar).ToString();
+        distanceDisplay.text = Mathf.RoundToInt(total * GameData.distanceScalar).ToString() + " M";
     }
 
     void DisplayKillScreen(string message)

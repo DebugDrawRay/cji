@@ -14,7 +14,7 @@ public class ConstellationManager : MonoBehaviour
 	public TextAsset ConstellationAdjectivesText;
 	protected string[] ConstellationNouns;
 	protected string[] ConstellationAdjectives;
-	public Sprite[] ConstellationBackgrounds;
+	public ConstellationsData ConstellationData;
 	protected Color ConstellationBackgroundColor = new Color(1, 1, 1, 0.3f);
 	protected Color ConstellationDisplayBackgroundColor = new Color(1, 1, 1, 0.8f);
 
@@ -108,8 +108,8 @@ public class ConstellationManager : MonoBehaviour
 				link.LineComponent = line;
 				link.StartPos = lastStar.Position;
 				link.EndPos = star.Position;
-				line.SetPosition(0, link.StartPos);
-				line.SetPosition(1, link.EndPos);
+				line.SetPosition(0, new Vector3(link.StartPos.x, link.StartPos.y, 1f));
+				line.SetPosition(1, new Vector3(link.EndPos.x, link.EndPos.y, 1f));
 
 				Links.Add(link);
 				InvincibilityCountdown = InvincibiltyCountdownMax;
@@ -322,7 +322,9 @@ public class ConstellationManager : MonoBehaviour
 			GameData.Star star = constellation.Stars[starId];
 
 			//Explosion
-			Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
+			Vector3 particlePosition = constellation.Stars[starId].Controller.gameObject.transform.position;
+			particlePosition.y += 1f;
+			Instantiate(starHitCometParticle, particlePosition, Quaternion.identity);
 
 			//Pushback
 			float strength = GameData.baseStrength + (GameData.strengthMultiplier * star.LinkedStars.Count);
@@ -380,7 +382,7 @@ public class ConstellationManager : MonoBehaviour
 
 	protected Sprite GetRandomConstellationImage()
 	{
-		return ConstellationBackgrounds[UnityEngine.Random.Range(0, ConstellationBackgrounds.Length)];
+		return ConstellationData.ConstellationSprites[UnityEngine.Random.Range(0, ConstellationData.ConstellationSprites.Length)];
 	}
 
 	#endregion
@@ -410,7 +412,7 @@ public class ConstellationManager : MonoBehaviour
 
 			var lineComp = child.GetComponentInChildren<LineRenderer>();
 			if (lineComp != null)
-				lineComp.SetWidth(0.03f, 0.03f);
+				lineComp.SetWidth(0.1f, 0.1f);
 		}
 
 		//Up opacity on background
