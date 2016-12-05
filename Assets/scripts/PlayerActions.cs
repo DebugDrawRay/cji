@@ -13,6 +13,8 @@ public class PlayerActions : PlayerActionSet
 
     public PlayerAction PrimaryAction;
 
+    public PlayerAction Pause;
+
     public PlayerActions()
     {
         Up = CreatePlayerAction("Up");
@@ -23,6 +25,8 @@ public class PlayerActions : PlayerActionSet
         Move = CreateTwoAxisPlayerAction(Left, Right, Down, Up);
 
         PrimaryAction = CreatePlayerAction("Primary Action");
+
+        Pause = CreatePlayerAction("Pause");
     }
 
     public static PlayerActions BindAll()
@@ -40,6 +44,11 @@ public class PlayerActions : PlayerActionSet
 
         actions.PrimaryAction.AddDefaultBinding(InputControlType.Action1);
         actions.PrimaryAction.AddDefaultBinding(Key.Space);
+        actions.Pause.AddDefaultBinding(Key.Escape);
+        actions.Pause.AddDefaultBinding(InputControlType.Start);
+        actions.Pause.AddDefaultBinding(InputControlType.Pause);
+        actions.Pause.AddDefaultBinding(InputControlType.Menu);
+        actions.Pause.AddDefaultBinding(InputControlType.Home);
         return actions;
     }
 }

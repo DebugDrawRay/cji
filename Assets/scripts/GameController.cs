@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour
 	[Header("Pause Screen")]
 	public GameObject PauseScreen;
 
+    public PlayerActions controller;
     //Events
     public delegate void CollisionEvent(float strength, float speed);
     public static event CollisionEvent CometCollisionEvent;
@@ -117,6 +118,11 @@ public class GameController : MonoBehaviour
 		starMan = GetComponent<StarManager>();
     }
 
+    void Start()
+    {
+        controller = PlayerActions.BindAll();
+    }
+
     void AssignEvents()
     {
         CometCollisionEvent += AddDistanceToComet;
@@ -177,6 +183,10 @@ public class GameController : MonoBehaviour
                 UpdateComet();
                 UpdateLevel();
                 UpdateUi();
+                if(controller.Pause.WasPressed)
+                {
+                    Pause();
+                }
                 break;
             case State.Pause:
                 break;
