@@ -261,7 +261,47 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010762434418, guid: d7a251b8c3326894f9c480fe605f2d87, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000010935729558, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000011067862328, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000011251600140, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000012018556638, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000010594354032, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000010112492496, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000013664024258, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82000014165507836, guid: d7a251b8c3326894f9c480fe605f2d87,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7a251b8c3326894f9c480fe605f2d87, type: 2}
@@ -551,7 +591,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &2125268304
 GameObject:
   m_ObjectHideFlags: 0

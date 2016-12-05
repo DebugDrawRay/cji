@@ -239,6 +239,8 @@ MonoBehaviour:
   BlueMat: {fileID: 2100000, guid: ce164f2ad1bcd424686f2eaa1faba572, type: 2}
   GreenMat: {fileID: 2100000, guid: 229e5008f7638324aafe657b42b178c6, type: 2}
   YellowMat: {fileID: 2100000, guid: f6a4afb4b7d438b4a81184e8f5789942, type: 2}
+  fireworksPrefab: {fileID: 1000011380947804, guid: 83843edb4a658084192bc5ea511e7d3d,
+    type: 2}
   cometTag: Comet
   line: {fileID: 120000011520671314}
 --- !u!114 &114000011639299780
