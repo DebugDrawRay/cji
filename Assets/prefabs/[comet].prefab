@@ -23,7 +23,7 @@ GameObject:
   - 135: {fileID: 135000014294155588}
   m_Layer: 11
   m_Name: '[comet]'
-  m_TagString: Untagged
+  m_TagString: Comet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

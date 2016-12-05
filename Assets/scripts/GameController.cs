@@ -9,7 +9,8 @@ public class GameController : MonoBehaviour
         Start,
         InGame,
         Pause,
-        End
+        End,
+        Transition
     }
     public State currentState;
 
@@ -17,12 +18,17 @@ public class GameController : MonoBehaviour
 
     [Header("Player")]
     public GameObject player;
+    private GameObject currentPlayer;
     public Transform playerSpawn;
 
     [Header("Comet Properties")]
     public GameObject comet;
     public Transform cometSpawn;
     private Rigidbody cometRigid;
+	protected Rotate cometRotate;
+	public bool frozen = false;
+
+	protected float cometBoostTimer = 0f;
 
     private float currentDistance;
     private float currentTarget;
@@ -31,9 +37,21 @@ public class GameController : MonoBehaviour
     private Tween currentTween;
     private bool hit;
 
+    //Timing
+    private float timeToSpeedIncrease;
+    private int currentAccelerationLevel;
+    private bool inDanger;
+
+	protected float levelTimer;
+
+    [Header("Star Properties")]
+    public StarManager starMan;
+
     [Header("Debug")]
     public bool spawnComet;
 
+
+    //Events
     public delegate void CollisionEvent(float strength, float speed);
     public static event CollisionEvent CometCollisionEvent;
 
@@ -44,6 +62,16 @@ public class GameController : MonoBehaviour
             CometCollisionEvent(strength, speed);
         }
     }
+
+	public delegate void BoostEvent();
+	public static event BoostEvent CometBoostEvent;
+	public static void TriggerCometBoost()
+	{
+		if (CometBoostEvent != null)
+		{
+			CometBoostEvent();
+		}
+	}
 
     public delegate void ScoreEvent(int score);
     public static event ScoreEvent AddScoreEvent;
@@ -57,12 +85,38 @@ public class GameController : MonoBehaviour
 
     }
 
-    void Awake()
+    public delegate void Trigger();
+    public static event Trigger EndGameTrigger;
+
+    public static void TriggerEndGame()
     {
-        CometCollisionEvent += AddDistanceToComet;
-        AddScoreEvent += AddScore;
+        if(EndGameTrigger != null)
+        {
+            EndGameTrigger();
+        }
     }
 
+    void Awake()
+    {
+        AssignEvents();
+        starMan = GetComponent<StarManager>();
+    }
+
+    void AssignEvents()
+    {
+        CometCollisionEvent += AddDistanceToComet;
+		  CometBoostEvent += BoostComet;
+        AddScoreEvent += AddScore;
+        EndGameTrigger += EndGame;
+    }
+
+    void OnDestroy()
+    {
+        CometCollisionEvent -= AddDistanceToComet;
+		  CometBoostEvent -= BoostComet;
+        AddScoreEvent -= AddScore;
+        EndGameTrigger -= EndGame;
+    }
     void Update()
     {
         RunStates();
@@ -70,17 +124,21 @@ public class GameController : MonoBehaviour
 
     void SpawnObjects()
     {
-        Instantiate(player, playerSpawn.position, playerSpawn.rotation);
+        currentPlayer = (GameObject)Instantiate(player, playerSpawn.position, playerSpawn.rotation);
         if (spawnComet)
         {
             GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
             cometRigid = newComet.GetComponent<Rigidbody>();
+            cometRotate = newComet.GetComponentInChildren<Rotate>();
         }
     }
 
     void SetupLevel()
     {
         currentDistance = GameData.cometStartY;
+        timeToSpeedIncrease = GameData.accelerationIncreaseRate;
+        currentAccelerationLevel = 0;
+        levelTimer = GameData.levelTime;
     }
 
     void RunStates()
@@ -93,30 +151,94 @@ public class GameController : MonoBehaviour
                 currentState = State.Start;
                 break;
             case State.Start:
-                currentState = State.InGame;
+                UpdateUi();
+                UiController.TriggerVelocityEvent(GameData.cometAcelerationLevels[currentAccelerationLevel] * GameData.speedScalar);
+                AudioController.Instance.StartMusic();
+                StartCoroutine(StartSequence());
+                currentState = State.Transition;
                 break;
             case State.InGame:
                 UpdateComet();
-                UiController.TriggerScoreEvent(currentScore);
-                UiController.TriggerDistanceEvent(currentDistance);
+                UpdateLevel();
+                UpdateUi();
                 break;
             case State.Pause:
                 break;
             case State.End:
+                UiController.TriggerKillScreen("Nothing");
+                starMan.enabled = false;
+                break;
+            case State.Transition:
                 break;
         }
     }
 
     void UpdateComet()
     {
-        if(!hit)
+		if (!hit)
+		{
+			float modifier = cometBoostTimer >= 0 ? GameData.cometBoostMultiplier : 1;
+			currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, modifier * GameData.cometAcelerationLevels[currentAccelerationLevel]);
+		}
+		cometRigid.transform.position = new Vector2(0, currentDistance);
+
+        if (currentDistance <= GameData.dangerLimit)
         {
-            currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, GameData.cometAcceleration);
+            if (!inDanger)
+            {
+                AudioController.Instance.FadeToDanger(true);
+                inDanger = true;
+                UiController.TriggerCometDanger(true);
+            }
         }
-        cometRigid.transform.position = new Vector2(0, currentDistance);
+        else
+        {
+            if (inDanger)
+            {
+                AudioController.Instance.FadeToDanger(false);
+                inDanger = false;
+                UiController.TriggerCometDanger(false);
+            }
+        }
+
+		if (cometBoostTimer >= 0)
+			cometBoostTimer -= Time.deltaTime;
     }
 
-    [ContextMenu("Do it sweet child")]
+	void UpdateLevel()
+	{
+		if (currentAccelerationLevel < GameData.cometAcelerationLevels.Length - 1)
+		{
+			if (levelTimer <= 0)
+			{
+				levelTimer = GameData.levelTime;
+				currentAccelerationLevel++;
+				starMan.spawnLevel++;
+				Debug.Log("NEW LEVEL: " + currentAccelerationLevel);
+                UiController.TriggerVelocityEvent(GameData.cometAcelerationLevels[currentAccelerationLevel]);
+            }
+            else
+			{
+				levelTimer -= Time.deltaTime;
+			}
+		}
+	}
+
+	void BoostComet()
+	{
+		cometBoostTimer += GameData.cometBoostTimerAdd;
+	}
+
+    void UpdateUi()
+    {
+        UiController.TriggerScoreEvent(currentScore);
+        UiController.TriggerDistanceEvent(currentDistance);
+    }
+
+    void UpdateMeters()
+    {
+    }
+
     void AddDistanceToComet(float strength, float speed)
     {
         hit = true;
@@ -124,7 +246,8 @@ public class GameController : MonoBehaviour
         {
             currentTween.Kill();
         }
-        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed);
+        float newDistance = currentDistance + strength;
+        currentTween = DOTween.To(() => currentDistance, x => currentDistance = x, currentDistance + strength, speed).SetEase(Ease.OutExpo);
         currentTween.OnComplete(() => hit = false);
     }
 
@@ -132,4 +255,34 @@ public class GameController : MonoBehaviour
     {
         currentScore += score;
     }
+
+    void EndGame()
+    {
+        AudioController.Instance.EndMusic();
+		currentState = State.Transition;
+		StartCoroutine(EndSequence());
+        //currentState = State.End;
+    }
+
+    IEnumerator StartSequence()
+    {
+        cometRigid.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel);
+        yield return new WaitUntil(() => cometRigid.transform.position.y >= GameData.cometStartY);
+        currentPlayer.transform.DOMoveY(GameData.playerStartY, GameData.cometStartAccel);
+        yield return new WaitUntil(() => currentPlayer.transform.position.y >= GameData.playerStartY);
+        currentPlayer.GetComponent<PlayerController>().canMove = true;
+        starMan.enabled = true;
+        currentState = State.InGame;
+    }
+
+	IEnumerator EndSequence()
+	{
+		cometRigid.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel * 1.2f);
+		currentPlayer.transform.DOMoveY(GameData.cometStartY, GameData.cometStartAccel * 1.2f).SetEase(Ease.InOutBack);
+		currentPlayer.transform.DOMoveX(0, GameData.cometStartAccel).SetEase(Ease.InOutBack);
+		yield return new WaitUntil(() => cometRigid.transform.position.y >= GameData.cometStartY);
+		currentPlayer.GetComponent<PlayerController>().canMove = false;
+		starMan.enabled = false;
+		currentState = State.End;
+	}
 }

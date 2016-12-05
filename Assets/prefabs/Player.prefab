@@ -22,7 +22,8 @@ GameObject:
   - 54: {fileID: 54000012106285476}
   - 114: {fileID: 114000010304944004}
   - 136: {fileID: 136000011261359382}
-  m_Layer: 0
+  - 136: {fileID: 136000010304137446}
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +41,7 @@ GameObject:
   - 199: {fileID: 199000012781896026}
   - 198: {fileID: 198000012321768254}
   - 114: {fileID: 114000011639299780}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ GameObject:
   - 4: {fileID: 4000013596603220}
   - 33: {fileID: 33000010993531022}
   - 23: {fileID: 23000013796572526}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: STAR_GIRL_fbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,8 +75,24 @@ GameObject:
   - 4: {fileID: 4000013923060042}
   - 199: {fileID: 199000011283895798}
   - 198: {fileID: 198000011842132590}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Afterburner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000012275916424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000012031503700}
+  - 120: {fileID: 120000011520671314}
+  m_Layer: 9
+  m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,13 +106,27 @@ Transform:
   m_GameObject: {fileID: 1000010127455008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.167345, y: 4.167343, z: 4.167343}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000013596603220}
   - {fileID: 4000013923060042}
+  - {fileID: 4000012031503700}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!4 &4000012031503700
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012275916424}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.347, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000010715931278}
+  m_RootOrder: 2
 --- !u!4 &4000013262618966
 Transform:
   m_ObjectHideFlags: 1
@@ -201,12 +232,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   acceleration: 0.5
+  canMove: 0
   PlayerModel: {fileID: 1000011557397364}
   NormalMat: {fileID: 2100000, guid: 531a64aa7bebf4307b795c78e8168422, type: 2}
   PinkMat: {fileID: 2100000, guid: 7dd45160be97999408b745b841a0f6c7, type: 2}
   BlueMat: {fileID: 2100000, guid: ce164f2ad1bcd424686f2eaa1faba572, type: 2}
   GreenMat: {fileID: 2100000, guid: 229e5008f7638324aafe657b42b178c6, type: 2}
   YellowMat: {fileID: 2100000, guid: f6a4afb4b7d438b4a81184e8f5789942, type: 2}
+  cometTag: Comet
+  line: {fileID: 120000011520671314}
 --- !u!114 &114000011639299780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,7 +252,49 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &136000011261359382
+--- !u!120 &120000011520671314
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012275916424}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: f795e1c191cf63c4fa237ad17cb20702, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 4}
+  m_Parameters:
+    startWidth: 0.05
+    endWidth: 0.05
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
+--- !u!136 &136000010304137446
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -231,13 +307,26 @@ CapsuleCollider:
   m_Height: 0.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.37, z: 0}
+--- !u!136 &136000011261359382
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010127455008}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.25
+  m_Height: 0.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.37, z: 0}
 --- !u!198 &198000011842132590
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011949258094}
-  serializedVersion: 2
+  serializedVersion: 4
   lengthInSec: 1
   startDelay:
     scalar: 0
@@ -275,12 +364,13 @@ ParticleSystem:
       m_RotationOrder: 4
     minMaxState: 0
   speed: 1
-  randomSeed: 2335347135
   looping: 1
   prewarm: 0
   playOnAwake: 1
   moveWithTransform: 1
+  autoRandomSeed: 0
   scalingMode: 2
+  randomSeed: -1959620224
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -1955,7 +2045,7 @@ ParticleSystem:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011460785476}
-  serializedVersion: 2
+  serializedVersion: 4
   lengthInSec: 1
   startDelay:
     scalar: 0
@@ -1993,12 +2083,13 @@ ParticleSystem:
       m_RotationOrder: 4
     minMaxState: 0
   speed: 1
-  randomSeed: 3140230606
   looping: 1
   prewarm: 0
   playOnAwake: 1
   moveWithTransform: 1
+  autoRandomSeed: 0
   scalingMode: 2
+  randomSeed: -1154736690
   InitialModule:
     serializedVersion: 2
     enabled: 1

@@ -1,0 +1,29 @@
+Sea Captain
+General
+Captain
+Leader
+Peasant
+Worker
+Duke
+King
+Queen
+Jester
+Prince
+Princess
+Professor
+Intern
+Understudy
+Tech Lead
+CEO
+Champion
+President
+Astrologer
+Warrior
+Inventor
+Tinkerer
+Visionary
+Maverick
+Coach
+Athlete
+Mad Scientist
+Dean

@@ -9,6 +9,7 @@ public class StarManager : MonoBehaviour
     public GameObject[] StarsToSpawn;
 
     private float SpawnTimer;
+	 public int spawnLevel = 0;
 
     public float starScale;
 
@@ -22,7 +23,7 @@ public class StarManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        SpawnTimer = Random.Range(GameData.minTimeToSpawn, GameData.maxTimeToSpawn);
+        SpawnTimer = Random.Range(GameData.starSpawnTimers[spawnLevel].x, GameData.starSpawnTimers[spawnLevel].y);
     }
 
     // Update is called once per frame
@@ -35,13 +36,20 @@ public class StarManager : MonoBehaviour
         else
         {
             SpawnObject();
-            SpawnTimer = Random.Range(GameData.minTimeToSpawn, GameData.maxTimeToSpawn);
-        }
+            SpawnTimer = Random.Range(GameData.starSpawnTimers[spawnLevel].x, GameData.starSpawnTimers[spawnLevel].y);
+		}
 	}
 
     Vector3 GetSpawnPos()
     {
-        Vector3 theSpawnPos = new Vector3(Random.Range(GameData.starSpawnXMin, GameData.starSpawnXMax), GameData.starSpawnY, 0);
+        int spot = Random.Range(0, Mathf.RoundToInt(GameData.fieldSize / GameData.starSize));
+        float sign = 1;
+        if(Random.value >= .5)
+        {
+            sign = -1;
+        }
+        float xPos = (spot * GameData.starSize) * sign;
+        Vector3 theSpawnPos = new Vector3(xPos, GameData.starSpawnY, 0);
         return theSpawnPos;
     }
 
