@@ -322,7 +322,9 @@ public class ConstellationManager : MonoBehaviour
 			GameData.Star star = constellation.Stars[starId];
 
 			//Explosion
-			Instantiate(starHitCometParticle, constellation.Stars[starId].Controller.gameObject.transform.position, Quaternion.identity);
+			Vector3 particlePosition = constellation.Stars[starId].Controller.gameObject.transform.position;
+			particlePosition.y += 1f;
+			Instantiate(starHitCometParticle, particlePosition, Quaternion.identity);
 
 			//Pushback
 			float strength = GameData.baseStrength + (GameData.strengthMultiplier * star.LinkedStars.Count);
