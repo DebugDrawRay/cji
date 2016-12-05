@@ -9,7 +9,15 @@ public class DistanceMeter : MonoBehaviour
     public RectTransform constellationStart;
 
     public RectTransform comet;
+    public RectTransform cometImage;
     public float cometStart;
+
+    public Image cometFire;
+
+    void Start()
+    {
+        //cometImage.DOShakePosition(.1f, 1, 1000, 100).SetLoops(-1);
+    }
 
     public void ChangeDistance(float distance)
     {
@@ -25,5 +33,19 @@ public class DistanceMeter : MonoBehaviour
         newCon.GetComponent<RectTransform>().anchoredPosition = constellationStart.anchoredPosition;
         newCon.GetComponent<ConstellationIcon>().parent = cons.transform;
         newCon.GetComponent<ConstellationIcon>().destinationY = cometStart;
+    }
+
+    public void CometDanger(bool inDanger)
+    {
+        if(inDanger)
+        {
+            cometFire.DOColor(Color.white, .25f);
+        }
+        else
+        {
+            Color trans = Color.white;
+            trans.a = 0;
+            cometFire.DOColor(trans, .25f);
+        }
     }
 }

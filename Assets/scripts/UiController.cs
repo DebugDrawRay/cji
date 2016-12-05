@@ -74,6 +74,15 @@ public class UiController : MonoBehaviour
 		}
 	}
 
+    public static Message<bool> CometDanger;
+    public static void TriggerCometDanger(bool inDanger)
+    {
+        if(CometDanger != null)
+        {
+            CometDanger(inDanger);
+        }
+    }
+
 	public Text scoreDisplay;
     public Text distanceDisplay;
     public Text constellationInfo;
@@ -102,6 +111,7 @@ public class UiController : MonoBehaviour
         VelocityEvent += DisplayVelocity;
         ConstellationEvent += distanceMeter.DisplayConstellation;
         ConstellationFadeEvent += FadeInConstellation;
+        CometDanger += distanceMeter.CometDanger;
 	 }
 
     void OnDestroy()
@@ -114,6 +124,7 @@ public class UiController : MonoBehaviour
         VelocityEvent -= DisplayVelocity;
         ConstellationEvent -= distanceMeter.DisplayConstellation;
         ConstellationFadeEvent -= FadeInConstellation;
+        CometDanger -= distanceMeter.CometDanger;
 
     }
 

@@ -190,6 +190,7 @@ public class GameController : MonoBehaviour
             {
                 AudioController.Instance.FadeToDanger(true);
                 inDanger = true;
+                UiController.TriggerCometDanger(true);
             }
         }
         else
@@ -198,6 +199,7 @@ public class GameController : MonoBehaviour
             {
                 AudioController.Instance.FadeToDanger(false);
                 inDanger = false;
+                UiController.TriggerCometDanger(false);
             }
         }
 
@@ -215,7 +217,7 @@ public class GameController : MonoBehaviour
 				currentAccelerationLevel++;
 				starMan.spawnLevel++;
 				Debug.Log("NEW LEVEL: " + currentAccelerationLevel);
-                UiController.TriggerVelocityEvent(GameData.cometAcelerationLevels[currentAccelerationLevel] * GameData.speedScalar);
+                UiController.TriggerVelocityEvent(GameData.cometAcelerationLevels[currentAccelerationLevel]);
             }
             else
 			{
@@ -261,6 +263,7 @@ public class GameController : MonoBehaviour
 
     void EndGame()
     {
+        AudioController.Instance.EndMusic();
 		currentState = State.Transition;
 		StartCoroutine(EndSequence());
         //currentState = State.End;
