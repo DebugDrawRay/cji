@@ -28,11 +28,14 @@ public class PlayerController : MonoBehaviour
 
 	public static PlayerController Instance;
 
+    public GameObject fireworksPrefab;
+
 	[Header("Comet")]
 	public string cometTag;
 
 	[Header("Stars")]
 	public LineRenderer line;
+
 
 	void Awake()
 	{
@@ -141,6 +144,16 @@ public class PlayerController : MonoBehaviour
 		{
 			//KILL THE WORLD 
 			GameController.TriggerEndGame();
+
+
+            //spawn fireworks
+            Instantiate(fireworksPrefab, transform.position, Quaternion.identity);
+            Instantiate(fireworksPrefab, new Vector3(-3, 0, 0), Quaternion.identity);
+            Instantiate(fireworksPrefab, new Vector3(3, 0, 0), Quaternion.identity);
+            Instantiate(fireworksPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+
+			AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
+
 			var colliders = gameObject.GetComponents<Collider>();
 			lastStar = null;
 			canMove = false;

@@ -17,6 +17,13 @@ public class Rotate : MonoBehaviour {
 	void Update () 
     {   
         //transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x + (xRotateSpeed * Time.deltaTime), transform.rotation.y + (yRotateSpeed * Time.deltaTime), transform.rotation.z + (zRotateSpeed * Time.deltaTime)));
-        transform.Rotate(new Vector3(1, 1, 1) * (Time.deltaTime * xRotateSpeed));
+        if (xRotateSpeed != 0 && yRotateSpeed != 0 && zRotateSpeed != 0)
+        {
+            transform.Rotate(new Vector3(1, 1, 1) * (Time.deltaTime * xRotateSpeed));
+        }
+        else if (xRotateSpeed != 0 && yRotateSpeed == 0 && zRotateSpeed == 0)
+        {
+            transform.Rotate(new Vector3(1, 0, 0) * (Time.deltaTime * xRotateSpeed));
+        }
     }
 }

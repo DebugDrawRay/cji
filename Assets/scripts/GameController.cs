@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     public GameObject comet;
     public Transform cometSpawn;
     private Rigidbody cometRigid;
+	 protected Transform cometMeshTransform;
 	protected Rotate cometRotate;
 	public bool frozen = false;
 
@@ -99,7 +100,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         AssignEvents();
-        starMan = GetComponent<StarManager>();
+		starMan = GetComponent<StarManager>();
     }
 
     void AssignEvents()
@@ -129,6 +130,7 @@ public class GameController : MonoBehaviour
         {
             GameObject newComet = (GameObject)Instantiate(comet, cometSpawn.position, cometSpawn.rotation);
             cometRigid = newComet.GetComponent<Rigidbody>();
+			   cometMeshTransform = newComet.transform.FindChild("Commet_fbx");
             cometRotate = newComet.GetComponentInChildren<Rotate>();
         }
     }
@@ -241,7 +243,10 @@ public class GameController : MonoBehaviour
 
     void AddDistanceToComet(float strength, float speed)
     {
-        hit = true;
+		  Tweener shakeTween = cometMeshTransform.DOShakePosition(0.1f, 0.4f, 80, 180);
+		  shakeTween.OnComplete(() => cometMeshTransform.localPosition = new Vector3(0, 4.22f, 0));
+
+		  hit = true;
         if(currentTween != null)
         {
             currentTween.Kill();
