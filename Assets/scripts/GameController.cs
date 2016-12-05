@@ -51,6 +51,8 @@ public class GameController : MonoBehaviour
     [Header("Debug")]
     public bool spawnComet;
 
+	[Header("Pause Screen")]
+	public GameObject PauseScreen;
 
     //Events
     public delegate void CollisionEvent(float strength, float speed);
@@ -96,6 +98,18 @@ public class GameController : MonoBehaviour
             EndGameTrigger();
         }
     }
+
+	 public void Pause()
+	{
+		Time.timeScale = 0;
+		PauseScreen.SetActive(true);
+	}
+
+	public void UnPause()
+	{
+		Time.timeScale = 1;
+		PauseScreen.SetActive(false);
+	}
 
     void Awake()
     {
