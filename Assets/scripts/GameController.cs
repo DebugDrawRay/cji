@@ -102,8 +102,13 @@ public class GameController : MonoBehaviour
 
 	 public void Pause()
 	{
-		Time.timeScale = 0;
-		PauseScreen.SetActive(true);
+		if (PauseScreen.activeInHierarchy)
+			UnPause();
+		else
+		{
+			Time.timeScale = 0;
+			PauseScreen.SetActive(true);
+		}
 	}
 
 	public void UnPause()
