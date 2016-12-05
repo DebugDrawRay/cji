@@ -209,7 +209,7 @@ public class GameController : MonoBehaviour
 		if (!hit)
 		{
 			float modifier = cometBoostTimer >= 0 ? GameData.cometBoostMultiplier : 1;
-			currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, modifier * GameData.cometAcelerationLevels[currentAccelerationLevel]);
+			currentDistance = Mathf.MoveTowards(currentDistance, GameData.cometDest, modifier * GameData.cometAcelerationLevels[currentAccelerationLevel] * Time.deltaTime);
 		}
 		cometRigid.transform.position = new Vector2(0, currentDistance);
 

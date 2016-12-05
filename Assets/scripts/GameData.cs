@@ -63,7 +63,7 @@ public static class GameData
     public const float maxStarSpeed = 3;
 
     //Star timing
-	 public static readonly Vector2[] starSpawnTimers = { new Vector2(0.4f, 0.7f), new Vector2(0.4f, 0.6f), new Vector2(0.3f, 0.5f), new Vector2(0.2f, 0.4f), new Vector2(0.1f, 0.3f)};
+	 public static readonly Vector2[] starSpawnTimers = { new Vector2(0.4f, 0.7f), new Vector2(0.4f, 0.6f), new Vector2(0.3f, 0.5f), new Vector2(0.2f, 0.4f), new Vector2(0.1f, 0.3f), new Vector2(0.1f, 0.2f), };
 
     //Star spawn
     public const float fieldSize = 4;
@@ -73,9 +73,9 @@ public static class GameData
     //Comet parameters
     public const float cometAcceleration = .003f;
     public const float accelerationIncreaseRate = 100;
-    public static readonly float[] cometAcelerationLevels = { .0015f, .0024f, 0.0033f, 0.0042f, 0.0051f };
+    public static readonly float[] cometAcelerationLevels = { .2f, .3f, 0.4f, 0.5f, 0.6f, 0.7f };
     public const float dangerLimit = 0f;
-	public const float cometBoostMultiplier = 4f;
+	public const float cometBoostMultiplier = 5f;
 	public const float cometBoostTimerAdd = 1f;
 
 	//Level Stuff
