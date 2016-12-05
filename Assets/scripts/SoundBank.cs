@@ -6,7 +6,8 @@ public class SoundBank : MonoBehaviour
     public enum Music
     {
         Intro,
-        Loop
+        Loop,
+        End
     }
     public AudioClip[] MusicTracks;
 

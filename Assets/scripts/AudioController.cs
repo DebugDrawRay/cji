@@ -33,6 +33,15 @@ public class AudioController : MonoBehaviour
         StartCoroutine(CheckForEnd(musicBus, bank.Request(SoundBank.Music.Loop), true));
     }
 
+    public void EndMusic()
+    {
+        musicBus.clip = bank.Request(SoundBank.Music.End);
+        dynamicBus.Stop();
+        musicBus.volume = .6f;
+        musicBus.Play();
+        musicBus.loop = false;
+    }
+
     public void PlayAtEnd(AudioSource source, AudioClip next, bool loop)
     {
         StartCoroutine(CheckForEnd(source, next, loop));
@@ -55,6 +64,15 @@ public class AudioController : MonoBehaviour
         bus.Play();
     }
 
+    public void PlaySfx(SoundBank.SoundEffects clip, int busIndex)
+    {
+        AudioSource bus = effectBus[busIndex];
+
+        bus.clip = bank.Request(clip);
+        bus.loop = false;
+        bus.Play();
+    }
+
     public void FadeToDanger(bool inDanger)
     {
         if(inDanger)
@@ -68,4 +86,5 @@ public class AudioController : MonoBehaviour
             musicBus.DOFade(.6f, .25f);
         }
     }
+
 }

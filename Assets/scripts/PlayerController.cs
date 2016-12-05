@@ -144,6 +144,7 @@ public class PlayerController : MonoBehaviour
 		{
 			//KILL THE WORLD 
 			GameController.TriggerEndGame();
+<<<<<<< HEAD
 
             //spawn fireworks
             Instantiate(fireworksPrefab, transform.position, Quaternion.identity);
@@ -152,11 +153,14 @@ public class PlayerController : MonoBehaviour
             Instantiate(fireworksPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
 			AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationBroken);
+=======
+>>>>>>> origin/Terence_New
 			var colliders = gameObject.GetComponents<Collider>();
 			lastStar = null;
 			canMove = false;
 			constManager.BreakConstellation();
-			for (int i = 0; i < colliders.Length; i++)
+            AudioController.Instance.PlaySfx(SoundBank.SoundEffects.ConstellationComplete, (int)SoundBank.SoundEffects.ConstellationBroken);
+            for (int i = 0; i < colliders.Length; i++)
 				colliders[i].enabled = false;
 
 			//gameObject.SetActive(false);
