@@ -1503,6 +1503,7 @@ MonoBehaviour:
     type: 2}
   xSpawnMin: -3
   xSpawnMax: 3
+  spriteData: {fileID: 11400000, guid: 781cde6916bb12e4eaf812656ab0bcfe, type: 2}
 --- !u!1 &1219047982
 GameObject:
   m_ObjectHideFlags: 0

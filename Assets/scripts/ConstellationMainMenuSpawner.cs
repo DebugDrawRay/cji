@@ -16,10 +16,12 @@ public class ConstellationMainMenuSpawner : MonoBehaviour {
     public float xSpawnMin;
     public float xSpawnMax;
 
+    public ConstellationsData spriteData;
+
 	// Use this for initialization
 	void Start () 
     {
-        GetNewSpawnTimer();
+        GetNewSpawnTimerHalf();
 	}
 	
 	// Update is called once per frame
@@ -35,6 +37,9 @@ public class ConstellationMainMenuSpawner : MonoBehaviour {
             GameObject a = Instantiate(constellationObject, new Vector3(Random.Range(xSpawnMin, xSpawnMax), transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
             float theScale = Random.Range(constellationScaleMin, constellationScaleMax);
             a.transform.localScale = new Vector3(theScale, theScale, theScale);
+            Sprite theSprite = spriteData.ConstellationSprites[Random.Range(0, spriteData.ConstellationSprites.Length)];
+            SpriteRenderer sr = a.GetComponent<SpriteRenderer>();
+            sr.sprite = theSprite;
 
             GetNewSpawnTimer();
         }
@@ -43,5 +48,10 @@ public class ConstellationMainMenuSpawner : MonoBehaviour {
     void GetNewSpawnTimer()
     {
         spawnTimer = Random.Range(spawnTimerMin, spawnTimerMax);
+    }
+
+    void GetNewSpawnTimerHalf()
+    {
+        spawnTimer = (Random.Range(spawnTimerMin, spawnTimerMax)) / 2;
     }
 }
