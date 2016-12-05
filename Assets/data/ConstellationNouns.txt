@@ -27,3 +27,4 @@ Coach
 Athlete
 Mad Scientist
 Dean
+Winner
