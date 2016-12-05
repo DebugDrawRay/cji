@@ -108,8 +108,8 @@ public class ConstellationManager : MonoBehaviour
 				link.LineComponent = line;
 				link.StartPos = lastStar.Position;
 				link.EndPos = star.Position;
-				line.SetPosition(0, link.StartPos);
-				line.SetPosition(1, link.EndPos);
+				line.SetPosition(0, new Vector3(link.StartPos.x, link.StartPos.y, 1f));
+				line.SetPosition(1, new Vector3(link.EndPos.x, link.EndPos.y, 1f));
 
 				Links.Add(link);
 				InvincibilityCountdown = InvincibiltyCountdownMax;
@@ -410,7 +410,7 @@ public class ConstellationManager : MonoBehaviour
 
 			var lineComp = child.GetComponentInChildren<LineRenderer>();
 			if (lineComp != null)
-				lineComp.SetWidth(0.03f, 0.03f);
+				lineComp.SetWidth(0.1f, 0.1f);
 		}
 
 		//Up opacity on background
